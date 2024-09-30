@@ -20,8 +20,8 @@ This web application will handle the processes taken while introducing Bilkent U
 
 ## Team Members
 
-Bilge İdil Öziş
-İrfan Hakan Karakoç
-Mehmet Hakan Yavuz
-Moin Khan
-Türker Köken
+* Bilge İdil Öziş
+* İrfan Hakan Karakoç
+* Mehmet Hakan Yavuz
+* Moin Khan
+* Türker Köken
