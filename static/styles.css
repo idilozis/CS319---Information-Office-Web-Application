@@ -1,0 +1,127 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  header {
+    background-color: #0047ab;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 20px;
+  }
+  
+  header .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  header .header-content img {
+    height: 60px;
+    margin-right: 15px;
+  }
+  
+  header h1 {
+    font-size: 28px;
+    margin: 0;
+  }
+  
+  /* Container Layout */
+  .container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .services {
+    flex: 2;
+    background-color: #e6f2ff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .services h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #0047ab;
+  }
+  
+  .services ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .services ul li {
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+  
+  .services ul li b {
+    color: #0047ab;
+  }
+  
+  .services ul li a {
+    color: #0047ab;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .services ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* About Passwords Section */
+  .about-passwords {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .about-passwords h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #0047ab;
+  }
+  
+  .about-passwords ul {
+    list-style-type: disc;
+    margin: 10px 0 0 20px;
+    padding: 0;
+  }
+  
+  .about-passwords ul li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  
+  .about-passwords a {
+    color: #d2232a;
+    text-decoration: none;
+  }
+  
+  .about-passwords a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsiveness */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .services,
+    .about-passwords {
+      margin-bottom: 20px;
+    }
+  }
+  

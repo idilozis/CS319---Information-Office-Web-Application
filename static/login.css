@@ -1,0 +1,184 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+  }
+  
+  header {
+    background-color: #0047ab;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 20px;
+  }
+  
+  header .header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  header .logo {
+    height: 80px;
+    margin-bottom: 10px;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 28px;
+  }
+  
+  header p {
+    margin: 0;
+    font-size: 18px;
+    font-style: italic;
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .login-form {
+    flex: 2;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .login-form h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #0047ab;
+  }
+  
+  .login-form span {
+    font-style: italic;
+    font-weight: normal;
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input {
+    width: 30%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-group small {
+    display: block;
+    color: red;
+    margin-top: 5px;
+    font-size: 12px;
+  }
+  
+  .login-button {
+    background-color: #0047ab;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background-color: #003a91;
+  }
+  
+  .guest-option {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .guest-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #0047ab;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  
+  .guest-button:hover {
+    background-color: #003a91;
+  }
+  
+  /* Help Section */
+  .help-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .alert {
+    background-color: #fdecea;
+    color: #a94442;
+    padding: 15px;
+    border: 1px solid #ebccd1;
+    border-radius: 4px;
+  }
+  
+  .info {
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .info a {
+    color: #0047ab;
+    text-decoration: none;
+  }
+  
+  .info a:hover {
+    text-decoration: underline;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: none; /* Hide the error message by default */
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #0047ab;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #003780;
+  }

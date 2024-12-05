@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bilkent University - Secure Login Gateway</title>
+  <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <img src="/static/assets/bilkent-logo.jpg" alt="Bilkent Logo" class="logo">
+      <h1>Bilkent University</h1>
+      <p>Secure Login Gateway</p>
+    </div>
+  </header>
+
+  <main class="login-container">
+    <section class="login-form">
+      <h2>Login: <span>IOS - Information Office Registration System</span></h2>
+      <form method="POST" action="#">
+        <div class="form-group">
+          <label for="bilkent-id">Bilkent ID</label>
+          <input type="text" id="bilkent-id" name="bilkent-id" placeholder="Personnel ID or Student ID number" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="login-button">Login</button>
+      </form>
+      <p class="guest-option">
+        If you are not personnel or student, please follow:
+        <a href="#" class="guest-button">Continue as guest</a>
+      </p>
+    </section>
+
+    <aside class="help-section">
+      <div class="alert">
+        <p>If you are having problems logging in, please check the time zone setting on your computer.</p>
+        <p><b>Turkey no longer uses daylight saving time (DST). Your computer time zone setting should be set as UTC+3.</b></p>
+      </div>
+      <div class="info">
+        <p>Bilkent Computer Center uses this common login gateway page for user authentication. Most Bilkent University online services are accessed through this Secure Login Gateway.</p>
+        <p>If you don’t know your STARS / BAIS password, <a href="#">please click here</a>.</p>
+      </div>
+    </aside>
+  </main>
+  <script>
+    const bilkentID = document.getElementById("bilkentID");
+    const idError = document.getElementById("idError");
+  
+    bilkentID.addEventListener("input", () => {
+      if (bilkentID.value.trim() === "") {
+        idError.style.display = "block";
+      } else {
+        idError.style.display = "none";
+      }
+    });
+  </script>  
+</body>
+</html>

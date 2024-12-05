@@ -1,14 +1,58 @@
-<!doctype html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/static/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-    <script type="module" crossorigin src="/static/assets/index-uO412iEj.js"></script>
-    <link rel="stylesheet" crossorigin href="/static/assets/index-n_ryQ3BS.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STARS - Bilkent University</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <img src="/static/assets/stars-logo.png" alt="STARS Logo" class="logo">
+      <h1>Bilkent University</h1>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="services">
+      <h2>Services</h2>
+      <ul>
+        <li><b>Academic Units</b><br>Courses, offerings, curriculum, staff and catalog</li>
+        <li><b>Offerings</b><br>List of courses offered</li>
+        <li><b>SRS</b> <i>For continuing students and alumni</i><br>Student Review System</li>
+        <li><b>AIRS</b> <i>For instructors</i><br>Academic Information Review System</li>
+        <li><b>DAIS</b> <i>For department staff</i><br>Department Academic Information System</li>
+        <li><b>PREP</b> <i>For PREP staff</i><br>English Preparatory School Information System</li>
+        <li><b>ALUMNI</b> <i>For graduates</i><br>Alumni Information System</li>
+        <li><b>BILFORM</b> <i>For continuing students</i><br>Bilkent University Online Dormitory Application</li>
+        <li><b>GRASS</b> <i>For graduate school staff</i><br>Graduate Schools System</li>
+        <li><b>GRADADMIN</b> <i>For graduate school staff</i><br>Graduate Study Application Management</li>
+        <li><b>STS</b><br>Summer Training System</li>
+        <li><b><a href="{% url 'login' %}">IOS</a></b><br>Information Office System</li>
+      </ul>
+    </section>
+
+    <aside class="about-passwords">
+      <h2>About STARS Passwords</h2>
+      <p><b>Students & Alumni</b></p>
+      <ul>
+        <li>Go to your faculty/school, present your student ID card and request a new password</li>
+        <li>OR</li>
+        <li>
+          <a href="#">Click here</a> to set a new password using your registered e-mail address or mobile phone.
+        </li>
+      </ul>
+      <p><b>Instructors and Staff</b></p>
+      <ul>
+        <li>
+          If you don’t know your STARS / BAIS password, 
+          <a href="#">click here</a> to set a new password.
+        </li>
+        <li>Note that the same password is used for both STARS and BAIS.</li>
+      </ul>
+    </aside>
+  </main>
+</body>
 </html>
