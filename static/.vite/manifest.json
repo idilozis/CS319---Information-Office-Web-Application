@@ -1,0 +1,61 @@
+{
+  "C:/Users/ihaka/Desktop/Bilkent/Project319/frontend-vite/app/app.css": {
+    "file": "assets/app-Ckulty-W.css",
+    "src": "C:/Users/ihaka/Desktop/Bilkent/Project319/frontend-vite/app/app.css"
+  },
+  "_chunk-D52XG6IA-CNtdUVIN.js": {
+    "file": "assets/chunk-D52XG6IA-CNtdUVIN.js",
+    "name": "chunk-D52XG6IA"
+  },
+  "_with-props-B_KLE65y.js": {
+    "file": "assets/with-props-B_KLE65y.js",
+    "name": "with-props",
+    "imports": [
+      "_chunk-D52XG6IA-CNtdUVIN.js"
+    ]
+  },
+  "app/root.tsx?route-entry=1": {
+    "file": "assets/root-CRjuVhtC.js",
+    "name": "root",
+    "src": "app/root.tsx?route-entry=1",
+    "isEntry": true,
+    "imports": [
+      "_with-props-B_KLE65y.js",
+      "_chunk-D52XG6IA-CNtdUVIN.js"
+    ],
+    "assets": [
+      "assets/app-Ckulty-W.css"
+    ]
+  },
+  "app/routes/home.tsx?route-entry=1": {
+    "file": "assets/home-DnsnKzij.js",
+    "name": "home",
+    "src": "app/routes/home.tsx?route-entry=1",
+    "isEntry": true,
+    "imports": [
+      "_with-props-B_KLE65y.js",
+      "_chunk-D52XG6IA-CNtdUVIN.js"
+    ],
+    "assets": [
+      "assets/logo-dark-pX2395Y0.svg",
+      "assets/logo-light-CVbx2LBR.svg"
+    ]
+  },
+  "app/welcome/logo-dark.svg": {
+    "file": "assets/logo-dark-pX2395Y0.svg",
+    "src": "app/welcome/logo-dark.svg"
+  },
+  "app/welcome/logo-light.svg": {
+    "file": "assets/logo-light-CVbx2LBR.svg",
+    "src": "app/welcome/logo-light.svg"
+  },
+  "node_modules/@react-router/dev/dist/config/defaults/entry.client.tsx": {
+    "file": "assets/entry.client-BeSFOaf2.js",
+    "name": "entry.client",
+    "src": "node_modules/@react-router/dev/dist/config/defaults/entry.client.tsx",
+    "isEntry": true,
+    "imports": [
+      "_chunk-D52XG6IA-CNtdUVIN.js"
+    ]
+  }
+}
