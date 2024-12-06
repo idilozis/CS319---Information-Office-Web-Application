@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'cs319project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # MySQL backend
         'NAME': 'project319',                 # Your database name
@@ -87,7 +87,7 @@ DATABASES = {
         'HOST': 'localhost',                  # Default MySQL host
         'PORT': '3306',                       # Default MySQL port
     }
-}
+}"""
 
 
 
