@@ -19,7 +19,8 @@
   <main class="login-container">
     <section class="login-form">
       <h2>Login: <span>IOS - Information Office Registration System</span></h2>
-      <form method="POST" action="#">
+      <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
         <div class="form-group">
           <label for="bilkent-id">Bilkent ID</label>
           <input type="text" id="bilkent-id" name="bilkent-id" placeholder="Personnel ID or Student ID number" required>
