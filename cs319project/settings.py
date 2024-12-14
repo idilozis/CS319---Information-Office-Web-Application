@@ -78,16 +78,48 @@ WSGI_APPLICATION = 'cs319project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-"""DATABASES = {
-    'default': {
+DATABASES = {
+    'Hakanto': {
         'ENGINE': 'django.db.backends.mysql',  # MySQL backend
         'NAME': 'project319',                 # Your database name
         'USER': 'Hakanto',                       # MySQL username
         'PASSWORD': '123cs319123',          # MySQL root password
         'HOST': 'localhost',                  # Default MySQL host
         'PORT': '3306',                       # Default MySQL port
-    }
-}"""
+    },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'project319',  # Main application database
+        'USER': 'yavuz',
+        'PASSWORD': 'bilkent12345',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    },
+    'idil': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'project319',  # Separate authentication database
+        'USER': 'idil',
+        'PASSWORD': 'VpVa0qxc12.',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    },
+    'turker': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'project319',  # Separate authentication database
+        'USER': 'tonio',
+        'PASSWORD': 'cs319bombastic+',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    },
+    'moin': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'project319',  # Separate authentication database
+        'USER': 'moinkhan30000',
+        'PASSWORD': 'Moin@7017642414',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }  
+}
 
 
 
