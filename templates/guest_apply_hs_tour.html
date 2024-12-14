@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Apply High School Tour{% endblock %}
+
+{% block content %}
+<div class="apply-hs-tour">
+  <h1>Apply High School Tour</h1>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name">Name-Surname:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="city">City/High School:</label>
+      <select id="city" name="city">
+        <option value="Ankara">Ankara</option>
+        <option value="Istanbul">Istanbul</option>
+      </select>
+      <input type="text" name="school" placeholder="Enter school">
+    </div>
+    <!-- Add other fields here -->
+    <button type="submit">Submit</button>
+  </form>
+</div>
+{% endblock %}

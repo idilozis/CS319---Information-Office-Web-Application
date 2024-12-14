@@ -28,7 +28,7 @@ def login_view(request):
             elif user.role == "Promo_Coordinator":
                 return redirect('promo_coordinator_dashboard')  # Replace with actual Promo Coordinator dashboard URL
             elif user.role == "Guest":
-                return redirect('guest_page')  # Redirect guests to their page
+                return redirect('guest_dashboard')  # Redirect guests to their page
             else:
                 return HttpResponse("Role not assigned. Contact the administrator.")
     else:
@@ -61,6 +61,20 @@ def director_dashboard(request):
 def promo_coordinator_dashboard(request):
     return render(request, "promo_coordinator_dashboard.html")
 
+def guest_dashboard(request):
+    return render(request, 'guest_dashboard.html')
 
-def guest_page(request):
-    return render(request, "guest_page.html")
+def apply_fair(request):
+    return render(request, 'apply_fair.html')
+
+def apply_tour(request):
+    return render(request, 'apply_tour.html')
+
+def apply_hs_tour(request):
+    return render(request, 'apply_hs_tour.html')
+
+def apply_ind_tour(request):
+    return render(request, 'apply_ind_tour.html')
+
+def give_feedback(request):
+    return render(request, 'give_feedback.html')
