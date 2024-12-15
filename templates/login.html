@@ -31,6 +31,11 @@
         </div>
         <button type="submit" class="login-button">Login</button>
       </form>
+      {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+      {% endif %}
       <p class="guest-option">
         If you are not personnel or student, please follow:
         <a href="{% url 'guest_dashboard' %}" class="guest-button">Continue as guest</a>

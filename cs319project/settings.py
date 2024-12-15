@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'cs319project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'Hakanto': {
         'ENGINE': 'django.db.backends.mysql',  # MySQL backend
         'NAME': 'project319',                 # Your database name
@@ -118,7 +118,17 @@ DATABASES = {
         'PASSWORD': 'Moin@7017642414',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-    }  
+    }
+}"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'project319',
+        'USER': 'Hakanto',  # Default local user
+        'PASSWORD': '123cs319123',  # No password for local
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
 }
 
 

@@ -9,31 +9,39 @@ from django.http import HttpResponse
 
 # Login view with role-based redirection
 # @csrf_exempt
+from django.shortcuts import render, redirect
+from django.db import connection
+from django.contrib import messages
+
+
 def login_view(request):
-    if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            auth_login(request, user)
-            
-            # Role-based redirection
-            if user.role == "Guide":
-                return redirect('guide_dashboard')  # Replace with actual Guide dashboard URL
-            elif user.role == "Advisor":
-                return redirect('advisor_dashboard')  # Replace with actual Advisor dashboard URL
-            elif user.role == "Coordinator":
-                return redirect('coordinator_dashboard')  # Replace with actual Coordinator dashboard URL
-            elif user.role == "Director":
-                return redirect('director_dashboard')  # Replace with actual Director dashboard URL
-            elif user.role == "Promo_Coordinator":
-                return redirect('promo_coordinator_dashboard')  # Replace with actual Promo Coordinator dashboard URL
-            elif user.role == "Guest":
-                return redirect('guest_dashboard')  # Redirect guests to their page
-            else:
-                return HttpResponse("Role not assigned. Contact the administrator.")
-    else:
-        form = AuthenticationForm()
-    return render(request, "login.html", {"form": form})
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT role FROM Users WHERE id=%s AND password=%s",
+                [username, password]
+            )
+            user = cursor.fetchone()
+
+        if user:
+            role = user[0]
+            if role == 'Guide':
+                return redirect('guide_dashboard')
+            elif role == 'Advisor':
+                return redirect('advisor_dashboard')
+            elif role == 'Coordinator':
+                return redirect('coordinator_dashboard')
+            elif role == 'Director':
+                return redirect('director_dashboard')
+            elif role == 'Promo_Coordinator':
+                return redirect('promo_coordinator_dashboard')
+        else:
+            messages.error(request, "Invalid credentials. Please try again.")
+
+    return render(request, 'index.html')
 
 
 # Placeholder views for each role
