@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'cs319project.wsgi.application'
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'project319',  # Separate authentication database
         'USER': 'idil',
-        'PASSWORD': 'VpVa0qxc12.',
+        'PASSWORD': 'cs319.bilkent',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     },
