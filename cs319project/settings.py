@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cs319projectapp',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -124,8 +125,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'project319',
-        'USER': 'Hakanto',  # Default local user
-        'PASSWORD': '123cs319123',  # No password for local
+        'USER': 'idil',  # Default local user
+        'PASSWORD': 'cs319.bilkent',  # No password for local
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -179,5 +180,7 @@ STATIC_ROOT = BASE_DIR / 'collected_static'  # Directory to collect static files
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = '/login/'
 
 

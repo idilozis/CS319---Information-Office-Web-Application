@@ -1,27 +1,17 @@
-from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login as auth_login
-from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponse
-# from django.views.decorators.csrf import csrf_exempt
-
-
-
-# Login view with role-based redirection
-# @csrf_exempt
 from django.shortcuts import render, redirect
-from django.db import connection
 from django.contrib import messages
+from django.db import connection
+from django.contrib.auth.decorators import login_required
 
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('bilkent-id')
         password = request.POST.get('password')
 
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT role FROM Users WHERE id=%s AND password=%s",
+                "SELECT role FROM Users WHERE ID=%s AND Password=%s",
                 [username, password]
             )
             user = cursor.fetchone()
@@ -38,34 +28,32 @@ def login_view(request):
                 return redirect('director_dashboard')
             elif role == 'Promo_Coordinator':
                 return redirect('promo_coordinator_dashboard')
-        else:
-            messages.error(request, "Invalid credentials. Please try again.")
 
-    return render(request, 'index.html')
+            # Redirect to `next` parameter if available
+            next_url = request.GET.get('next', '')
+            if next_url:
+                return redirect(next_url)
 
+        messages.error(request, "Invalid credentials. Please try again.")
+    return render(request, 'login.html')
 
-# Placeholder views for each role
-@login_required
+#@login_required
 def guide_dashboard(request):
     return render(request, "guide_dashboard.html")
 
-
-@login_required
+#@login_required
 def advisor_dashboard(request):
     return render(request, "advisor_dashboard.html")
 
-
-@login_required
+#@login_required
 def coordinator_dashboard(request):
     return render(request, "coordinator_dashboard.html")
 
-
-@login_required
+#@login_required
 def director_dashboard(request):
     return render(request, "director_dashboard.html")
 
-
-@login_required
+#@login_required
 def promo_coordinator_dashboard(request):
     return render(request, "promo_coordinator_dashboard.html")
 

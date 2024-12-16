@@ -22,18 +22,18 @@
       <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         <div class="form-group">
-          <label for="bilkent-id">Bilkent ID</label>
-          <input type="text" id="bilkent-id" name="bilkent-id" placeholder="Personnel ID or Student ID number" required>
+            <label for="bilkent-id">Bilkent ID</label>
+            <input type="text" id="bilkent-id" name="bilkent-id" placeholder="Personnel ID or Student ID number" required>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Password" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
         </div>
         <button type="submit" class="login-button">Login</button>
-      </form>
+    </form>
       {% if messages %}
         {% for message in messages %}
-            <p>{{ message }}</p>
+          <p class="error-message">{{ message }}</p>
         {% endfor %}
       {% endif %}
       <p class="guest-option">
@@ -53,17 +53,5 @@
       </div>
     </aside>
   </main>
-  <script>
-    const bilkentID = document.getElementById("bilkentID");
-    const idError = document.getElementById("idError");
-  
-    bilkentID.addEventListener("input", () => {
-      if (bilkentID.value.trim() === "") {
-        idError.style.display = "block";
-      } else {
-        idError.style.display = "none";
-      }
-    });
-  </script>  
 </body>
 </html>
