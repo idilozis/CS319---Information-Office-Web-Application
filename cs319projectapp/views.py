@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db import connection
 from django.contrib.auth.decorators import login_required
-
+from utils.vite import get_vite_asset_path
 
 def login_view(request):
     if request.method == 'POST':
@@ -70,7 +70,11 @@ def apply_hs_tour(request):
     return render(request, 'apply_hs_tour.html')
 
 def apply_ind_tour(request):
-    return render(request, 'apply_ind_tour.html')
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
+        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+    }
+    return render(request, 'react_base.html', context)
 
 def give_feedback(request):
     return render(request, 'give_feedback.html')
