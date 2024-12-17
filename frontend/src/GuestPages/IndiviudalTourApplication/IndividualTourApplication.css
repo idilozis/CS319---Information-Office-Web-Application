@@ -82,8 +82,12 @@ body {
 .individual-tour-application-sidebar .contact-us a {
   color: white;
   text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
+  font-size: 1rem; 
+  display: block;
+  padding: 10px 15px; 
+  border-radius: 5px;
+  line-height: 1.5; 
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .individual-tour-application-sidebar .contact-us a:hover {

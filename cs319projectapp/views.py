@@ -37,6 +37,7 @@ def login_view(request):
         messages.error(request, "Invalid credentials. Please try again.")
     return render(request, 'login.html')
 
+# Dashboards
 #@login_required
 def guide_dashboard(request):
     return render(request, "guide_dashboard.html")
@@ -57,6 +58,7 @@ def director_dashboard(request):
 def promo_coordinator_dashboard(request):
     return render(request, "promo_coordinator_dashboard.html")
 
+# Guest Pages
 def guest_dashboard(request):
     return render(request, 'guest_dashboard.html')
 
@@ -69,12 +71,23 @@ def apply_fair(request):
     return render(request, 'react_base.html', context)
 
 def apply_tour(request):
-    return render(request, 'apply_tour.html')
+    # Ensure React integration for the Apply Tour page
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
+        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+    }
+    return render(request, 'react_base.html', context)
 
 def apply_hs_tour(request):
-    return render(request, 'apply_hs_tour.html')
+    # Ensure React integration for the Apply HS Tour page
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
+        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+    }
+    return render(request, 'react_base.html', context)
 
 def apply_ind_tour(request):
+    # Ensure React integration for the Apply Individual Tour page
     context = {
         'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
         'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
@@ -82,4 +95,9 @@ def apply_ind_tour(request):
     return render(request, 'react_base.html', context)
 
 def give_feedback(request):
-    return render(request, 'give_feedback.html')
+    # Ensure React integration for the Give Feedback page
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
+        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+    }
+    return render(request, 'react_base.html', context)
