@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cs319projectapp',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -123,9 +124,9 @@ WSGI_APPLICATION = 'cs319project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'project319',
-        'USER': 'Hakanto',  # Default local user
-        'PASSWORD': '123cs319123',  # No password for local
+        'NAME': 'project319',  # Separate authentication database
+        'USER': 'moinkhan30000',
+        'PASSWORD': 'Moin@7017642414',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -169,7 +170,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'frontend/dist'
+]
+
 
 
 STATIC_ROOT = BASE_DIR / 'collected_static'  # Directory to collect static files
@@ -179,5 +184,7 @@ STATIC_ROOT = BASE_DIR / 'collected_static'  # Directory to collect static files
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = '/login/'
 
 

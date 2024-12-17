@@ -37,8 +37,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     objects = UserAccountManager()
 
-    USERNAME_FIELD = 'id'
-    REQUIRED_FIELDS = ['role']
+    USERNAME_FIELD = 'id'  # Mandatory
+    REQUIRED_FIELDS = ['role']  # Mandatory
 
     def __str__(self):
         return f'{self.id} - {self.role}'
