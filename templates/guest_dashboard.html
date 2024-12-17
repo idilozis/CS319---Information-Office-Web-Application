@@ -28,12 +28,12 @@
     <h3>Bilkent Information Office System</h3>
     <nav>
       <ul>
-        <li><a href="/">Dashboard</a></li>
-        <li><a href="/api/apply_fair/">Apply for fair</a></li>
-        <li><a href="/api/apply_tour/">Apply for tour</a></li>
-        <li><a href="/api/apply_hs_tour/">Apply HS Tour</a></li>
-        <li><a href="/api/apply_ind_tour/">Apply Ind. Tour</a></li>
-        <li><a href="/api/give_feedback/">Give Feedback</a></li>
+        <li><a href="{% url 'guest_dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'apply_fair' %}">Apply for fair</a></li>
+        <li><a href="{% url 'apply_tour' %}">Apply for tour</a></li>
+        <li><a href="{% url 'apply_hs_tour' %}">Apply HS Tour</a></li>
+        <li><a href="{% url 'apply_ind_tour' %}">Apply Ind. Tour</a></li>
+        <li><a href="{% url 'give_feedback' %}">Give Feedback</a></li>
       </ul>
     </nav>
     <footer>
