@@ -65,39 +65,43 @@ def guest_dashboard(request):
 def apply_fair(request):
     # Ensure React integration for the Apply Fair page
     context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
-        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
     }
     return render(request, 'react_base.html', context)
 
 def apply_tour(request):
-    # Ensure React integration for the Apply Tour page
     context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
-        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
     }
     return render(request, 'react_base.html', context)
 
 def apply_hs_tour(request):
-    # Ensure React integration for the Apply HS Tour page
     context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
-        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
     }
     return render(request, 'react_base.html', context)
 
 def apply_ind_tour(request):
-    # Ensure React integration for the Apply Individual Tour page
     context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
-        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
     }
     return render(request, 'react_base.html', context)
 
 def give_feedback(request):
-    # Ensure React integration for the Give Feedback page
     context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
-        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
+    }
+    return render(request, 'react_base.html', context)
+
+def contact_us(request):
+    # Ensure React integration for the Contact Us page
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
     }
     return render(request, 'react_base.html', context)

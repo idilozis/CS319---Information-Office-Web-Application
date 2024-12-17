@@ -1,8 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./IndividualTourApplication.css";
 
 const IndividualTourApplication = () => {
+  const [date, setDate] = useState("");
+  const [dateError, setDateError] = useState("");
+
+  // Function to validate the date
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    const currentDate = new Date();
+    const twoWeeksLater = new Date();
+    twoWeeksLater.setDate(currentDate.getDate() + 14); // 2 weeks from today
+
+    setDate(e.target.value);
+
+    if (selectedDate < twoWeeksLater) {
+      setDateError("Date must be at least 2 weeks in the future.");
+    } else {
+      setDateError(""); // Clear error if valid
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (dateError) {
+      alert("Please fix the validation errors before submitting.");
+    } else {
+      alert("Form submitted successfully!");
+    }
+  };
+
   return (
     <div className="individual-tour-application-container">
       <aside className="individual-tour-application-sidebar">
@@ -13,9 +41,6 @@ const IndividualTourApplication = () => {
           </li>
           <li>
             <Link to="/api/apply_fair/">Apply for Fair</Link>
-          </li>
-          <li>
-            <Link to="/api/apply_tour/">Apply for Tour</Link>
           </li>
           <li>
             <Link to="/api/apply_hs_tour/">Apply HS Tour</Link>
@@ -37,14 +62,13 @@ const IndividualTourApplication = () => {
         </header>
         <div className="individual-tour-application-form-container">
           <h2>Apply Individual Tour</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="individual-tour-application-form-group">
               <label htmlFor="name">Name-Surname:</label>
               <input type="text" id="name" placeholder="John Doe" />
             </div>
             <div className="individual-tour-application-form-group">
               <label htmlFor="city">City/High School:</label>
-              {/* Add a default placeholder option */}
               <select id="city" defaultValue="">
                 <option value="" disabled>
                   Select City
@@ -84,6 +108,21 @@ const IndividualTourApplication = () => {
                 placeholder="Requires a guide who knows sign language if possible."
               ></textarea>
             </div>
+
+            {/* Date Selection */}
+            <div className="individual-tour-application-form-group">
+              <label htmlFor="tourDate">Tour Date:</label>
+              <input
+                type="date"
+                id="tourDate"
+                value={date}
+                onChange={handleDateChange}
+              />
+              {dateError && (
+                <p style={{ color: "red", fontSize: "0.9rem" }}>{dateError}</p>
+              )}
+            </div>
+
             <button
               type="submit"
               className="individual-tour-application-submit-button"

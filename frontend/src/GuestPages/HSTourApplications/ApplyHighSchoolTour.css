@@ -1,0 +1,175 @@
+/* Container Layout */
+.apply-hs-tour-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.apply-hs-tour-sidebar {
+  width: 250px;
+  background-color: #2e2e2e;
+  color: white;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.apply-hs-tour-sidebar h2 {
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.apply-hs-tour-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.apply-hs-tour-menu li {
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.apply-hs-tour-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  display: block;
+}
+
+.apply-hs-tour-menu li:hover {
+  background-color: #3d3d3d;
+}
+
+.apply-hs-tour-menu li.active {
+  background-color: #888888;
+  font-weight: bold;
+}
+
+.apply-hs-tour-footer a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.apply-hs-tour-footer a:hover {
+  background-color: #3d3d3d;
+}
+
+/* Main Content */
+.apply-hs-tour-main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+}
+
+.apply-hs-tour-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #444;
+}
+
+.apply-hs-tour-form-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.apply-hs-tour-form-group {
+  margin-bottom: 20px;
+}
+
+.apply-hs-tour-form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.apply-hs-tour-form-group input,
+.apply-hs-tour-form-group select,
+.apply-hs-tour-form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* Calendar Section */
+.apply-hs-tour-form-group input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Time Slot Section */
+.time-slot-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.time-slot {
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  width: 120px;
+  transition: background-color 0.3s ease;
+}
+
+.time-slot.free {
+  background-color: #28a745; /* Green for available */
+  color: white;
+}
+
+.time-slot.moderate {
+  background-color: #ffc107; /* Yellow for moderate */
+  color: white;
+}
+
+.time-slot.busy {
+  background-color: #dc3545; /* Red for busy */
+  color: white;
+}
+
+/* Button */
+.apply-hs-tour-submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.apply-hs-tour-submit-button:hover {
+  background-color: #0056b3;
+}
+.time-slot.selected {
+  border: 2px solid #007bff;
+  background-color: #0056b3; /* Highlight selected slot */
+  color: white;
+}

@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import IndividualTourApplication from "./GuestPages/IndiviudalTourApplication/IndividualTourApplication";
 import ApplyFairPage from "./GuestPages/ApplyFairPages/ApplyFairPage";
 import GiveFeedbackPage from "./GuestPages/FeedBackPage/GiveFeedbackPage"; // Import Give Feedback Page
+import ApplyHighSchoolTour from "./GuestPages/HSTourApplications/ApplyHighSchoolTour"; // Import Apply HS Tour Page
+import ContactUsPage from "./GuestPages/ContactPage/ContactUsPage"; // Import Contact Us Page
 
 function App() {
   return (
@@ -20,8 +22,14 @@ function App() {
         {/* Route for Apply Fair Page */}
         <Route path="/api/apply_fair/" element={<ApplyFairPage />} />
 
+        {/* Route for Apply High School Tour */}
+        <Route path="/api/apply_hs_tour/" element={<ApplyHighSchoolTour />} />
+
         {/* Route for Give Feedback Page */}
         <Route path="/api/give_feedback/" element={<GiveFeedbackPage />} />
+
+        {/* Route for Contact Us Page */}
+        <Route path="/api/contact_us/" element={<ContactUsPage />} />
       </Routes>
     </Router>
   );
