@@ -27,7 +27,7 @@ const ApplyFairPage = () => {
         </ul>
         <footer className="apply-fair-footer">
           {/* Updated Contact Us link for consistency */}
-          <Link to="/contact" className="apply-fair-contact-link">
+          <Link to="/api/contact_us/" className="apply-fair-contact-link">
             Contact Us
           </Link>
         </footer>

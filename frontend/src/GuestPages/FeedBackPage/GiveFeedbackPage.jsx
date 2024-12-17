@@ -26,7 +26,7 @@ const GiveFeedbackPage = () => {
           </li>
         </ul>
         <footer className="give-feedback-footer">
-          <Link to="/contact_us">Contact Us</Link>
+          <Link to="/api/contact_us/">Contact Us</Link>
         </footer>
       </aside>
 

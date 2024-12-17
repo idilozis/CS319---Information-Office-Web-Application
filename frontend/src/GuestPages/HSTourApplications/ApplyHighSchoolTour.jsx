@@ -80,7 +80,7 @@ const ApplyHighSchoolTour = () => {
           </li>
         </ul>
         <footer className="apply-hs-tour-footer">
-          <Link to="/contact_us">Contact Us</Link>
+          <Link to="/api/contact_us/">Contact Us</Link>
         </footer>
       </aside>
 

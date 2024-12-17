@@ -25,12 +25,9 @@ const ContactUsPage = () => {
             <Link to="/api/give_feedback/">Give Feedback</Link>
           </li>
           <li className="active">
-            <Link to="/contact_us/">Contact Us</Link>
+            <Link to="/api/contact_us/">Contact Us</Link>
           </li>
         </ul>
-        <footer className="contact-us-footer">
-          <Link to="/contact_us/">Contact Us</Link>
-        </footer>
       </aside>
 
       {/* Main Content */}
