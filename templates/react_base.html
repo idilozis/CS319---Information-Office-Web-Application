@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Individual Tour Application</title>
-    <!-- Dynamically load the CSS file -->
+    <title>{% block title %}Bilkent IOS{% endblock %}</title>
+    <!-- Load the main CSS file dynamically -->
     <link rel="stylesheet" href="{{ main_css }}">
 </head>
 <body>
+    <!-- React root div -->
     <div id="root"></div>
-    <!-- Dynamically load the JavaScript file -->
+
+    <!-- Dynamically load the main JavaScript file -->
     <script type="module" src="{{ main_js }}"></script>
 </body>
 </html>

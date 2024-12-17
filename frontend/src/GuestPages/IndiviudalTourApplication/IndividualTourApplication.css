@@ -40,7 +40,7 @@ body {
   margin-bottom: 10px; 
   padding: 10px 15px; 
   border-radius: 5px; 
-  transition: background-color 0.3s ease; 
+  transition: background-color 0.3s ease;
 }
 
 
@@ -82,13 +82,14 @@ body {
 .individual-tour-application-sidebar .contact-us a {
   color: white;
   text-decoration: none;
-  display: block;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
 }
 
 .individual-tour-application-sidebar .contact-us a:hover {
   background-color: #3d3d3d; 
+  color: white; 
+  font-weight: bold; 
 }
 
 

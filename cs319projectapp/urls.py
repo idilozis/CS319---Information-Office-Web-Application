@@ -9,10 +9,9 @@ urlpatterns = [
     path("director_dashboard/", views.director_dashboard, name="director_dashboard"),
     path("promo_coordinator_dashboard/", views.promo_coordinator_dashboard, name="promo_coordinator_dashboard"),
     path("guest_dashboard/", views.guest_dashboard, name="guest_dashboard"),
-    path("apply_ind_tour/", views.apply_ind_tour, name="apply_ind_tour"),
-    path('apply_fair/', views.apply_fair, name='apply_fair'),
-    path('apply_tour/', views.apply_tour, name='apply_tour'),
-    path('apply_hs_tour/', views.apply_hs_tour, name='apply_hs_tour'),
-    path('apply_ind_tour/', views.apply_ind_tour, name='apply_ind_tour'),
-    path('give_feedback/', views.give_feedback, name='give_feedback'),
+    path("apply_ind_tour/", views.apply_ind_tour, name="apply_ind_tour"),  # Individual Tour Application
+    path("apply_fair/", views.apply_fair, name="apply_fair"),  # Apply Fair
+    path("apply_tour/", views.apply_tour, name="apply_tour"),  # Apply Tour
+    path("apply_hs_tour/", views.apply_hs_tour, name="apply_hs_tour"),  # High School Tour
+    path("give_feedback/", views.give_feedback, name="give_feedback"),  # Feedback
 ]

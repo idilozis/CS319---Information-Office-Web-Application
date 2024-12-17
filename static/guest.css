@@ -1,50 +1,82 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
 
 .sidebar {
+  width: 250px;
   background-color: #2e2e2e; 
-  padding: 20px;
   color: white;
+  padding: 20px 15px; 
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+  height: 100vh; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+; 
 }
 
 .sidebar h3 {
-  margin: 0;
+  margin: 0 0 15px 0; 
   font-size: 1.2rem;
-  color: white;
+  text-align: left;
 }
 
+.sidebar nav ul {
+  list-style: none; 
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 10px;
+}
 
 .sidebar a {
-  color: white !important; 
-  text-decoration: none; 
+  color: white;
+  text-decoration: none;
   font-size: 1rem;
   display: block; 
-  padding: 10px 15px; 
-  border-radius: 5px; 
-  transition: background-color 0.3s ease, color 0.3s ease; 
+  line-height: 1.5; 
 }
-
 
 .sidebar a:hover {
-  background-color: #505050 !important; 
-  color: white !important; 
-  font-weight: bold;
+  background-color: #505050 !important; /* Darker grey */
+  color: white !important; /* Ensure consistent text color */
+  font-weight: bold; /* Bold on hover */
 }
-
 
 .sidebar li.active a {
-  background-color: transparent; 
-  color: white !important;
-  font-weight: normal;
+  background-color: #505050; /* Active item background */
+  color: white !important; /* Text color remains white */
+  font-weight: bold;
 }
-
 
 .sidebar a:visited {
-  color: white !important; 
+  color: white !important; /* Prevent purple visited links */
 }
 
-
 .sidebar a:focus {
-  outline: none;
+  outline: none; /* Remove focus outline */
   background-color: #505050 !important;
   color: white !important;
-  font-weight: bold;
+}
+/* Main Content */
+.content {
+  margin-left: 270px; /* Push content to the right of the sidebar */
+  padding: 20px;
+  background-color: #f5f5f5; /* Light background for contrast */
+  min-height: 100vh; /* Full viewport height */
+}
+
+.apply-fair-header h1,
+.individual-tour-application-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #444;
 }

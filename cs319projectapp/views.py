@@ -61,7 +61,12 @@ def guest_dashboard(request):
     return render(request, 'guest_dashboard.html')
 
 def apply_fair(request):
-    return render(request, 'apply_fair.html')
+    # Ensure React integration for the Apply Fair page
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),  # JavaScript file
+        'main_css': get_vite_asset_path('index.html', 'css'),  # CSS file
+    }
+    return render(request, 'react_base.html', context)
 
 def apply_tour(request):
     return render(request, 'apply_tour.html')

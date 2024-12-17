@@ -12,10 +12,10 @@ const IndividualTourApplication = () => {
             <Link to="/">Dashboard</Link>
           </li>
           <li>
-            <Link to="/api/apply_fair/">Apply for fair</Link>
+            <Link to="/api/apply_fair/">Apply for Fair</Link>
           </li>
           <li>
-            <Link to="/api/apply_tour/">Apply for tour</Link>
+            <Link to="/api/apply_tour/">Apply for Tour</Link>
           </li>
           <li>
             <Link to="/api/apply_hs_tour/">Apply HS Tour</Link>

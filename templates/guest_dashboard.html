@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Bilkent IOS{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'guest.css' %}">
-  <!-- Inline styles for testing hover effect -->
+  <!-- Inline styles for hover effect -->
   <style>
     .sidebar a {
       color: white !important;
@@ -28,9 +28,10 @@
     <h3>Bilkent Information Office System</h3>
     <nav>
       <ul>
+        <!-- Update the Apply Fair link to match React route -->
         <li><a href="{% url 'guest_dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'apply_fair' %}">Apply for fair</a></li>
-        <li><a href="{% url 'apply_tour' %}">Apply for tour</a></li>
+        <li><a href="/api/apply_fair/">Apply for Fair</a></li>
+        <li><a href="{% url 'apply_tour' %}">Apply for Tour</a></li>
         <li><a href="{% url 'apply_hs_tour' %}">Apply HS Tour</a></li>
         <li><a href="{% url 'apply_ind_tour' %}">Apply Ind. Tour</a></li>
         <li><a href="{% url 'give_feedback' %}">Give Feedback</a></li>
