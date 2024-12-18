@@ -10,25 +10,27 @@ body {
 .individual-tour-application-container {
   display: flex;
   height: 100vh;
+  overflow: hidden; /* Prevent unwanted scrollbars */
 }
 
 /* Sidebar */
 .individual-tour-application-sidebar {
   width: 250px;
-  background-color: #2e2e2e; 
+  background-color: #2e2e2e;
   color: white;
-  padding: 20px 15px; 
+  padding: 20px 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px; 
+  gap: 10px;
+  flex-shrink: 0; /* Prevent shrinking on smaller screens */
 }
 
 .individual-tour-application-sidebar h2 {
-  margin: 0 0 15px 0; 
+  margin: 0 0 15px 0;
   font-size: 1.2rem;
-  text-align: left;
+  font-weight: bold;
+  color: white;
 }
-
 
 .individual-tour-application-menu {
   list-style: none;
@@ -37,44 +39,35 @@ body {
 }
 
 .individual-tour-application-menu li {
-  margin-bottom: 10px; 
-  padding: 10px 15px; 
-  border-radius: 5px; 
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 5px;
   transition: background-color 0.3s ease;
 }
-
 
 .individual-tour-application-menu a {
   color: white;
   text-decoration: none;
   font-size: 1rem;
-  display: block; 
-  line-height: 1.5; 
+  display: block;
 }
-
 
 .individual-tour-application-menu li:hover {
-  background-color: #3d3d3d; 
+  background-color: #3d3d3d;
 }
 
-
 .individual-tour-application-menu li.active {
-  background-color: #888888; 
+  background-color: #888888;
+  font-weight: bold;
 }
 
 .individual-tour-application-menu li.active a {
   color: white;
-  font-weight: bold;
 }
 
-
-.individual-tour-application-menu a:visited {
-  color: white;
-}
-
-
+/* Contact Us Section */
 .individual-tour-application-sidebar .contact-us {
-  margin-top: auto; 
+  margin-top: auto;
   padding: 8px 12px;
   text-align: center;
 }
@@ -82,25 +75,26 @@ body {
 .individual-tour-application-sidebar .contact-us a {
   color: white;
   text-decoration: none;
-  font-size: 1rem; 
+  font-size: 1rem;
   display: block;
-  padding: 10px 15px; 
+  padding: 10px 15px;
   border-radius: 5px;
-  line-height: 1.5; 
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .individual-tour-application-sidebar .contact-us a:hover {
-  background-color: #3d3d3d; 
-  color: white; 
-  font-weight: bold; 
+  background-color: #3d3d3d;
+  color: white;
+  font-weight: bold;
 }
 
-
+/* Main Content */
 .individual-tour-application-main-content {
   flex: 1;
   padding: 20px;
   background-color: white;
+  overflow-y: auto; /* Scroll content if too long */
+  box-sizing: border-box;
 }
 
 .individual-tour-application-header h1 {
@@ -110,7 +104,6 @@ body {
   color: #444;
 }
 
-
 .individual-tour-application-form-container {
   max-width: 600px;
   margin: 20px auto;
@@ -118,6 +111,7 @@ body {
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .individual-tour-application-form-container h2 {
@@ -126,7 +120,7 @@ body {
 }
 
 .individual-tour-application-form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .individual-tour-application-form-group label {
@@ -139,10 +133,11 @@ body {
 .individual-tour-application-form-group select,
 .individual-tour-application-form-group textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1rem;
+  box-sizing: border-box;
 }
 
 textarea {
@@ -150,19 +145,32 @@ textarea {
   height: 80px;
 }
 
-
+/* Submit Button */
 .individual-tour-application-submit-button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 1rem;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-
 
 .individual-tour-application-submit-button:hover {
   background-color: #0056b3;
+}
+
+/* Responsive Sidebar Alignment */
+@media (max-width: 768px) {
+  .individual-tour-application-sidebar {
+    width: 200px;
+    padding: 15px 10px;
+  }
+
+  .individual-tour-application-menu a {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
 }

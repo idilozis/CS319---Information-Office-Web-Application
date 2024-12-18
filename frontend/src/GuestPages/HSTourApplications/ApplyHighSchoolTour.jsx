@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import "./ApplyHighSchoolTour.css";
 
 const ApplyHighSchoolTour = () => {
+  const [selectedCity, setSelectedCity] = useState("");
+  const [highSchools, setHighSchools] = useState([]);
+  const [selectedHighSchool, setSelectedHighSchool] = useState(""); // Added for high school selection
   const [selectedTime, setSelectedTime] = useState("");
   const [capacity, setCapacity] = useState("");
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState({});
+
   const timeSlots = [
     { time: "8:30-9:30", status: "busy" },
     { time: "9:30-10:30", status: "free" },
@@ -14,8 +18,21 @@ const ApplyHighSchoolTour = () => {
     { time: "11:30-12:30", status: "free" },
   ];
 
+  const cityHighSchoolMapping = {
+    Ankara: ["TED Ankara", "Ankara Science High School", "Gazi High School"],
+    Istanbul: ["Galatasaray High School", "Istanbul Science High School"],
+    Izmir: ["Izmir American College", "Izmir Science High School"],
+  };
+
   const handleTimeSlotSelect = (time) => {
     setSelectedTime(time);
+  };
+
+  const handleCityChange = (e) => {
+    const city = e.target.value;
+    setSelectedCity(city);
+    setHighSchools(cityHighSchoolMapping[city] || []);
+    setSelectedHighSchool(""); // Reset high school selection
   };
 
   const handleCapacityChange = (e) => {
@@ -35,7 +52,7 @@ const ApplyHighSchoolTour = () => {
     const selectedDate = new Date(e.target.value);
     const today = new Date();
     const minDate = new Date();
-    minDate.setDate(today.getDate() + 14); // Minimum 2 weeks ahead
+    minDate.setDate(today.getDate() + 14);
 
     if (selectedDate >= minDate) {
       setDate(e.target.value);
@@ -64,7 +81,8 @@ const ApplyHighSchoolTour = () => {
         <h2>Bilkent Information Office System</h2>
         <ul className="apply-hs-tour-menu">
           <li>
-            <Link to="/">Dashboard</Link>
+            {/* Replaced Link with a standard <a> tag for server-side navigation */}
+            <a href="/api/guest_dashboard/" className="menu-link">Home</a>
           </li>
           <li>
             <Link to="/api/apply_fair/">Apply for Fair</Link>
@@ -91,11 +109,13 @@ const ApplyHighSchoolTour = () => {
         </header>
         <div className="apply-hs-tour-form-container">
           <form onSubmit={handleSubmit}>
-            {/* Existing Data Fields */}
+            {/* Name-Surname */}
             <div className="apply-hs-tour-form-group">
               <label htmlFor="name">Name-Surname:</label>
               <input type="text" id="name" placeholder="John Doe" />
             </div>
+
+            {/* Capacity */}
             <div className="apply-hs-tour-form-group">
               <label htmlFor="capacity">Capacity (max 60):</label>
               <input
@@ -111,30 +131,65 @@ const ApplyHighSchoolTour = () => {
                 </p>
               )}
             </div>
+
+            {/* City */}
             <div className="apply-hs-tour-form-group">
-              <label htmlFor="city">City/High School:</label>
-              <select id="city">
-                <option>Ankara</option>
-                <option>Istanbul</option>
-                <option>Izmir</option>
-              </select>
-              <select id="highschool">
-                <option>TED Ankara</option>
-                <option>Other High School</option>
+              <label htmlFor="city">City:</label>
+              <select id="city" value={selectedCity} onChange={handleCityChange}>
+                <option value="" disabled>
+                  Choose City
+                </option>
+                {Object.keys(cityHighSchoolMapping).map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
               </select>
             </div>
+
+            {/* High School */}
+            <div className="apply-hs-tour-form-group">
+              <label htmlFor="highschool">High School:</label>
+              <select
+                id="highschool"
+                value={selectedHighSchool}
+                onChange={(e) => setSelectedHighSchool(e.target.value)}
+                disabled={!selectedCity}
+              >
+                <option value="" disabled>
+                  Choose High School
+                </option>
+                {highSchools.map((school, index) => (
+                  <option key={index} value={school}>
+                    {school}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Group Head */}
             <div className="apply-hs-tour-form-group">
               <label htmlFor="groupHead">Group Head:</label>
               <input type="text" id="groupHead" placeholder="Johnie Doeson" />
             </div>
+
+            {/* Contact Phone */}
             <div className="apply-hs-tour-form-group">
               <label htmlFor="contactPhone">Contact Phone:</label>
               <input type="text" id="contactPhone" placeholder="0123 456 78 90" />
             </div>
+
+            {/* Contact Email */}
             <div className="apply-hs-tour-form-group">
               <label htmlFor="contactEmail">Contact Email:</label>
-              <input type="email" id="contactEmail" placeholder="johndoe@example.com" />
+              <input
+                type="email"
+                id="contactEmail"
+                placeholder="johndoe@example.com"
+              />
             </div>
+
+            {/* Notes */}
             <div className="apply-hs-tour-form-group">
               <label htmlFor="notes">Additional Notes:</label>
               <textarea
@@ -145,7 +200,7 @@ const ApplyHighSchoolTour = () => {
 
             {/* Calendar Section */}
             <div className="apply-hs-tour-form-group">
-              <label htmlFor="tourDate">Select Tour Date (at least 2 weeks ahead):</label>
+              <label htmlFor="tourDate">Select Tour Date:</label>
               <input
                 type="date"
                 id="tourDate"

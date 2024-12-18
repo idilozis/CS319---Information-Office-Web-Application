@@ -10,7 +10,7 @@ const ApplyFairPage = () => {
         <h2>Bilkent Information Office System</h2>
         <ul className="apply-fair-menu">
           <li>
-            <Link to="/">Dashboard</Link>
+          <a href="/api/guest_dashboard/" className="menu-link">Home</a>
           </li>
           <li className="active">
             <Link to="/api/apply_fair/">Apply for Fair</Link>

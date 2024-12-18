@@ -2,6 +2,7 @@
 .apply-hs-tour-container {
   display: flex;
   height: 100vh;
+  overflow: hidden; /* Prevent unwanted scrollbars */
 }
 
 /* Sidebar */
@@ -13,6 +14,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex-shrink: 0; /* Prevent shrinking on resize */
 }
 
 .apply-hs-tour-sidebar h2 {
@@ -69,6 +71,8 @@
   flex: 1;
   padding: 20px;
   background-color: white;
+  overflow-y: auto; /* Ensure form content scrolls if too long */
+  box-sizing: border-box; /* Padding won't increase content width */
 }
 
 .apply-hs-tour-header h1 {
@@ -85,6 +89,7 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .apply-hs-tour-form-group {
@@ -105,6 +110,7 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1rem;
+  box-sizing: border-box;
 }
 
 textarea {
@@ -126,16 +132,18 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  justify-content: space-evenly; /* Consistent alignment */
 }
 
 .time-slot {
+  flex: 0 1 calc(25% - 10px); /* 4 columns with gap adjustments */
   padding: 10px;
   border-radius: 5px;
   text-align: center;
   font-size: 0.9rem;
   font-weight: bold;
-  width: 120px;
   transition: background-color 0.3s ease;
+  box-sizing: border-box;
 }
 
 .time-slot.free {
@@ -153,6 +161,12 @@ textarea {
   color: white;
 }
 
+.time-slot.selected {
+  border: 2px solid #007bff;
+  background-color: #0056b3; /* Highlight selected slot */
+  color: white;
+}
+
 /* Button */
 .apply-hs-tour-submit-button {
   width: 100%;
@@ -163,13 +177,9 @@ textarea {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .apply-hs-tour-submit-button:hover {
   background-color: #0056b3;
-}
-.time-slot.selected {
-  border: 2px solid #007bff;
-  background-color: #0056b3; /* Highlight selected slot */
-  color: white;
 }

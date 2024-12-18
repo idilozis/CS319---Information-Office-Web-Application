@@ -6,43 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Bilkent IOS{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'guest.css' %}">
-  <!-- Inline styles for hover effect -->
-  <style>
-    .sidebar a {
-      color: white !important;
-      text-decoration: none;
-      display: block;
-      padding: 10px 15px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-    .sidebar a:hover {
-      background-color: #505050 !important;
-      color: white !important;
-      font-weight: bold;
-    }
-  </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h3>Bilkent Information Office System</h3>
-    <nav>
-      <ul>
-        <!-- Update all links to ensure consistency -->
-        <li><a href="{% url 'guest_dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'apply_fair' %}">Apply for Fair</a></li>
-        <li><a href="{% url 'apply_hs_tour' %}">Apply HS Tour</a></li>
-        <li><a href="{% url 'apply_ind_tour' %}">Apply Ind. Tour</a></li>
-        <li><a href="{% url 'give_feedback' %}">Give Feedback</a></li>
-      </ul>
-    </nav>
-    <footer>
-      <!-- Contact Us link updated to use Django URL naming -->
-      <a href="{% url 'contact_us' %}">Contact Us</a>
-    </footer>
+  <!-- Topbar -->
+  <div class="topbar">
+    Bilkent Information Office System
   </div>
-  <div class="content">
-    {% block content %}{% endblock %}
+
+  <!-- Tile Container -->
+  <div class="tile-container">
+    <a href="{% url 'apply_fair' %}" class="tile">Apply for Fair</a>
+    <a href="{% url 'apply_hs_tour' %}" class="tile">Apply High School Tour</a>
+    <a href="{% url 'apply_ind_tour' %}" class="tile">Apply Individual Tour</a>
+    <a href="{% url 'give_feedback' %}" class="tile">Give Feedback</a>
+    <a href="{% url 'contact_us' %}" class="tile">Contact Us</a>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="bottom-bar">
+    <!-- First Column of Links -->
+    <div class="bottom-links">
+      <a href="https://iad-merkez.bilkent.edu.tr/" target="_blank" rel="noopener noreferrer">İhsan and Ayser Doğramacı<br>Science, Culture and Art Center</a>
+      <a href="https://bels.bilkent.edu.tr/" target="_blank" rel="noopener noreferrer">Bilkent Erzurum School</a>
+      <a href="http://blisankara.org/" target="_blank" rel="noopener noreferrer">BLIS</a>
+      <a href="http://www.obieng.bilkent.edu.tr/" target="_blank" rel="noopener noreferrer">Özel Bilkent School</a>
+    </div>
+
+    <!-- Second Column of Links -->
+    <div class="bottom-links">
+      <a href="http://bilnews.bilkent.edu.tr/" target="_blank" rel="noopener noreferrer">Bilkent News</a>
+      <a href="http://radyobilkent.com/" target="_blank" rel="noopener noreferrer">Radio Bilkent (96.6 FM)</a>
+      <a href="http://video.bilkent.edu.tr/?lang=en" target="_blank" rel="noopener noreferrer">Video Archive</a>
+    </div>
+
+    <!-- Third Column of Links -->
+    <div class="bottom-links">
+      <a href="https://www.bilkent.edu/bilkent/academic-positions/" target="_blank" rel="noopener noreferrer">Academic Positions Available</a>
+      <a href="https://www.bilkent.edu/bilkent/personal-data-protection/" target="_blank" rel="noopener noreferrer">Personal Data Protection</a>
+    </div>
+
+    <!-- Social Media Icons -->
+    <div class="social-icons">
+      <!-- Replace the href value with your actual social media URLs -->
+      <a href="http://www.facebook.com/Bilkentuniversitesi" target="_blank" rel="noopener noreferrer">
+        <img src="{% static 'icons/facebook.png' %}" alt="Facebook">
+      </a>
+      <a href="https://twitter.com/BilkentUniv" target="_blank" rel="noopener noreferrer">
+        <img src="{% static 'icons/twitter.png' %}" alt="Twitter">
+      </a>
+      <a href="https://www.youtube.com/user/BilkentUniversitesi" target="_blank" rel="noopener noreferrer">
+        <img src="{% static 'icons/youtube.png' %}" alt="YouTube">
+      </a>
+      <a href="https://www.linkedin.com/edu/school?id=17339&trk=prof-edu-school-logo" target="_blank" rel="noopener noreferrer">
+        <img src="{% static 'icons/linkedin.png' %}" alt="LinkedIn">
+      </a>
+      <a href="http://instagram.com/bilkentuniv" target="_blank" rel="noopener noreferrer">
+        <img src="{% static 'icons/instagram.png' %}" alt="Instagram">
+      </a>
+    </div>
   </div>
 </body>
 </html>

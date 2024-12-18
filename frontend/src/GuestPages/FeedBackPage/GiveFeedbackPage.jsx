@@ -10,7 +10,7 @@ const GiveFeedbackPage = () => {
         <h2>Bilkent Information Office System</h2>
         <ul className="give-feedback-menu">
           <li>
-            <Link to="/">Dashboard</Link>
+          <a href="/api/guest_dashboard/" className="menu-link">Home</a>
           </li>
           <li>
             <Link to="/api/apply_fair/">Apply for Fair</Link>

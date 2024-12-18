@@ -5,6 +5,14 @@ import "./IndividualTourApplication.css";
 const IndividualTourApplication = () => {
   const [date, setDate] = useState("");
   const [dateError, setDateError] = useState("");
+  const [selectedCity, setSelectedCity] = useState(""); // State for city selection
+  const [highSchools, setHighSchools] = useState([]); // State for High Schools list
+
+  const cityHighSchoolMapping = {
+    Ankara: ["TED Ankara", "Ankara High School", "Bilkent High School"],
+    Istanbul: ["Istanbul International School", "Galatasaray High School"],
+    Izmir: ["Izmir Science High School", "Izmir High School"],
+  };
 
   // Function to validate the date
   const handleDateChange = (e) => {
@@ -18,8 +26,15 @@ const IndividualTourApplication = () => {
     if (selectedDate < twoWeeksLater) {
       setDateError("Date must be at least 2 weeks in the future.");
     } else {
-      setDateError(""); // Clear error if valid
+      setDateError("");
     }
+  };
+
+  // Handle city selection
+  const handleCityChange = (e) => {
+    const city = e.target.value;
+    setSelectedCity(city);
+    setHighSchools(cityHighSchoolMapping[city] || []); // Set high schools based on city
   };
 
   const handleSubmit = (e) => {
@@ -37,7 +52,7 @@ const IndividualTourApplication = () => {
         <h2>Bilkent Information Office System</h2>
         <ul className="individual-tour-application-menu">
           <li>
-            <Link to="/">Dashboard</Link>
+          <a href="/api/guest_dashboard/" className="menu-link">Home</a>
           </li>
           <li>
             <Link to="/api/apply_fair/">Apply for Fair</Link>
@@ -67,24 +82,34 @@ const IndividualTourApplication = () => {
               <label htmlFor="name">Name-Surname:</label>
               <input type="text" id="name" placeholder="John Doe" />
             </div>
+
+            {/* City and High School Selection */}
             <div className="individual-tour-application-form-group">
-              <label htmlFor="city">City/High School:</label>
-              <select id="city" defaultValue="">
+              <label htmlFor="city">City:</label>
+              <select id="city" value={selectedCity} onChange={handleCityChange}>
                 <option value="" disabled>
-                  Select City
+                  Choose City
                 </option>
-                <option>Ankara</option>
-                <option>Istanbul</option>
-                <option>Izmir</option>
-              </select>
-              <select id="highschool" defaultValue="">
-                <option value="" disabled>
-                  Select High School
-                </option>
-                <option>TED Ankara</option>
-                <option>Other High School</option>
+                <option value="Ankara">Ankara</option>
+                <option value="Istanbul">Istanbul</option>
+                <option value="Izmir">Izmir</option>
               </select>
             </div>
+
+            <div className="individual-tour-application-form-group">
+              <label htmlFor="highschool">High School:</label>
+              <select id="highschool" disabled={!selectedCity}>
+                <option value="" disabled selected>
+                  Choose High School
+                </option>
+                {highSchools.map((school, index) => (
+                  <option key={index} value={school}>
+                    {school}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="individual-tour-application-form-group">
               <label htmlFor="phone">Contact Phone:</label>
               <input type="text" id="phone" placeholder="0123 456 78 90" />
