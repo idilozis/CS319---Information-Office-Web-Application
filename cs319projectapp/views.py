@@ -42,9 +42,12 @@ def login_view(request):
 def guide_dashboard(request):
     return render(request, "guide_dashboard.html")
 
-#@login_required
 def advisor_dashboard(request):
-    return render(request, "advisor_dashboard.html")
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
+    }
+    return render(request, "react_base.html", context)
 
 #@login_required
 def coordinator_dashboard(request):

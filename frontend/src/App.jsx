@@ -4,6 +4,7 @@ import ApplyFairPage from "./GuestPages/ApplyFairPages/ApplyFairPage";
 import GiveFeedbackPage from "./GuestPages/FeedBackPage/GiveFeedbackPage"; // Import Give Feedback Page
 import ApplyHighSchoolTour from "./GuestPages/HSTourApplications/ApplyHighSchoolTour"; // Import Apply HS Tour Page
 import ContactUsPage from "./GuestPages/ContactPage/ContactUsPage"; // Import Contact Us Page
+import AdvisorDashboard from "./AdvisorPages/Dashboard/AdvisorDashboard"; // Import Advisor Dashboard
 
 function App() {
   return (
@@ -30,9 +31,13 @@ function App() {
 
         {/* Route for Contact Us Page */}
         <Route path="/api/contact_us/" element={<ContactUsPage />} />
+
+        {/* New Route for Advisor Dashboard */}
+        <Route path="/api/advisor_dashboard/" element={<AdvisorDashboard />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
