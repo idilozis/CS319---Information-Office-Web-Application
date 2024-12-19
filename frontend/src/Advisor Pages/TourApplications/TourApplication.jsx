@@ -8,7 +8,7 @@ const TourApplication = () => {
   const [modalData, setModalData] = useState({});
   const userMenuRef = useRef(null);
 
-  // Application data
+
   const [applications, setApplications] = useState([
     {
       id: 1,
@@ -19,7 +19,7 @@ const TourApplication = () => {
       counselor: "Türkan Meşe",
       contact: {
         phone: "123 456 78 91",
-        email: "turkan@example.com",
+        email: "turkan@example.com", 
       },
       status: null,
     },
@@ -32,7 +32,7 @@ const TourApplication = () => {
       counselor: "Mustafa Kır",
       contact: {
         phone: "123 456 78 91",
-        email: null,
+        email: "mustafa@example.com", 
       },
       status: null,
     },
@@ -44,14 +44,14 @@ const TourApplication = () => {
       priorScore: 3.54,
       counselor: "Mehmet Bozkır",
       contact: {
-        phone: null,
-        email: "mehmet@example.com",
+        phone: null, 
+        email: "mehmet@example.com", 
       },
       status: null,
     },
   ]);
 
-  // Close user menu on outside click
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -64,7 +64,7 @@ const TourApplication = () => {
     };
   }, []);
 
-  // Open Modal
+
   const openModal = (id, decision) => {
     const application = applications.find((app) => app.id === id);
     if (application.status) {
@@ -75,7 +75,7 @@ const TourApplication = () => {
     setModalVisible(true);
   };
 
-  // Handle Modal Confirmation
+
   const handleModalConfirm = () => {
     const { id, decision } = modalData;
     const updatedApplications = applications.map((app) =>
@@ -85,7 +85,7 @@ const TourApplication = () => {
     setModalVisible(false);
   };
 
-  // Handle Modal Cancel
+
   const handleModalCancel = () => {
     setModalVisible(false);
   };
@@ -96,10 +96,10 @@ const TourApplication = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-          <Link to="/api/advisor_dashboard" className="sidebar-link">Dashboard</Link>
+            <Link to="/api/advisor_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-           <Link to="/api/tour_application" className="sidebar-link">Tour Applications</Link>
+            <Link to="/api/tour_application" className="sidebar-link">Tour Applications</Link>
           </li>
           <li>
             <Link to="/tours" className="sidebar-link">Tours</Link>
@@ -108,7 +108,7 @@ const TourApplication = () => {
             <Link to="/api/fairs" className="sidebar-link">Fairs</Link>
           </li>
           <li>
-           <Link to="/api/guide_list" className="sidebar-link">Guide List</Link>
+            <Link to="/api/guide_list" className="sidebar-link">Guide List</Link>
           </li>
         </ul>
         <div className="logout">
@@ -168,7 +168,11 @@ const TourApplication = () => {
                       {app.contact.phone ? <span>📞 {app.contact.phone}</span> : <span>📞 N/A</span>}
                     </div>
                     <div>
-                      {app.contact.email ? <span>✉️ {app.contact.email}</span> : <span>✉️ N/A</span>}
+                      {app.contact.email ? (
+                        <span>✉️ {app.contact.email}</span>
+                      ) : (
+                        <span style={{ color: "red" }}>✉️ Email Missing</span>
+                      )}
                     </div>
                   </td>
                   <td>
