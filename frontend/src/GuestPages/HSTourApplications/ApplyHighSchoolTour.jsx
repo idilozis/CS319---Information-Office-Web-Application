@@ -1,15 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Added useEffect
 import { Link } from "react-router-dom";
-import "./ApplyHighSchoolTour.css";
+import "./ApplyHighSchoolTour.css"; // Ensure this file exists
+import axios from "axios";
 
 const ApplyHighSchoolTour = () => {
-  const [selectedCity, setSelectedCity] = useState("");
-  const [highSchools, setHighSchools] = useState([]);
-  const [selectedHighSchool, setSelectedHighSchool] = useState(""); // Added for high school selection
   const [selectedTime, setSelectedTime] = useState("");
   const [capacity, setCapacity] = useState("");
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState({});
+
+  const [cities, setCities] = useState([]);
+  const [highSchools, setHighSchools] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedHighSchool, setSelectedHighSchool] = useState("");
+
+  useEffect(() => {
+    // Fetch cities when component mounts
+    axios.get("/api/cities/")
+      .then(response => {
+        console.log("Cities from API:", response.data);
+        setCities(response.data);})
+      .catch(error => console.error("Error fetching cities:", error));
+  }, []);
+
+  const handleCityChange = (e) => {
+    const city = e.target.value;
+    setSelectedCity(city);
+
+    // Fetch high schools for the selected city
+    axios.get(`/api/highschools/${city}/`)
+      .then(response => setHighSchools(response.data))
+      .catch(error => console.error("Error fetching high schools:", error));
+  };
 
   const timeSlots = [
     { time: "8:30-9:30", status: "busy" },
@@ -26,13 +48,6 @@ const ApplyHighSchoolTour = () => {
 
   const handleTimeSlotSelect = (time) => {
     setSelectedTime(time);
-  };
-
-  const handleCityChange = (e) => {
-    const city = e.target.value;
-    setSelectedCity(city);
-    setHighSchools(cityHighSchoolMapping[city] || []);
-    setSelectedHighSchool(""); // Reset high school selection
   };
 
   const handleCapacityChange = (e) => {
@@ -139,10 +154,10 @@ const ApplyHighSchoolTour = () => {
                 <option value="" disabled>
                   Choose City
                 </option>
-                {Object.keys(cityHighSchoolMapping).map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
+                {cities.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
                 ))}
               </select>
             </div>

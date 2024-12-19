@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db import models
 
 class UserAccountManager(BaseUserManager):
     def create_user(self, id, password=None, role=None, **extra_fields):
@@ -42,3 +43,14 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f'{self.id} - {self.role}'
+
+class HighSchool(models.Model):
+    name = models.CharField(max_length=255)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    score = models.FloatField(default=0)
+
+    class Meta:
+        db_table = 'highschools'  # Use the existing table
+
+    def __str__(self):
+        return f"{self.name} ({self.city})"

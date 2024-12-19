@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cs319projectapp',
     'django_extensions',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -125,8 +126,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'project319',  # Separate authentication database
-        'USER': 'moinkhan30000',
-        'PASSWORD': 'Moin@7017642414',
+        'USER': 'Hakanto',
+        'PASSWORD': '123cs319123',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -187,4 +188,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login/'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+}
 
