@@ -58,19 +58,19 @@ const AdvisorDashboard = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-          <Link to="/api/advisor_dashboard" className="sidebar-link">Dashboard</Link>
+            <Link to="/api/advisor_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-           <Link to="/api/tour_application" className="sidebar-link">Tour Applications</Link>
+            <Link to="/api/tour_application" className="sidebar-link">Tour Applications</Link>
           </li>
           <li>
-            <Link to="/tours" className="sidebar-link">Tours</Link>
+            <Link to="/api/advisor_tours" className="sidebar-link">Tours</Link>
           </li>
           <li>
             <Link to="/api/fairs" className="sidebar-link">Fairs</Link>
           </li>
           <li>
-           <Link to="/api/guide_list" className="sidebar-link">Guide List</Link>
+            <Link to="/api/guide_list" className="sidebar-link">Guide List</Link>
           </li>
         </ul>
         <div className="logout">

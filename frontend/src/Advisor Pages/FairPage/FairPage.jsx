@@ -5,30 +5,43 @@ import "./FairPage.css";
 const FairPage = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const userName = "Kemal Çakır"; // Current user's name
+  const userMenuRef = useRef(null);
+
   const [fairs, setFairs] = useState([
     {
       highSchool: "Izmir Fen Lisesi",
       city: "Izmir",
-      date: "18-12-2024",
+      date: "2024-12-18",
       time: "12:30",
-      attendees: ["Idil"],
+      attendees: ["Kemal Çakır"],
     },
     {
       highSchool: "Ankara Gazi Lisesi",
       city: "Ankara",
-      date: "18-12-2024",
+      date: "2024-12-30",
       time: "10:00",
       attendees: [],
     },
     {
       highSchool: "Istanbul High School",
       city: "Istanbul",
-      date: "19-12-2024",
+      date: "2024-12-28",
       time: "14:00",
       attendees: [],
     },
   ]);
-  const userMenuRef = useRef(null);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const today = new Date();
+
+  const isBeforeSevenDays = (fairDate) => {
+    const fairDateObj = new Date(fairDate);
+    const differenceInTime = fairDateObj.getTime() - today.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    return differenceInDays > 7;
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -44,7 +57,13 @@ const FairPage = () => {
 
   const handleAddAttendee = (index) => {
     const selectedFair = fairs[index];
-    // Check if user is already registered for another fair on the same date
+
+    if (!isBeforeSevenDays(selectedFair.date)) {
+      setModalMessage("You can only add yourself before 7 days of the fair.");
+      setModalVisible(true);
+      return;
+    }
+
     const isAlreadyRegistered = fairs.some(
       (fair, i) =>
         fair.date === selectedFair.date &&
@@ -53,14 +72,35 @@ const FairPage = () => {
     );
 
     if (isAlreadyRegistered) {
-      alert("You can only add yourself to one fair on the same date.");
+      setModalMessage("You can only add yourself to one fair on the same date.");
+      setModalVisible(true);
       return;
     }
 
-    // Update the attendees for the selected fair
     const updatedFairs = [...fairs];
     updatedFairs[index].attendees.push(userName);
     setFairs(updatedFairs);
+  };
+
+  const handleRemoveAttendee = (index) => {
+    const selectedFair = fairs[index];
+
+    if (!isBeforeSevenDays(selectedFair.date)) {
+      setModalMessage("You can only remove yourself before 7 days of the fair.");
+      setModalVisible(true);
+      return;
+    }
+
+    const updatedFairs = [...fairs];
+    updatedFairs[index].attendees = updatedFairs[index].attendees.filter(
+      (attendee) => attendee !== userName
+    );
+    setFairs(updatedFairs);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setModalMessage("");
   };
 
   return (
@@ -69,19 +109,19 @@ const FairPage = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-          <Link to="/api/advisor_dashboard" className="sidebar-link">Dashboard</Link>
+            <Link to="/api/advisor_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-           <Link to="/api/tour_application" className="sidebar-link">Tour Applications</Link>
+            <Link to="/api/tour_application" className="sidebar-link">Tour Applications</Link>
           </li>
           <li>
-            <Link to="/tours" className="sidebar-link">Tours</Link>
+            <Link to="/api/advisor_tours" className="sidebar-link">Tours</Link>
           </li>
           <li>
             <Link to="/api/fairs" className="sidebar-link">Fairs</Link>
           </li>
           <li>
-           <Link to="/api/guide_list" className="sidebar-link">Guide List</Link>
+            <Link to="/api/guide_list" className="sidebar-link">Guide List</Link>
           </li>
         </ul>
         <div className="logout">
@@ -115,6 +155,9 @@ const FairPage = () => {
         </div>
 
         <h1>Fair Details</h1>
+        <p className="note">
+          Note: You can only add or remove yourself as an attendee before 7 days of the fair.
+        </p>
         <div className="fair-table">
           <table>
             <thead>
@@ -139,13 +182,19 @@ const FairPage = () => {
                         <li key={attendeeIndex}>{attendee}</li>
                       ))}
                     </ul>
-                    {/* Disable button if the user has added themselves */}
-                    {!fair.attendees.includes(userName) && (
+                    {fair.attendees.includes(userName) ? (
+                      <button
+                        onClick={() => handleRemoveAttendee(fairIndex)}
+                        style={{ marginTop: "5px" }}
+                      >
+                        Remove
+                      </button>
+                    ) : (
                       <button
                         onClick={() => handleAddAttendee(fairIndex)}
                         style={{ marginTop: "5px" }}
                       >
-                        Add Yourself
+                        Add
                       </button>
                     )}
                   </td>
@@ -154,6 +203,17 @@ const FairPage = () => {
             </tbody>
           </table>
         </div>
+        {modalVisible && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Action Not Allowed</h2>
+              <p>{modalMessage}</p>
+              <button onClick={closeModal} className="modal-close-button">
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

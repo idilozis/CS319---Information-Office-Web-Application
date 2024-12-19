@@ -1,58 +1,57 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./TourApplication.css";
+import "./Tours.css";
 
-const TourApplication = () => {
+const Tours = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState({});
   const userMenuRef = useRef(null);
 
-  const [applications, setApplications] = useState([
+  // Tour data
+  const [tours, setTours] = useState([
     {
       id: 1,
-      date: "21.11.2024",
+      date: "21.12.2024",
       time: "8.30-12.30",
       highSchool: "Ankara Fen Lisesi",
-      priorScore: 3.76,
       counselor: "Türkan Meşe",
       contact: {
         phone: "123 456 78 91",
         email: "turkan@example.com",
       },
-      studentCount: 45,
-      status: null,
+      studentCount: 50,
+      guides: ["Guide 1"],
     },
     {
       id: 2,
-      date: "28.11.2024",
-      time: "16.30-19.30",
-      highSchool: "Manisa Fen Lisesi",
-      priorScore: 3.57,
-      counselor: "Mustafa Kır",
+      date: "22.12.2024",
+      time: "10.00-14.00",
+      highSchool: "Izmir Fen Lisesi",
+      counselor: "Ayşe Yılmaz",
       contact: {
-        phone: "123 456 78 91",
-        email: "mustafa@example.com",
+        phone: "987 654 32 10",
+        email: "ayse@example.com",
       },
-      studentCount: 60,
-      status: null,
+      studentCount: 120,
+      guides: ["Guide 2", "Guide 3"],
     },
     {
       id: 3,
-      date: "28.11.2024",
-      time: "16.30-19.30",
-      highSchool: "Malatya Fen Lisesi",
-      priorScore: 3.54,
+      date: "23.12.2024",
+      time: "9.00-13.00",
+      highSchool: "Istanbul Erkek Lisesi",
       counselor: "Mehmet Bozkır",
       contact: {
         phone: null,
         email: "mehmet@example.com",
       },
-      studentCount: 80,
-      status: null,
+      studentCount: 75,
+      guides: ["Guide 4"],
     },
   ]);
 
+  // Close user menu on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -65,25 +64,28 @@ const TourApplication = () => {
     };
   }, []);
 
-  const openModal = (id, decision) => {
-    const application = applications.find((app) => app.id === id);
-    if (application.status) {
-      alert("Decision already made for this application. Changes are not allowed.");
-      return;
-    }
-    setModalData({ id, decision, highSchool: application.highSchool });
+  // Open Remove Guide Confirmation Modal
+  const openRemoveGuideModal = (tourId, guideIndex, guideName) => {
+    setModalData({ tourId, guideIndex, guideName });
     setModalVisible(true);
   };
 
-  const handleModalConfirm = () => {
-    const { id, decision } = modalData;
-    const updatedApplications = applications.map((app) =>
-      app.id === id ? { ...app, status: decision } : app
-    );
-    setApplications(updatedApplications);
-    setModalVisible(false);
+  // Handle Confirm Guide Removal
+  const handleRemoveGuide = () => {
+    const { tourId, guideIndex } = modalData;
+    const updatedTours = tours.map((tour) => {
+      if (tour.id === tourId) {
+        const updatedGuides = [...tour.guides];
+        updatedGuides.splice(guideIndex, 1); // Remove the guide
+        return { ...tour, guides: updatedGuides };
+      }
+      return tour;
+    });
+    setTours(updatedTours);
+    setModalVisible(false); // Close modal after removal
   };
 
+  // Handle Cancel Modal
   const handleModalCancel = () => {
     setModalVisible(false);
   };
@@ -139,7 +141,7 @@ const TourApplication = () => {
           )}
         </div>
 
-        <h1>Tour Applications</h1>
+        <h1>Tour Details</h1>
         <div className="application-table">
           <table>
             <thead>
@@ -147,60 +149,55 @@ const TourApplication = () => {
                 <th>Date</th>
                 <th>Time</th>
                 <th>High School</th>
-                <th>Prior. Score</th>
                 <th>Counselor</th>
                 <th>Contact</th>
                 <th>Student Count</th>
-                <th>Status</th>
+                <th>Assigned Guides</th>
               </tr>
             </thead>
             <tbody>
-              {applications.map((app) => (
-                <tr key={app.id} className={app.status === "rejected" ? "rejected-row" : ""}>
-                  <td>{app.date}</td>
-                  <td>{app.time}</td>
-                  <td>{app.highSchool}</td>
-                  <td>{app.priorScore}</td>
-                  <td>{app.counselor}</td>
-                  <td>
-                    <div>
-                      {app.contact.phone ? <span>📞 {app.contact.phone}</span> : <span>📞 N/A</span>}
-                    </div>
-                    <div>
-                      {app.contact.email ? (
-                        <span>✉️ {app.contact.email}</span>
-                      ) : (
-                        <span style={{ color: "red" }}>✉️ Email Missing</span>
-                      )}
-                    </div>
-                  </td>
-                  <td>{app.studentCount}</td>
-                  <td>
-                    {app.status ? (
-                      <span
-                        className={`status ${app.status === "accepted" ? "accepted" : "rejected"}`}
-                      >
-                        {app.status === "accepted" ? "✔ Accepted" : "✖ Rejected"}
-                      </span>
-                    ) : (
-                      <>
-                        <button
-                          className="accept-button"
-                          onClick={() => openModal(app.id, "accepted")}
-                        >
-                          Accept
-                        </button>
-                        <button
-                          className="reject-button"
-                          onClick={() => openModal(app.id, "rejected")}
-                        >
-                          Reject
-                        </button>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {tours.map((tour) => {
+                const requiredGuides = Math.ceil(tour.studentCount / 60);
+                return (
+                  <tr key={tour.id}>
+                    <td>{tour.date}</td>
+                    <td>{tour.time}</td>
+                    <td>{tour.highSchool}</td>
+                    <td>{tour.counselor}</td>
+                    <td>
+                      <div>
+                        {tour.contact.phone ? <span>📞 {tour.contact.phone}</span> : <span>📞 N/A</span>}
+                      </div>
+                      <div>
+                        ✉️ {tour.contact.email}
+                      </div>
+                    </td>
+                    <td>{tour.studentCount}</td>
+                    <td>
+                      <ul>
+                        {tour.guides.map((guide, index) => (
+                          <li key={index}>
+                            {guide}
+                            {index < requiredGuides ? (
+                              <button
+                                className="remove-guide-button"
+                                onClick={() =>
+                                  openRemoveGuideModal(tour.id, index, guide)
+                                }
+                              >
+                                Remove
+                              </button>
+                            ) : null}
+                          </li>
+                        ))}
+                      </ul>
+                      <p>
+                        <strong>{requiredGuides - tour.guides.length}</strong> more guides needed
+                      </p>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -209,14 +206,14 @@ const TourApplication = () => {
         {modalVisible && (
           <div className="modal-overlay">
             <div className="modal">
-              <h2>Confirm Your Decision</h2>
+              <h2>Confirm Guide Removal</h2>
               <p>
-                Are you sure you want to <strong>{modalData.decision}</strong>{" "}
-                the application for <strong>{modalData.highSchool}</strong>? This action cannot be
+                Are you sure you want to remove{" "}
+                <strong>{modalData.guideName}</strong>? This action cannot be
                 undone.
               </p>
               <div className="modal-actions">
-                <button className="confirm-button" onClick={handleModalConfirm}>
+                <button className="confirm-button" onClick={handleRemoveGuide}>
                   Confirm
                 </button>
                 <button className="cancel-button" onClick={handleModalCancel}>
@@ -231,4 +228,4 @@ const TourApplication = () => {
   );
 };
 
-export default TourApplication;
+export default Tours;
