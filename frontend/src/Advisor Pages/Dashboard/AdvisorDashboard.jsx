@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./AdvisorDashboard.css";
@@ -57,19 +58,19 @@ const AdvisorDashboard = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <a href="/api/advisor_dashboard" className="sidebar-link">Dashboard</a>
+          <Link to="/api/advisor_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-            <a href="/api/tour_application" className="sidebar-link">Tour Applications</a>
+           <Link to="/api/tour_application" className="sidebar-link">Tour Applications</Link>
           </li>
           <li>
-            <a href="/tours" className="sidebar-link">Tours</a>
+            <Link to="/tours" className="sidebar-link">Tours</Link>
           </li>
           <li>
-            <a href="/api/fairs" className="sidebar-link">Fairs</a>
+            <Link to="/api/fairs" className="sidebar-link">Fairs</Link>
           </li>
           <li>
-           <a href="/guides" className="sidebar-link">Guide List</a>
+           <Link to="/api/guide_list" className="sidebar-link">Guide List</Link>
           </li>
         </ul>
         <div className="logout">

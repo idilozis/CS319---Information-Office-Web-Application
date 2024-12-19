@@ -21,5 +21,7 @@ urlpatterns = [
     path('cities/', get_cities, name='get_cities'),
     path('highschools/<str:city>/', get_highschools, name='get_highschools'),
     path("tour_application/", views.tour_application, name="tour_application"),
+    path("guide_list/", views.guide_list, name="guide_list"),
+
 ]
 

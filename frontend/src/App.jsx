@@ -9,6 +9,7 @@ import GuideDashboard from "./GuidePages/GuideDashboard/GuideDashboard"; // Impo
 import FairPage from "./Advisor Pages/FairPage/FairPage"
 import GuideFairPage from "./GuidePages/FairPage/FairPage"
 import TourApplication from "./Advisor Pages/TourApplications/TourApplication";
+import GuideList from "./Advisor Pages/GuideList/GuideList";
 function App() {
   return (
     <Router>
@@ -44,6 +45,7 @@ function App() {
         <Route path="/api/guide_fairs/" element={<GuideFairPage />} />
         <Route path="/apply-highschool-tour" element={<ApplyHighSchoolTour />} />
         <Route path="/api/tour_application/" element={<TourApplication />} />
+        <Route path="/api/guide_list/" element={<GuideList />} />
       </Routes>
     </Router>
   );

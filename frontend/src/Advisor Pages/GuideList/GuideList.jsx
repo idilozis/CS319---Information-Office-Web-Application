@@ -1,35 +1,40 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./FairPage.css";
+import "./GuideList.css";
 
-const FairPage = () => {
+const GuideList = () => {
   const [menuVisible, setMenuVisible] = useState(false);
-  const userName = "Kemal Çakır"; // Current user's name
-  const [fairs, setFairs] = useState([
-    {
-      highSchool: "Izmir Fen Lisesi",
-      city: "Izmir",
-      date: "18-12-2024",
-      time: "12:30",
-      attendees: ["Idil"],
-    },
-    {
-      highSchool: "Ankara Gazi Lisesi",
-      city: "Ankara",
-      date: "18-12-2024",
-      time: "10:00",
-      attendees: [],
-    },
-    {
-      highSchool: "Istanbul High School",
-      city: "Istanbul",
-      date: "19-12-2024",
-      time: "14:00",
-      attendees: [],
-    },
-  ]);
   const userMenuRef = useRef(null);
 
+  // Guide data
+  const [guides, setGuides] = useState([
+    {
+      id: 1,
+      name: "Türker Kaya",
+      contact: {
+        phone: "123 456 78 91",
+        email: "turker.kaya@example.com",
+      },
+    },
+    {
+      id: 2,
+      name: "Ayşe Yılmaz",
+      contact: {
+        phone: "987 654 32 10",
+        email: null, // Email missing
+      },
+    },
+    {
+      id: 3,
+      name: "Mehmet Bozkır",
+      contact: {
+        phone: null, // Phone missing
+        email: "mehmet.bozkir@example.com",
+      },
+    },
+  ]);
+
+  // Close user menu on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -41,27 +46,6 @@ const FairPage = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const handleAddAttendee = (index) => {
-    const selectedFair = fairs[index];
-    // Check if user is already registered for another fair on the same date
-    const isAlreadyRegistered = fairs.some(
-      (fair, i) =>
-        fair.date === selectedFair.date &&
-        fair.attendees.includes(userName) &&
-        i !== index
-    );
-
-    if (isAlreadyRegistered) {
-      alert("You can only add yourself to one fair on the same date.");
-      return;
-    }
-
-    // Update the attendees for the selected fair
-    const updatedFairs = [...fairs];
-    updatedFairs[index].attendees.push(userName);
-    setFairs(updatedFairs);
-  };
 
   return (
     <div className="dashboard-container">
@@ -114,40 +98,26 @@ const FairPage = () => {
           )}
         </div>
 
-        <h1>Fair Details</h1>
-        <div className="fair-table">
+        <h1>Guide List</h1>
+        <div className="guide-table">
           <table>
             <thead>
               <tr>
-                <th>High School</th>
-                <th>City</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Attendees</th>
+                <th>Name</th>
+                <th>Contact Info</th>
               </tr>
             </thead>
             <tbody>
-              {fairs.map((fair, fairIndex) => (
-                <tr key={fairIndex}>
-                  <td>{fair.highSchool}</td>
-                  <td>{fair.city}</td>
-                  <td>{fair.date}</td>
-                  <td>{fair.time}</td>
+              {guides.map((guide) => (
+                <tr key={guide.id}>
+                  <td>{guide.name}</td>
                   <td>
-                    <ul>
-                      {fair.attendees.map((attendee, attendeeIndex) => (
-                        <li key={attendeeIndex}>{attendee}</li>
-                      ))}
-                    </ul>
-                    {/* Disable button if the user has added themselves */}
-                    {!fair.attendees.includes(userName) && (
-                      <button
-                        onClick={() => handleAddAttendee(fairIndex)}
-                        style={{ marginTop: "5px" }}
-                      >
-                        Add Yourself
-                      </button>
-                    )}
+                    <div>
+                      {guide.contact.phone ? <span>📞 {guide.contact.phone}</span> : <span>📞 N/A</span>}
+                    </div>
+                    <div>
+                      {guide.contact.email ? <span>✉️ {guide.contact.email}</span> : <span>✉️ N/A</span>}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -159,4 +129,4 @@ const FairPage = () => {
   );
 };
 
-export default FairPage;
+export default GuideList;
