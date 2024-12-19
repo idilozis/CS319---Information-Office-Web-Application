@@ -41,6 +41,7 @@ function App() {
         <Route path="/api/guide_dashboard/" element={<GuideDashboard />} />
         <Route path="/api/fairs/" element={<FairPage />} />
         <Route path="/api/guide_fairs/" element={<GuideFairPage />} />
+        <Route path="/apply-highschool-tour" element={<ApplyHighSchoolTour />} />
       </Routes>
     </Router>
   );

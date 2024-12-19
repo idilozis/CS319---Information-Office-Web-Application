@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import get_cities, get_highschools
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),
@@ -17,5 +18,7 @@ urlpatterns = [
     path("contact_us/", views.contact_us, name="contact_us"),  # Added this line
     path("fairs/", views.fairs_page, name="fairs"),
     path("guide_fairs/", views.guide_fairs_page, name="guide_fairs"),
+    path('cities/', get_cities, name='get_cities'),
+    path('highschools/<str:city>/', get_highschools, name='get_highschools'),
 ]
 

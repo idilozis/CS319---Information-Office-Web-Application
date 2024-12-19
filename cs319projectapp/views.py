@@ -3,6 +3,11 @@ from django.contrib import messages
 from django.db import connection
 from django.contrib.auth.decorators import login_required
 from utils.vite import get_vite_asset_path
+from utils.vite import get_vite_asset_path
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import HighSchool
+from django.db.models.functions import Lower
 
 def login_view(request):
     if request.method == 'POST':
@@ -124,3 +129,20 @@ def guide_fairs_page(request):
         'main_css': get_vite_asset_path('index.html', 'css'),
     }
     return render(request, 'react_base.html', context)
+
+@api_view(['GET'])
+def get_cities(request):
+    cities = (
+        HighSchool.objects.annotate(lower_city=Lower('city'))
+        .values_list('lower_city', flat=True)
+        .distinct()
+    )
+    cities = [city.title() for city in cities if city]  # Normalize case to title case
+    print("Cities fetched from DB:", cities)  # Debug log
+    return Response(cities)
+
+
+@api_view(['GET'])
+def get_highschools(request, city):
+    highschools = HighSchool.objects.filter(city=city).values_list('name', flat=True)
+    return Response(list(highschools))
