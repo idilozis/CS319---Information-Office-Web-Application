@@ -11,6 +11,7 @@ import GuideFairPage from "./GuidePages/FairPage/FairPage"
 import TourApplication from "./Advisor Pages/TourApplications/TourApplication";
 import GuideList from "./Advisor Pages/GuideList/GuideList";
 import Tours from "./Advisor Pages/Tours/Tours";
+import PuantajPage from "./Advisor Pages/PuantajPage/PuantajPage"
 function App() {
   return (
     <Router>
@@ -48,6 +49,7 @@ function App() {
         <Route path="/api/tour_application/" element={<TourApplication />} />
         <Route path="/api/guide_list/" element={<GuideList />} />
         <Route path="/api/advisor_tours/" element={<Tours />} />
+        <Route path="/api/puantaj_page/" element={<PuantajPage />} />
       </Routes>
     </Router>
   );

@@ -23,6 +23,7 @@ urlpatterns = [
     path("tour_application/", views.tour_application, name="tour_application"),
     path("guide_list/", views.guide_list, name="guide_list"),
     path("advisor_tours/", views.guide_list, name="advisor_tours"),
+    path("puantaj_page/", views.puantaj_page, name="puantaj_page"),
 
 ]
 
