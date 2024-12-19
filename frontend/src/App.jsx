@@ -5,6 +5,7 @@ import GiveFeedbackPage from "./GuestPages/FeedBackPage/GiveFeedbackPage"; // Im
 import ApplyHighSchoolTour from "./GuestPages/HSTourApplications/ApplyHighSchoolTour"; // Import Apply HS Tour Page
 import ContactUsPage from "./GuestPages/ContactPage/ContactUsPage"; // Import Contact Us Page
 import AdvisorDashboard from "./AdvisorPages/Dashboard/AdvisorDashboard"; // Import Advisor Dashboard
+import GuideDashboard from "./GuidePages/GuideDashboard/GuideDashboard"; // Import Guide Dashboard
 
 function App() {
   return (
@@ -34,6 +35,9 @@ function App() {
 
         {/* New Route for Advisor Dashboard */}
         <Route path="/api/advisor_dashboard/" element={<AdvisorDashboard />} />
+
+        {/* New Route for Guide Dashboard */}
+        <Route path="/api/guide_dashboard/" element={<GuideDashboard />} />
       </Routes>
     </Router>
   );
