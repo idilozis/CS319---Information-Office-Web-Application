@@ -68,6 +68,9 @@ const AdvisorDashboard = () => {
           <li>
             <a href="/api/fairs" className="sidebar-link">Fairs</a>
           </li>
+          <li>
+           <a href="/guides" className="sidebar-link">Guide List</a>
+          </li>
         </ul>
         <div className="logout">
           <button onClick={() => (window.location.href = "/api/login/")}>

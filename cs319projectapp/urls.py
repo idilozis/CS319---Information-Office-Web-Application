@@ -15,6 +15,7 @@ urlpatterns = [
     path("apply_ind_tour/", views.apply_ind_tour, name="apply_ind_tour"),
     path("give_feedback/", views.give_feedback, name="give_feedback"),
     path("contact_us/", views.contact_us, name="contact_us"),  # Added this line
-    path('fairs/', views.fairs_page, name='fairs'),
+    path("fairs/", views.fairs_page, name="fairs"),
+    path("guide_fairs/", views.guide_fairs_page, name="guide_fairs"),
 ]
 

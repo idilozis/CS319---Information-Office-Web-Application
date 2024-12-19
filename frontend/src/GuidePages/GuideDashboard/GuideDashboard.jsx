@@ -63,7 +63,7 @@ const GuideDashboard = () => {
             <a href="/tours" className="sidebar-link">Tours</a>
           </li>
           <li>
-            <a href="/fairs" className="sidebar-link">Fairs</a>
+            <a href="/api/guide_fairs" className="sidebar-link">Fairs</a>
           </li>
           <li>
             <a href="/responsible-advisors" className="sidebar-link">Responsible Advisors</a>
