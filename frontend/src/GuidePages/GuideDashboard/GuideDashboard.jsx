@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "./AdvisorDashboard.css";
+import "./GuideDashboard.css";
 
-const AdvisorDashboard = () => {
+const GuideDashboard = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [schedule, setSchedule] = useState([]);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -57,16 +57,16 @@ const AdvisorDashboard = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <a href="/api/advisor_dashboard" className="sidebar-link">Dashboard</a>
-          </li>
-          <li>
-            <a href="/tour-applications" className="sidebar-link">Tour Applications</a>
+            <a href="/api/guide_dashboard" className="sidebar-link">Dashboard</a>
           </li>
           <li>
             <a href="/tours" className="sidebar-link">Tours</a>
           </li>
           <li>
-            <a href="/fairs" className="sidebar-link">Fairs</a>
+            <a href="/api/guide_fairs" className="sidebar-link">Fairs</a>
+          </li>
+          <li>
+            <a href="/responsible-advisors" className="sidebar-link">Responsible Advisors</a>
           </li>
         </ul>
         <div className="logout">
@@ -87,7 +87,7 @@ const AdvisorDashboard = () => {
               className="user-avatar"
               alt="User Icon"
             />
-            Kemal Çakır
+            Can Çakır
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
@@ -99,7 +99,7 @@ const AdvisorDashboard = () => {
           )}
         </div>
 
-        <h1>Welcome Back, Kemal Çakır</h1>
+        <h1>Welcome Back, Can Çakır</h1>
         <div className="calendar-schedule-container">
           <div className="calendar">
             <h2>Schedule Calendar</h2>
@@ -137,4 +137,4 @@ const AdvisorDashboard = () => {
   );
 };
 
-export default AdvisorDashboard;
+export default GuideDashboard;

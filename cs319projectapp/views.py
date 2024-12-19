@@ -40,7 +40,11 @@ def login_view(request):
 # Dashboards
 #@login_required
 def guide_dashboard(request):
-    return render(request, "guide_dashboard.html")
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
+    }
+    return render(request, "react_base.html", context)
 
 def advisor_dashboard(request):
     context = {
@@ -103,6 +107,18 @@ def give_feedback(request):
 
 def contact_us(request):
     # Ensure React integration for the Contact Us page
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
+    }
+    return render(request, 'react_base.html', context)
+def fairs_page(request):
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
+    }
+    return render(request, 'react_base.html', context)
+def guide_fairs_page(request):
     context = {
         'main_js': get_vite_asset_path('index.html', 'file'),
         'main_css': get_vite_asset_path('index.html', 'css'),
