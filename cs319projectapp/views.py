@@ -129,6 +129,12 @@ def guide_fairs_page(request):
         'main_css': get_vite_asset_path('index.html', 'css'),
     }
     return render(request, 'react_base.html', context)
+def tour_application(request):
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
+    }
+    return render(request, 'react_base.html', context)
 
 @api_view(['GET'])
 def get_cities(request):

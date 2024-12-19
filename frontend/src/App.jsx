@@ -8,6 +8,7 @@ import AdvisorDashboard from "./Advisor Pages/Dashboard/AdvisorDashboard"; // Im
 import GuideDashboard from "./GuidePages/GuideDashboard/GuideDashboard"; // Import Guide Dashboard
 import FairPage from "./Advisor Pages/FairPage/FairPage"
 import GuideFairPage from "./GuidePages/FairPage/FairPage"
+import TourApplication from "./Advisor Pages/TourApplications/TourApplication";
 function App() {
   return (
     <Router>
@@ -42,6 +43,7 @@ function App() {
         <Route path="/api/fairs/" element={<FairPage />} />
         <Route path="/api/guide_fairs/" element={<GuideFairPage />} />
         <Route path="/apply-highschool-tour" element={<ApplyHighSchoolTour />} />
+        <Route path="/api/tour_application/" element={<TourApplication />} />
       </Routes>
     </Router>
   );
