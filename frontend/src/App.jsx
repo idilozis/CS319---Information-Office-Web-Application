@@ -4,9 +4,9 @@ import ApplyFairPage from "./GuestPages/ApplyFairPages/ApplyFairPage";
 import GiveFeedbackPage from "./GuestPages/FeedBackPage/GiveFeedbackPage"; // Import Give Feedback Page
 import ApplyHighSchoolTour from "./GuestPages/HSTourApplications/ApplyHighSchoolTour"; // Import Apply HS Tour Page
 import ContactUsPage from "./GuestPages/ContactPage/ContactUsPage"; // Import Contact Us Page
-import AdvisorDashboard from "./AdvisorPages/Dashboard/AdvisorDashboard"; // Import Advisor Dashboard
+import AdvisorDashboard from "./Advisor Pages/Dashboard/AdvisorDashboard"; // Import Advisor Dashboard
 import GuideDashboard from "./GuidePages/GuideDashboard/GuideDashboard"; // Import Guide Dashboard
-
+import FairPage from "./Advisor Pages/FairPage/FairPage"
 function App() {
   return (
     <Router>
@@ -38,6 +38,7 @@ function App() {
 
         {/* New Route for Guide Dashboard */}
         <Route path="/api/guide_dashboard/" element={<GuideDashboard />} />
+        <Route path="/api/fairs/" element={<FairPage />} />
       </Routes>
     </Router>
   );

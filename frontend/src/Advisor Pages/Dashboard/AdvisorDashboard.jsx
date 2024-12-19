@@ -66,7 +66,7 @@ const AdvisorDashboard = () => {
             <a href="/tours" className="sidebar-link">Tours</a>
           </li>
           <li>
-            <a href="/fairs" className="sidebar-link">Fairs</a>
+            <a href="/api/fairs" className="sidebar-link">Fairs</a>
           </li>
         </ul>
         <div className="logout">
