@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Settings.css";
 
 const Settings = () => {
   const [email, setEmail] = useState("user@example.com");
   const [phoneNumber, setPhoneNumber] = useState("7017642414");
+  const [studentId, setStudentId] = useState(""); // Dynamic Student ID
   const [currentPassword, setCurrentPassword] = useState("");
   const [newInfo, setNewInfo] = useState("");
   const [profileImage, setProfileImage] = useState(null);
@@ -16,6 +17,27 @@ const Settings = () => {
 
   const DUMMY_PASSWORD = "password123"; // Dummy current password
   const navigate = useNavigate();
+
+  // Simulate fetching data from an API
+  useEffect(() => {
+    // Replace this with an actual API call
+    const fetchUserData = async () => {
+      const response = await new Promise((resolve) =>
+        setTimeout(() => {
+          resolve({
+            studentId: "12345678", // Replace with fetched data
+            email: "user@example.com",
+            phoneNumber: "1234567891",
+          });
+        }, 1000)
+      );
+      setStudentId(response.studentId);
+      setEmail(response.email);
+      setPhoneNumber(response.phoneNumber);
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -99,9 +121,7 @@ const Settings = () => {
         <label>Profile Picture:</label>
         <div className="profile-image-container">
           <img
-            src={
-              profileImage || "/static/icons/userSymbol.png"
-            }
+            src={profileImage || "/static/icons/userSymbol.png"}
             alt="Profile"
             className="profile-image"
           />
@@ -118,6 +138,14 @@ const Settings = () => {
           )}
         </div>
         {successMessage && <p className="success-message">{successMessage}</p>}
+      </div>
+
+      {/* Student ID Section */}
+      <div className="settings-section">
+        <label>Student ID:</label>
+        <div className="field-container">
+          <span className="non-editable-field">{studentId || "Loading..."}</span>
+        </div>
       </div>
 
       {/* Email Section */}
