@@ -154,6 +154,12 @@ def puantaj_page(request):
     }
     return render(request, 'react_base.html', context)
 
+def settings(request):
+    context = {
+        'main_js': get_vite_asset_path('index.html', 'file'),
+        'main_css': get_vite_asset_path('index.html', 'css'),
+    }
+    return render(request, 'react_base.html', context)
 
 
 

@@ -133,10 +133,12 @@ const Tours = () => {
               alt="User Icon"
             />
             Kemal Çakır
-          </div>
+            </div>
           {menuVisible && (
             <div className="dropdown-menu">
-              <button onClick={() => alert("Go to Settings")}>Settings</button>
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
               <button onClick={() => (window.location.href = "/api/login/")}>
                 Logout
               </button>
