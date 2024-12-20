@@ -8,11 +8,20 @@ const Tours = () => {
   const [modalData, setModalData] = useState({});
   const userMenuRef = useRef(null);
 
-  // Tour data
+  const assignedDay = "Saturday"; 
+
+  const getDayName = (dateString) => {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const [day, month, year] = dateString.split("-").map(Number); 
+    const date = new Date(year, month - 1, day); 
+    return days[date.getDay()];
+  };
+
+
   const [tours, setTours] = useState([
     {
       id: 1,
-      date: "21.12.2024",
+      date: "21-12-2024",
       time: "8.30-12.30",
       highSchool: "Ankara Fen Lisesi",
       counselor: "Türkan Meşe",
@@ -25,7 +34,7 @@ const Tours = () => {
     },
     {
       id: 2,
-      date: "22.12.2024",
+      date: "22-12-2024",
       time: "10.00-14.00",
       highSchool: "Izmir Fen Lisesi",
       counselor: "Ayşe Yılmaz",
@@ -38,7 +47,7 @@ const Tours = () => {
     },
     {
       id: 3,
-      date: "23.12.2024",
+      date: "23-12-2024",
       time: "9.00-13.00",
       highSchool: "Istanbul Erkek Lisesi",
       counselor: "Mehmet Bozkır",
@@ -51,7 +60,8 @@ const Tours = () => {
     },
   ]);
 
-  // Close user menu on outside click
+  const filteredTours = tours.filter((tour) => getDayName(tour.date) === assignedDay);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -64,28 +74,25 @@ const Tours = () => {
     };
   }, []);
 
-  // Open Remove Guide Confirmation Modal
   const openRemoveGuideModal = (tourId, guideIndex, guideName) => {
     setModalData({ tourId, guideIndex, guideName });
     setModalVisible(true);
   };
 
-  // Handle Confirm Guide Removal
   const handleRemoveGuide = () => {
     const { tourId, guideIndex } = modalData;
     const updatedTours = tours.map((tour) => {
       if (tour.id === tourId) {
         const updatedGuides = [...tour.guides];
-        updatedGuides.splice(guideIndex, 1); // Remove the guide
+        updatedGuides.splice(guideIndex, 1); 
         return { ...tour, guides: updatedGuides };
       }
       return tour;
     });
     setTours(updatedTours);
-    setModalVisible(false); // Close modal after removal
+    setModalVisible(false); 
   };
 
-  // Handle Cancel Modal
   const handleModalCancel = () => {
     setModalVisible(false);
   };
@@ -133,7 +140,7 @@ const Tours = () => {
               alt="User Icon"
             />
             Kemal Çakır
-            </div>
+          </div>
           {menuVisible && (
             <div className="dropdown-menu">
               <button onClick={() => (window.location.href = "/api/settings/")}>
@@ -147,6 +154,7 @@ const Tours = () => {
         </div>
 
         <h1>Tour Details</h1>
+        <h3 className="assigned-day">Your Assigned Day: {assignedDay}</h3>
         <div className="application-table">
           <table>
             <thead>
@@ -161,7 +169,7 @@ const Tours = () => {
               </tr>
             </thead>
             <tbody>
-              {tours.map((tour) => {
+              {filteredTours.map((tour) => {
                 const requiredGuides = Math.ceil(tour.studentCount / 60);
                 return (
                   <tr key={tour.id}>

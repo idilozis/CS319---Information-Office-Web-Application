@@ -11,20 +11,20 @@ const TourApplication = () => {
   const [activePanel, setActivePanel] = useState("highschool");
   const userMenuRef = useRef(null);
 
- 
   const assignedDay = "Saturday";
 
-
+  // Utility function to calculate the day of the week from a date in DD-MM-YYYY format
   const getDayName = (dateString) => {
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const date = new Date(dateString.split(".").reverse().join("-"));
+    const [day, month, year] = dateString.split("-").map(Number); // Split by "-" and convert to numbers
+    const date = new Date(year, month - 1, day); // Create a Date object
     return days[date.getDay()];
   };
 
   const [highSchoolApplications, setHighSchoolApplications] = useState([
     {
       id: 1,
-      date: "21.12.2024",
+      date: "21-12-2024",
       time: "8.30-12.30",
       highSchool: "Ankara Fen Lisesi",
       priorScore: 3.76,
@@ -39,7 +39,7 @@ const TourApplication = () => {
     },
     {
       id: 2,
-      date: "20.12.2024",
+      date: "20-12-2024",
       time: "16.30-19.30",
       highSchool: "Manisa Fen Lisesi",
       priorScore: 3.57,
@@ -57,7 +57,7 @@ const TourApplication = () => {
   const [individualApplications, setIndividualApplications] = useState([
     {
       id: 1,
-      date: "21.12.2024",
+      date: "21-12-2024",
       highSchool: "Private Student Application",
       priorScore: 4.0,
       student: "Ali Veli",
@@ -71,7 +71,7 @@ const TourApplication = () => {
     },
     {
       id: 2,
-      date: "20.12.2024",
+      date: "20-12-2024",
       highSchool: "Private Student Application",
       priorScore: 3.9,
       student: "Can Yılmaz",
@@ -101,7 +101,7 @@ const TourApplication = () => {
       decision,
       highSchool: application.highSchool,
       isHighSchool,
-      time: application.time || "", 
+      time: application.time || "",
     });
     setModalVisible(true);
   };
@@ -131,7 +131,6 @@ const TourApplication = () => {
     setNotesData(notes);
     setNotesVisible(true);
   };
-
 
   const filteredHighSchoolApplications = highSchoolApplications.filter(
     (app) => getDayName(app.date) === assignedDay
