@@ -1,51 +1,46 @@
-import React, { useState, useEffect } from "react"; // Added useEffect
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./IndividualTourApplication.css";
-import axios from "axios"; // Added axios for API calls
+import axios from "axios";
 
 const IndividualTourApplication = () => {
   const [date, setDate] = useState("");
   const [dateError, setDateError] = useState("");
-  const [cities, setCities] = useState([]); // State for cities fetched from the database
-  const [highSchools, setHighSchools] = useState([]); // State for high schools fetched from the database
-  const [selectedCity, setSelectedCity] = useState(""); // State for city selection
-  const [selectedHighSchool, setSelectedHighSchool] = useState(""); // State for high school selection
+  const [cities, setCities] = useState([]);
+  const [highSchools, setHighSchools] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedHighSchool, setSelectedHighSchool] = useState("");
+  const [popupVisible, setPopupVisible] = useState(false); // Popup state
 
-  // Fetch cities when the component mounts
   useEffect(() => {
     axios
       .get("/api/cities/")
       .then((response) => {
-        console.log("Cities from API:", response.data);
         setCities(response.data);
       })
       .catch((error) => console.error("Error fetching cities:", error));
   }, []);
 
-  // Function to handle city selection and fetch corresponding high schools
   const handleCityChange = (e) => {
     const city = e.target.value;
     setSelectedCity(city);
 
-    // Fetch high schools for the selected city
     axios
       .get(`/api/highschools/${city}/`)
       .then((response) => {
-        console.log(`High schools in ${city}:`, response.data);
         setHighSchools(response.data);
-        setSelectedHighSchool(""); // Reset high school selection
+        setSelectedHighSchool("");
       })
       .catch((error) =>
         console.error(`Error fetching high schools for ${city}:`, error)
       );
   };
 
-  // Function to validate the date
   const handleDateChange = (e) => {
     const selectedDate = new Date(e.target.value);
     const currentDate = new Date();
     const twoWeeksLater = new Date();
-    twoWeeksLater.setDate(currentDate.getDate() + 14); // 2 weeks from today
+    twoWeeksLater.setDate(currentDate.getDate() + 14);
 
     setDate(e.target.value);
 
@@ -58,12 +53,24 @@ const IndividualTourApplication = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  
     if (dateError) {
       alert("Please fix the validation errors before submitting.");
     } else {
-      alert("Form submitted successfully!");
+      setPopupVisible(true); 
+      setTimeout(() => setPopupVisible(false), 3000); 
+  
+      setDate("");
+      setSelectedCity("");
+      setSelectedHighSchool("");
+      document.getElementById("name").value = "";
+      document.getElementById("phone").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("major").value = "";
+      document.getElementById("notes").value = "";
     }
   };
+  
 
   return (
     <div className="individual-tour-application-container">
@@ -183,6 +190,13 @@ const IndividualTourApplication = () => {
           </form>
         </div>
       </main>
+
+      {/* Popup Message */}
+      {popupVisible && (
+        <div className="popup-message">
+          Form submitted successfully!
+        </div>
+      )}
     </div>
   );
 };

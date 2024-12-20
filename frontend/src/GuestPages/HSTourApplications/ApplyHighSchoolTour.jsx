@@ -12,13 +12,12 @@ const ApplyHighSchoolTour = () => {
   const [highSchools, setHighSchools] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedHighSchool, setSelectedHighSchool] = useState("");
+  const [popupVisible, setPopupVisible] = useState(false); 
 
   useEffect(() => {
-    // Fetch cities when component mounts
     axios
       .get("/api/cities/")
       .then((response) => {
-        console.log("Cities from API:", response.data);
         setCities(response.data);
       })
       .catch((error) => console.error("Error fetching cities:", error));
@@ -28,7 +27,6 @@ const ApplyHighSchoolTour = () => {
     const city = e.target.value;
     setSelectedCity(city);
 
-    // Fetch high schools for the selected city
     axios
       .get(`/api/highschools/${city}/`)
       .then((response) => setHighSchools(response.data))
@@ -42,26 +40,17 @@ const ApplyHighSchoolTour = () => {
     { time: "03:30-05:30", status: "free" },
   ];
 
-  const handleTimeSlotSelect = (time) => {
-    setSelectedTime(time);
-  };
+  const handleTimeSlotSelect = (time) => setSelectedTime(time);
 
   const handleCapacityChange = (e) => {
     const value = parseInt(e.target.value, 10);
-
     if (value > 180) {
-      setErrors((prev) => ({
-        ...prev,
-        capacity: "Capacity cannot exceed 180.",
-      }));
+      setErrors((prev) => ({ ...prev, capacity: "Capacity cannot exceed 180." }));
     } else if (value < 0) {
-      setErrors((prev) => ({
-        ...prev,
-        capacity: "Capacity cannot be negative.",
-      }));
+      setErrors((prev) => ({ ...prev, capacity: "Capacity cannot be negative." }));
     } else {
       setCapacity(value);
-      setErrors((prev) => ({ ...prev, capacity: "" })); // Clear errors
+      setErrors((prev) => ({ ...prev, capacity: "" }));
     }
   };
 
@@ -84,40 +73,36 @@ const ApplyHighSchoolTour = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!errors.capacity && !errors.date) {
-      const formData = {
-        counselor_name: document.getElementById("name").value,
-        capacity: capacity,
-        highschool: selectedHighSchool,
-        contact_phone: document.getElementById("contactPhone").value,
-        contact_email: document.getElementById("contactEmail").value,
-        additional_notes: document.getElementById("notes").value,
-        date: date,
-        time_slot: selectedTime,
-      };
-
       try {
         const response = await axios.post("/api/submit_tour/", formData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         });
-
+  
         if (response.status === 201) {
-          alert("Form submitted successfully!");
-        } else {
-          alert("Error submitting the form. Please try again.");
+          setPopupVisible(true); 
+          setTimeout(() => setPopupVisible(false), 3000); 
+  
+       
+          setSelectedCity("");
+          setSelectedHighSchool("");
+          setCapacity("");
+          setDate("");
+          setSelectedTime("");
+          document.getElementById("name").value = "";
+          document.getElementById("contactPhone").value = "";
+          document.getElementById("contactEmail").value = "";
+          document.getElementById("notes").value = "";
         }
       } catch (error) {
-        console.error("Error submitting form:", error);
         alert("An error occurred. Please try again.");
       }
     } else {
       alert("Please fix the validation errors before submitting.");
     }
   };
-
+  
   return (
     <div className="apply-hs-tour-container">
       {/* Sidebar */}
@@ -277,6 +262,13 @@ const ApplyHighSchoolTour = () => {
           </form>
         </div>
       </main>
+
+      {/* Popup Message */}
+      {popupVisible && (
+        <div className="popup-message">
+          Form submitted successfully!
+        </div>
+      )}
     </div>
   );
 };

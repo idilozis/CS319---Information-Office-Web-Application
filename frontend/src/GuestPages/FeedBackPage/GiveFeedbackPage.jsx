@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react"; // Added useEffect
+import React, { useState, useEffect } from "react"; 
 import { Link } from "react-router-dom";
-import "./GiveFeedbackPage.css"; // CSS for this page
-import axios from "axios"; // Added axios for API calls
+import "./GiveFeedbackPage.css"; 
+import axios from "axios"; 
 
 const GiveFeedbackPage = () => {
-  const [cities, setCities] = useState([]); // State for cities fetched from the database
-  const [highSchools, setHighSchools] = useState([]); // State for high schools fetched from the database
-  const [selectedCity, setSelectedCity] = useState(""); // State for city selection
-  const [selectedHighSchool, setSelectedHighSchool] = useState(""); // State for high school selection
+  const [cities, setCities] = useState([]); 
+  const [highSchools, setHighSchools] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(""); 
+  const [selectedHighSchool, setSelectedHighSchool] = useState("");
+  const [popupVisible, setPopupVisible] = useState(false); 
 
-  // Fetch cities when the component mounts
   useEffect(() => {
     axios
       .get("/api/cities/")
@@ -20,18 +20,16 @@ const GiveFeedbackPage = () => {
       .catch((error) => console.error("Error fetching cities:", error));
   }, []);
 
-  // Function to handle city selection and fetch corresponding high schools
   const handleCityChange = (e) => {
     const city = e.target.value;
     setSelectedCity(city);
 
-    // Fetch high schools for the selected city
     axios
       .get(`/api/highschools/${city}/`)
       .then((response) => {
         console.log(`High schools in ${city}:`, response.data);
         setHighSchools(response.data);
-        setSelectedHighSchool(""); // Reset high school selection
+        setSelectedHighSchool(""); 
       })
       .catch((error) =>
         console.error(`Error fetching high schools for ${city}:`, error)
@@ -40,8 +38,17 @@ const GiveFeedbackPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Feedback submitted successfully!");
+    setPopupVisible(true); 
+  
+    setSelectedCity("");
+    setSelectedHighSchool("");
+    document.getElementById("name").value = "";
+    document.getElementById("feedback").value = "";
+    document.getElementById("date").value = "";
+  
+    setTimeout(() => setPopupVisible(false), 3000); 
   };
+  
 
   return (
     <div className="give-feedback-container">
@@ -79,7 +86,7 @@ const GiveFeedbackPage = () => {
           <form onSubmit={handleSubmit}>
             <div className="give-feedback-form-group">
               <label htmlFor="name">Name-Surname:</label>
-              <input type="text" id="name" placeholder="John Doe" />
+              <input type="text" id="name" placeholder="John Doe" required />
             </div>
 
             {/* City and High School Selection */}
@@ -89,6 +96,7 @@ const GiveFeedbackPage = () => {
                 id="city"
                 value={selectedCity}
                 onChange={handleCityChange}
+                required
               >
                 <option value="" disabled>
                   Select City
@@ -108,6 +116,7 @@ const GiveFeedbackPage = () => {
                 value={selectedHighSchool}
                 onChange={(e) => setSelectedHighSchool(e.target.value)}
                 disabled={!selectedCity}
+                required
               >
                 <option value="" disabled>
                   Select High School
@@ -131,13 +140,14 @@ const GiveFeedbackPage = () => {
             </div>
             <div className="give-feedback-form-group">
               <label htmlFor="date">Tour Date:</label>
-              <input type="date" id="date" />
+              <input type="date" id="date" required />
             </div>
             <div className="give-feedback-form-group">
               <label htmlFor="feedback">Feedback:</label>
               <textarea
                 id="feedback"
                 placeholder="Share your feedback here..."
+                required
               ></textarea>
             </div>
             <button type="submit" className="give-feedback-submit-button">
@@ -145,6 +155,13 @@ const GiveFeedbackPage = () => {
             </button>
           </form>
         </div>
+
+        {/* Popup Message */}
+        {popupVisible && (
+          <div className="popup-message">
+            Thank you for your feedback!
+          </div>
+        )}
       </main>
     </div>
   );

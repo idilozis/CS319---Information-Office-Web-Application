@@ -12,11 +12,12 @@ const ApplyFairPage = () => {
 
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedSchool, setSelectedSchool] = useState("");
+  const [popupVisible, setPopupVisible] = useState(false);
 
   // Handle city selection
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
-    setSelectedSchool(""); // Reset high school selection
+    setSelectedSchool(""); 
   };
 
   // Handle high school selection
@@ -24,6 +25,21 @@ const ApplyFairPage = () => {
     setSelectedSchool(e.target.value);
   };
 
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setPopupVisible(true); // Show popup
+  
+    // Clear form fields
+    setSelectedCity("");
+    setSelectedSchool("");
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("notes").value = "";
+  
+    setTimeout(() => setPopupVisible(false), 3000); 
+  };
+  
   return (
     <div className="apply-fair-container">
       {/* Sidebar */}
@@ -59,18 +75,28 @@ const ApplyFairPage = () => {
       <main className="apply-fair-main-content">
         <div className="apply-fair-form-container">
           <h2>Apply for University Fair</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="apply-fair-form-group">
               <label htmlFor="name">Name-Surname:</label>
-              <input type="text" id="name" placeholder="John Doe" />
+              <input type="text" id="name" placeholder="John Doe" required />
             </div>
             <div className="apply-fair-form-group">
               <label htmlFor="email">Contact E-mail:</label>
-              <input type="email" id="email" placeholder="johndoe@example.com" />
+              <input
+                type="email"
+                id="email"
+                placeholder="johndoe@example.com"
+                required
+              />
             </div>
             <div className="apply-fair-form-group">
               <label htmlFor="city">City:</label>
-              <select id="city" value={selectedCity} onChange={handleCityChange}>
+              <select
+                id="city"
+                value={selectedCity}
+                onChange={handleCityChange}
+                required
+              >
                 <option value="">Choose a City</option>
                 {Object.keys(cityData).map((city) => (
                   <option key={city} value={city}>
@@ -85,10 +111,13 @@ const ApplyFairPage = () => {
                 id="school"
                 value={selectedSchool}
                 onChange={handleSchoolChange}
-                disabled={!selectedCity} // Disable dropdown if no city is selected
+                disabled={!selectedCity}
+                required
               >
                 <option value="">
-                  {selectedCity ? "Choose a High School" : "Select a City First"}
+                  {selectedCity
+                    ? "Choose a High School"
+                    : "Select a City First"}
                 </option>
                 {selectedCity &&
                   cityData[selectedCity].map((school) => (
@@ -110,6 +139,13 @@ const ApplyFairPage = () => {
             </button>
           </form>
         </div>
+
+        {/* Popup Message */}
+        {popupVisible && (
+          <div className="popup-message">
+            Your application has been submitted successfully!
+          </div>
+        )}
       </main>
     </div>
   );
