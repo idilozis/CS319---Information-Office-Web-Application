@@ -54,3 +54,21 @@ class HighSchool(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.city})"
+
+from django.db import models
+
+class Tour(models.Model):
+    counselor_name = models.CharField(max_length=255)
+    capacity = models.PositiveIntegerField()
+    highschool = models.CharField(max_length=255)
+    contact_phone = models.CharField(max_length=20)
+    contact_email = models.EmailField()
+    additional_notes = models.TextField(blank=True, null=True)
+    date = models.DateField()
+    time_slot = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'highschooltours'  # Use the existing table
+
+    def __str__(self):
+        return f"{self.counselor_name} - {self.highschool} on {self.date} at {self.time_slot}"

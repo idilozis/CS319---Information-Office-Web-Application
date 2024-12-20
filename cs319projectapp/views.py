@@ -8,6 +8,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import HighSchool
 from django.db.models.functions import Lower
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Tour
+import json
 
 def login_view(request):
     if request.method == 'POST':
@@ -179,3 +183,34 @@ def get_cities(request):
 def get_highschools(request, city):
     highschools = HighSchool.objects.filter(city=city).values_list('name', flat=True)
     return Response(list(highschools))
+
+@csrf_exempt
+def submit_tour(request):
+    if request.method == 'POST':
+        try:
+            # Parse JSON body
+            data = json.loads(request.body)
+            
+            # Debugging print statement
+            print("Received data:", data)  # Add this line to log the received data
+            
+            # Create a Tour instance
+            tour = Tour(
+                counselor_name=data['counselor_name'],
+                capacity=data['capacity'],
+                highschool=data['highschool'],
+                contact_phone=data['contact_phone'],
+                contact_email=data['contact_email'],
+                additional_notes=data.get('additional_notes', ''),
+                date=data['date'],
+                time_slot=data['time_slot']
+            )
+            tour.save()
+
+            return JsonResponse({'message': 'Tour created successfully!'}, status=201)
+        except Exception as e:
+            # Log and return the error
+            print("Error while creating tour:", str(e))
+            return JsonResponse({'error': str(e)}, status=400)
+
+    return JsonResponse({'error': 'Invalid request method.'}, status=405)

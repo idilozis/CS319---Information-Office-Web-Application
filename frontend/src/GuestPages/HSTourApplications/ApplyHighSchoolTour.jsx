@@ -80,14 +80,42 @@ const ApplyHighSchoolTour = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
     if (!errors.capacity && !errors.date) {
-      alert("Form submitted successfully!");
+      const formData = {
+        counselor_name: document.getElementById("name").value,
+        capacity: capacity,
+        highschool: selectedHighSchool,
+        contact_phone: document.getElementById("contactPhone").value,
+        contact_email: document.getElementById("contactEmail").value,
+        additional_notes: document.getElementById("notes").value,
+        date: date,
+        time_slot: selectedTime,
+      };
+  
+      try {
+        const response = await axios.post("/api/submit_tour/", formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (response.status === 201) {
+          alert("Form submitted successfully!");
+        } else {
+          alert("Error submitting the form. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("An error occurred. Please try again.");
+      }
     } else {
       alert("Please fix the validation errors before submitting.");
     }
   };
+  
 
   return (
     <div className="apply-hs-tour-container">

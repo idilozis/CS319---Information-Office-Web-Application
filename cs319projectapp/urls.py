@@ -25,6 +25,6 @@ urlpatterns = [
     path("advisor_tours/", views.guide_list, name="advisor_tours"),
     path("puantaj_page/", views.puantaj_page, name="puantaj_page"),
     path("settings/", views.puantaj_page, name="settings"),
-
+    path('submit_tour/', views.submit_tour, name='submit_tour'),
 ]
 
