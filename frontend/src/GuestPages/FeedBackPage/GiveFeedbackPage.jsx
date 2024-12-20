@@ -1,8 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react"; // Added useEffect
 import { Link } from "react-router-dom";
 import "./GiveFeedbackPage.css"; // CSS for this page
+import axios from "axios"; // Added axios for API calls
 
 const GiveFeedbackPage = () => {
+  const [cities, setCities] = useState([]); // State for cities fetched from the database
+  const [highSchools, setHighSchools] = useState([]); // State for high schools fetched from the database
+  const [selectedCity, setSelectedCity] = useState(""); // State for city selection
+  const [selectedHighSchool, setSelectedHighSchool] = useState(""); // State for high school selection
+
+  // Fetch cities when the component mounts
+  useEffect(() => {
+    axios
+      .get("/api/cities/")
+      .then((response) => {
+        console.log("Cities from API:", response.data);
+        setCities(response.data);
+      })
+      .catch((error) => console.error("Error fetching cities:", error));
+  }, []);
+
+  // Function to handle city selection and fetch corresponding high schools
+  const handleCityChange = (e) => {
+    const city = e.target.value;
+    setSelectedCity(city);
+
+    // Fetch high schools for the selected city
+    axios
+      .get(`/api/highschools/${city}/`)
+      .then((response) => {
+        console.log(`High schools in ${city}:`, response.data);
+        setHighSchools(response.data);
+        setSelectedHighSchool(""); // Reset high school selection
+      })
+      .catch((error) =>
+        console.error(`Error fetching high schools for ${city}:`, error)
+      );
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Feedback submitted successfully!");
+  };
+
   return (
     <div className="give-feedback-container">
       {/* Sidebar */}
@@ -10,7 +50,9 @@ const GiveFeedbackPage = () => {
         <h2>Bilkent Information Office System</h2>
         <ul className="give-feedback-menu">
           <li>
-          <a href="/api/guest_dashboard/" className="menu-link">Home</a>
+            <a href="/api/guest_dashboard/" className="menu-link">
+              Home
+            </a>
           </li>
           <li>
             <Link to="/api/apply_fair/">Apply for Fair</Link>
@@ -37,29 +79,50 @@ const GiveFeedbackPage = () => {
         </header>
         <div className="give-feedback-form-container">
           <h2>Guest (Counselor) Give Feedback</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="give-feedback-form-group">
               <label htmlFor="name">Name-Surname:</label>
               <input type="text" id="name" placeholder="John Doe" />
             </div>
+
+            {/* City and High School Selection */}
             <div className="give-feedback-form-group">
-              <label htmlFor="city">City/High School:</label>
-              <select id="city" defaultValue="">
+              <label htmlFor="city">City:</label>
+              <select
+                id="city"
+                value={selectedCity}
+                onChange={handleCityChange}
+              >
                 <option value="" disabled>
                   Select City
                 </option>
-                <option>Ankara</option>
-                <option>Istanbul</option>
-                <option>Izmir</option>
+                {cities.map((city, index) => (
+                  <option key={index} value={city}>
+                    {city}
+                  </option>
+                ))}
               </select>
-              <select id="highschool" defaultValue="">
+            </div>
+
+            <div className="give-feedback-form-group">
+              <label htmlFor="highschool">High School:</label>
+              <select
+                id="highschool"
+                value={selectedHighSchool}
+                onChange={(e) => setSelectedHighSchool(e.target.value)}
+                disabled={!selectedCity}
+              >
                 <option value="" disabled>
                   Select High School
                 </option>
-                <option>TED Ankara</option>
-                <option>Other High School</option>
+                {highSchools.map((school, index) => (
+                  <option key={index} value={school}>
+                    {school}
+                  </option>
+                ))}
               </select>
             </div>
+
             <div className="give-feedback-form-group">
               <label htmlFor="tour-type">Tour Type:</label>
               <label>
