@@ -3,25 +3,25 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
-  height: 100vh; /* Full viewport height */
+  height: 100vh; 
 }
 
 .dashboard-container {
   display: flex;
-  height: 100vh; /* Ensures the container spans the viewport height */
+  height: 100vh; 
 }
 
 /* Sidebar */
 .sidebar {
   background-color: #333;
   color: #fff;
-  width: 250px; /* Fixed width for the sidebar */
+  width: 250px; 
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  justify-content: space-between; /* Push logout button to the bottom */
+  flex-direction: column; 
+  justify-content: space-between; 
   padding: 20px;
-  overflow-y: auto; /* Add scroll if content overflows */
-  box-sizing: border-box; /* Include padding in dimensions */
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .sidebar h2 {
@@ -32,8 +32,8 @@ body {
 .sidebar ul {
   list-style: none;
   padding: 0;
-  margin: 0; /* Remove default margin */
-  flex-grow: 1; /* Take up remaining space */
+  margin: 0; 
+  flex-grow: 1; 
 }
 
 .sidebar li {
@@ -54,8 +54,8 @@ body {
 
 /* Logout Button */
 .logout {
-  margin-top: auto; /* Push the logout button to the bottom */
-  padding-top: 10px; /* Optional spacing above the logout button */
+  margin-top: auto; 
+  padding-top: 10px; 
 }
 
 .logout button {
@@ -64,19 +64,19 @@ body {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  width: 100%; /* Full width of the sidebar */
+  width: 100%; 
 }
 
 .logout button:hover {
   background-color: #d32f2f;
 }
 
-/* Main Content */
+
 .main-content {
-  flex: 1; /* Take up remaining space next to the sidebar */
+  flex: 1; 
   padding: 20px;
   background-color: #ffffff;
-  overflow-y: auto; /* Allow scrolling in the main content */
+  overflow-y: auto; /
 }
 
 .main-content h1 {
