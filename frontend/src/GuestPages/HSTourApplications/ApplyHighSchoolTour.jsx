@@ -75,6 +75,17 @@ const ApplyHighSchoolTour = () => {
     e.preventDefault();
   
     if (!errors.capacity && !errors.date) {
+      const formData = {
+        counselor_name: document.getElementById("name").value,
+        capacity: capacity,
+        highschool: selectedHighSchool,
+        contact_phone: document.getElementById("contactPhone").value,
+        contact_email: document.getElementById("contactEmail").value,
+        additional_notes: document.getElementById("notes").value,
+        date: date,
+        time_slot: selectedTime,
+      };
+
       try {
         const response = await axios.post("/api/submit_tour/", formData, {
           headers: { "Content-Type": "application/json" },
