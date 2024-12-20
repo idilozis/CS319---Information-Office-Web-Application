@@ -39,10 +39,10 @@ const ApplyFairPage = () => {
             <Link to="/api/apply_fair/">Apply for Fair</Link>
           </li>
           <li>
-            <Link to="/api/apply_hs_tour/">Apply HS Tour</Link>
+            <Link to="/api/apply_hs_tour/">Apply for HS Tour</Link>
           </li>
           <li>
-            <Link to="/api/apply_ind_tour/">Apply Ind. Tour</Link>
+            <Link to="/api/apply_ind_tour/">Apply for Ind. Tour</Link>
           </li>
           <li>
             <Link to="/api/give_feedback/">Give Feedback</Link>
@@ -57,9 +57,6 @@ const ApplyFairPage = () => {
 
       {/* Main Content */}
       <main className="apply-fair-main-content">
-        <header className="apply-fair-header">
-          <h1>Welcome To IOS</h1>
-        </header>
         <div className="apply-fair-form-container">
           <h2>Apply for University Fair</h2>
           <form>

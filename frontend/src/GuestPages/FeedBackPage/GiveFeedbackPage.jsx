@@ -58,10 +58,10 @@ const GiveFeedbackPage = () => {
             <Link to="/api/apply_fair/">Apply for Fair</Link>
           </li>
           <li>
-            <Link to="/api/apply_hs_tour/">Apply HS Tour</Link>
+            <Link to="/api/apply_hs_tour/">Apply for HS Tour</Link>
           </li>
           <li>
-            <Link to="/api/apply_ind_tour/">Apply Ind. Tour</Link>
+            <Link to="/api/apply_ind_tour/">Apply for Ind. Tour</Link>
           </li>
           <li className="active">
             <Link to="/api/give_feedback/">Give Feedback</Link>
@@ -74,9 +74,6 @@ const GiveFeedbackPage = () => {
 
       {/* Main Content */}
       <main className="give-feedback-main-content">
-        <header className="give-feedback-header">
-          <h1>Welcome To IOS</h1>
-        </header>
         <div className="give-feedback-form-container">
           <h2>Guest (Counselor) Give Feedback</h2>
           <form onSubmit={handleSubmit}>

@@ -79,10 +79,10 @@ const IndividualTourApplication = () => {
             <Link to="/api/apply_fair/">Apply for Fair</Link>
           </li>
           <li>
-            <Link to="/api/apply_hs_tour/">Apply HS Tour</Link>
+            <Link to="/api/apply_hs_tour/">Apply for HS Tour</Link>
           </li>
           <li className="active">
-            <Link to="/api/apply_ind_tour/">Apply Ind. Tour</Link>
+            <Link to="/api/apply_ind_tour/">Apply for Ind. Tour</Link>
           </li>
           <li>
             <Link to="/api/give_feedback/">Give Feedback</Link>
@@ -93,9 +93,6 @@ const IndividualTourApplication = () => {
         </ul>
       </aside>
       <main className="individual-tour-application-main-content">
-        <header className="individual-tour-application-header">
-          <h1>Welcome To IOS</h1>
-        </header>
         <div className="individual-tour-application-form-container">
           <h2>Apply Individual Tour</h2>
           <form onSubmit={handleSubmit}>

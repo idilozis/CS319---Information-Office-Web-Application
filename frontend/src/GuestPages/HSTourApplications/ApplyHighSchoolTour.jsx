@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"; // Added useEffect
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./ApplyHighSchoolTour.css"; // Ensure this file exists
+import "./ApplyHighSchoolTour.css";
 import axios from "axios";
 
 const ApplyHighSchoolTour = () => {
@@ -8,7 +8,6 @@ const ApplyHighSchoolTour = () => {
   const [capacity, setCapacity] = useState("");
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState({});
-
   const [cities, setCities] = useState([]);
   const [highSchools, setHighSchools] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
@@ -16,11 +15,13 @@ const ApplyHighSchoolTour = () => {
 
   useEffect(() => {
     // Fetch cities when component mounts
-    axios.get("/api/cities/")
-      .then(response => {
+    axios
+      .get("/api/cities/")
+      .then((response) => {
         console.log("Cities from API:", response.data);
-        setCities(response.data);})
-      .catch(error => console.error("Error fetching cities:", error));
+        setCities(response.data);
+      })
+      .catch((error) => console.error("Error fetching cities:", error));
   }, []);
 
   const handleCityChange = (e) => {
@@ -28,38 +29,39 @@ const ApplyHighSchoolTour = () => {
     setSelectedCity(city);
 
     // Fetch high schools for the selected city
-    axios.get(`/api/highschools/${city}/`)
-      .then(response => setHighSchools(response.data))
-      .catch(error => console.error("Error fetching high schools:", error));
+    axios
+      .get(`/api/highschools/${city}/`)
+      .then((response) => setHighSchools(response.data))
+      .catch((error) => console.error("Error fetching high schools:", error));
   };
 
   const timeSlots = [
-    { time: "8:30-9:30", status: "busy" },
-    { time: "9:30-10:30", status: "free" },
-    { time: "10:30-11:30", status: "moderate" },
-    { time: "11:30-12:30", status: "free" },
+    { time: "8:30-10:30", status: "busy" },
+    { time: "10:30-12:30", status: "free" },
+    { time: "01:30-03:30", status: "moderate" },
+    { time: "03:30-05:30", status: "free" },
   ];
-
-  const cityHighSchoolMapping = {
-    Ankara: ["TED Ankara", "Ankara Science High School", "Gazi High School"],
-    Istanbul: ["Galatasaray High School", "Istanbul Science High School"],
-    Izmir: ["Izmir American College", "Izmir Science High School"],
-  };
 
   const handleTimeSlotSelect = (time) => {
     setSelectedTime(time);
   };
 
   const handleCapacityChange = (e) => {
-    const value = e.target.value;
-    if (value <= 60) {
-      setCapacity(value);
-      setErrors((prev) => ({ ...prev, capacity: "" }));
-    } else {
+    const value = parseInt(e.target.value, 10);
+
+    if (value > 180) {
       setErrors((prev) => ({
         ...prev,
-        capacity: "Capacity cannot exceed 60.",
+        capacity: "Capacity cannot exceed 180.",
       }));
+    } else if (value < 0) {
+      setErrors((prev) => ({
+        ...prev,
+        capacity: "Capacity cannot be negative.",
+      }));
+    } else {
+      setCapacity(value);
+      setErrors((prev) => ({ ...prev, capacity: "" })); // Clear errors
     }
   };
 
@@ -82,7 +84,7 @@ const ApplyHighSchoolTour = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!errors.capacity && !errors.date) {
       const formData = {
         counselor_name: document.getElementById("name").value,
@@ -94,14 +96,14 @@ const ApplyHighSchoolTour = () => {
         date: date,
         time_slot: selectedTime,
       };
-  
+
       try {
         const response = await axios.post("/api/submit_tour/", formData, {
           headers: {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (response.status === 201) {
           alert("Form submitted successfully!");
         } else {
@@ -115,7 +117,6 @@ const ApplyHighSchoolTour = () => {
       alert("Please fix the validation errors before submitting.");
     }
   };
-  
 
   return (
     <div className="apply-hs-tour-container">
@@ -124,17 +125,18 @@ const ApplyHighSchoolTour = () => {
         <h2>Bilkent Information Office System</h2>
         <ul className="apply-hs-tour-menu">
           <li>
-            {/* Replaced Link with a standard <a> tag for server-side navigation */}
-            <a href="/api/guest_dashboard/" className="menu-link">Home</a>
+            <a href="/api/guest_dashboard/" className="menu-link">
+              Home
+            </a>
           </li>
           <li>
             <Link to="/api/apply_fair/">Apply for Fair</Link>
           </li>
           <li className="active">
-            <Link to="/api/apply_hs_tour/">Apply HS Tour</Link>
+            <Link to="/api/apply_hs_tour/">Apply for HS Tour</Link>
           </li>
           <li>
-            <Link to="/api/apply_ind_tour/">Apply Ind. Tour</Link>
+            <Link to="/api/apply_ind_tour/">Apply for Ind. Tour</Link>
           </li>
           <li>
             <Link to="/api/give_feedback/">Give Feedback</Link>
@@ -160,7 +162,7 @@ const ApplyHighSchoolTour = () => {
 
             {/* Capacity */}
             <div className="apply-hs-tour-form-group">
-              <label htmlFor="capacity">Capacity (max 60):</label>
+              <label htmlFor="capacity">Capacity (max 180):</label>
               <input
                 type="number"
                 id="capacity"
@@ -183,9 +185,9 @@ const ApplyHighSchoolTour = () => {
                   Choose City
                 </option>
                 {cities.map((city, index) => (
-                <option key={index} value={city}>
-                  {city}
-                </option>
+                  <option key={index} value={city}>
+                    {city}
+                  </option>
                 ))}
               </select>
             </div>
@@ -208,12 +210,6 @@ const ApplyHighSchoolTour = () => {
                   </option>
                 ))}
               </select>
-            </div>
-
-            {/* Group Head */}
-            <div className="apply-hs-tour-form-group">
-              <label htmlFor="groupHead">Group Head:</label>
-              <input type="text" id="groupHead" placeholder="Johnie Doeson" />
             </div>
 
             {/* Contact Phone */}

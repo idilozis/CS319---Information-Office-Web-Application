@@ -16,10 +16,10 @@ const ContactUsPage = () => {
             <Link to="/api/apply_fair/">Apply for Fair</Link>
           </li>
           <li>
-            <Link to="/api/apply_hs_tour/">Apply HS Tour</Link>
+            <Link to="/api/apply_hs_tour/">Apply for HS Tour</Link>
           </li>
           <li>
-            <Link to="/api/apply_ind_tour/">Apply Ind. Tour</Link>
+            <Link to="/api/apply_ind_tour/">Apply for Ind. Tour</Link>
           </li>
           <li>
             <Link to="/api/give_feedback/">Give Feedback</Link>
