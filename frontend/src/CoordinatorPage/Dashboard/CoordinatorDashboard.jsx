@@ -61,7 +61,7 @@ const CoordinatorDashboard = () => {
             <Link to="/api/coordinator_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-            <Link to="/api/vie" className="sidebar-link">Puantaj Page</Link>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>
           </li>
           <li>
             <Link to="/api/appl" className="sidebar-link">Applications</Link>

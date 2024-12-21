@@ -49,10 +49,6 @@ def login_view(request):
         messages.error(request, "Invalid credentials. Please try again.")
     return render(request, 'login.html')
 
-# Dashboards
-#@login_required
-
-
 #@login_required
 def coordinator_dashboard(request):
     return render(request, "coordinator_dashboard.html")

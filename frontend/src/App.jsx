@@ -14,6 +14,7 @@ import Tours from "./Advisor Pages/Tours/Tours";
 import PuantajPage from "./Advisor Pages/PuantajPage/PuantajPage"
 import Settings from "./Advisor Pages/settings/Settings";
 import CoordinatorDashboard from "./CoordinatorPage/Dashboard/CoordinatorDashboard";
+import CoordinatorPuantaj from "./CoordinatorPage/Puantaj Page/CoordinatorPuantaj";
 function App() {
   return (
     <Router>
@@ -54,6 +55,7 @@ function App() {
         <Route path="/api/puantaj_page/" element={<PuantajPage />} />
         <Route path="/api/settings/" element={<Settings/>} />
         <Route path="/api/coordinator_dashboard/" element={<CoordinatorDashboard/>} />
+        <Route path="/api/coordinator_puantaj/" element={<CoordinatorPuantaj/>} />
       </Routes>
     </Router>
   );
