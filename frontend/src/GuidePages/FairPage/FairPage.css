@@ -76,9 +76,10 @@ body {
 
 /* User Menu */
 .user-menu {
-  position: relative;
-  text-align: right;
-  margin-bottom: 20px;
+  position: fixed; /* Change from relative to absolute */
+  top: 20px; /* Adjust to align it properly */
+  right: 20px; /* Adjust to align with the top-right corner */
+  z-index: 10;
 }
 
 .user-icon {

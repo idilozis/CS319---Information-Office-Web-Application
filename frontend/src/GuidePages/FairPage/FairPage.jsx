@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./FairPage.css";
 
 const FairPage = () => {
@@ -68,16 +69,16 @@ const FairPage = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <a href="/api/guide_dashboard" className="sidebar-link">Dashboard</a>
+            <Link to="/api/guide_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-            <a href="/tours" className="sidebar-link">Tours</a>
+            <Link to="/api/accepted_tours" className="sidebar-link">Tours</Link>
           </li>
           <li>
-            <a href="/api/guide_fairs" className="sidebar-link">Fairs</a>
+            <Link to="/api/guide_fairs" className="sidebar-link">Fairs</Link>
           </li>
           <li>
-            <a href="/responsible-advisors" className="sidebar-link">Responsible Advisors</a>
+            <Link to="/api/responsible_advisors" className="sidebar-link">Responsible Advisors</Link>
           </li>
         </ul>
         <div className="logout">
