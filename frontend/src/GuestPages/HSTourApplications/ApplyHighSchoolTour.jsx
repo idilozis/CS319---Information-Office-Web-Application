@@ -34,10 +34,10 @@ const ApplyHighSchoolTour = () => {
   };
 
   const timeSlots = [
-    { time: "8:30-10:30", status: "busy" },
+    { time: "8:30-10:30", status: "free" },
     { time: "10:30-12:30", status: "free" },
-    { time: "01:30-03:30", status: "moderate" },
-    { time: "03:30-05:30", status: "free" },
+    { time: "13:30-15:30", status: "free" },
+    { time: "15:30-17:30", status: "free" },
   ];
 
   const handleTimeSlotSelect = (time) => setSelectedTime(time);

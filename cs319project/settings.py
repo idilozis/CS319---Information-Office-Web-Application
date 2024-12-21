@@ -126,8 +126,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'project319',  # Separate authentication database
-        'USER': 'moinkhan30000',
-        'PASSWORD': 'Moin@7017642414',
+        'USER': 'tonio',
+        'PASSWORD': 'cs319bombastic+',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
