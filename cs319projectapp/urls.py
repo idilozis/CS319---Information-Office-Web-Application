@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .views import get_cities, get_highschools
+from .views import submit_individual_tour
 
 urlpatterns = [
     path("login/", views.login_view, name="login"),
@@ -26,5 +27,6 @@ urlpatterns = [
     path("puantaj_page/", views.puantaj_page, name="puantaj_page"),
     path("settings/", views.puantaj_page, name="settings"),
     path('submit_tour/', views.submit_tour, name='submit_tour'),
+    path('submit_individual_tour/', submit_individual_tour, name='submit_individual_tour'),
 ]
 

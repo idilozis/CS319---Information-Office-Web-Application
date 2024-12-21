@@ -11,7 +11,9 @@ from django.db.models.functions import Lower
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Tour
+from .models import IndividualTour
 import json
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -211,6 +213,34 @@ def submit_tour(request):
         except Exception as e:
             # Log and return the error
             print("Error while creating tour:", str(e))
+            return JsonResponse({'error': str(e)}, status=400)
+
+    return JsonResponse({'error': 'Invalid request method.'}, status=405)
+
+
+
+@csrf_exempt
+def submit_individual_tour(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            # Create a new individual tour entry
+            individual_tour = IndividualTour(
+                name=data['name'],
+                city=data['city'],
+                highschool=data['highschool'],
+                contact_phone=data['contact_phone'],
+                contact_email=data['contact_email'],
+                major_of_interest=data['major_of_interest'],
+                additional_notes=data.get('additional_notes', ''),
+                date=data['date'],
+                status='pending',  # Default status
+            )
+            individual_tour.save()
+
+            return JsonResponse({'message': 'Tour created successfully!'}, status=201)
+        except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Invalid request method.'}, status=405)

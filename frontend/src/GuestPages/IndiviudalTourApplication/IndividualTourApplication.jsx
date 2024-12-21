@@ -51,25 +51,49 @@ const IndividualTourApplication = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
-    if (dateError) {
-      alert("Please fix the validation errors before submitting.");
-    } else {
-      setPopupVisible(true); 
-      setTimeout(() => setPopupVisible(false), 3000); 
+    const formData = {
+      name: document.getElementById("name").value,
+      city: selectedCity,
+      highschool: selectedHighSchool,
+      contact_phone: document.getElementById("phone").value,
+      contact_email: document.getElementById("email").value,
+      major_of_interest: document.getElementById("major").value,
+      additional_notes: document.getElementById("notes").value,
+      date: date,
+    };
   
-      setDate("");
-      setSelectedCity("");
-      setSelectedHighSchool("");
-      document.getElementById("name").value = "";
-      document.getElementById("phone").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("major").value = "";
-      document.getElementById("notes").value = "";
+    try {
+      const response = await axios.post("/api/submit_individual_tour/", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (response.status === 201) {
+        alert("Form submitted successfully!");
+  
+        // Reset form fields
+        setSelectedCity("");
+        setSelectedHighSchool("");
+        setDate("");
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("major").value = "";
+        document.getElementById("notes").value = "";
+      } else {
+        alert("Error submitting the form.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred. Please try again.");
     }
   };
+  
+  
   
 
   return (
