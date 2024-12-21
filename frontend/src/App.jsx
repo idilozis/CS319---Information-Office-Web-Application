@@ -19,6 +19,8 @@ import ResponsibleAdvisors from "./GuidePages/ResponsibleAdvisors/ResponsibleAdv
 import CoordinatorFairApplications from "./CoordinatorPage/FairApplications/CoordinatorFairApplications";
 import AcceptedTours from "./GuidePages/AcceptedTours/AcceptedTours";
 import AcceptedToursList from "./CoordinatorPage/AcceptedToursList/acceptedToursList";
+import ViewGuideList from "./CoordinatorPage/GuideList/ViewGuideList";
+import ViewAdvisorList from "./CoordinatorPage/AdvisorList/ViewAdvisorList";
 
 function App() {
   return (
@@ -65,6 +67,8 @@ function App() {
         <Route path="/api/coordinator_fair_applications/" element={<CoordinatorFairApplications/>} />
         <Route path="/api/accepted_tours/" element={<AcceptedTours/>} />
         <Route path="/api/coordinator_accepted_tours/" element={<AcceptedToursList/>} />
+        <Route path="/api/coordinator_view_guide_list/" element={<ViewGuideList/>} />
+        <Route path="/api/coordinator_view_advisor_list/" element={<ViewAdvisorList/>} />
       </Routes>
     </Router>
   );

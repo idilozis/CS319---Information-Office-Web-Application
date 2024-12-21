@@ -34,5 +34,7 @@ urlpatterns = [
     path("coordinator_fair_applications/", views.react_view, name="coordinator_fair_applications"),
     path("accepted_tours/", views.react_view, name="accepted_tours"),
     path("coordinator_accepted_tours/", views.react_view, name="coordinator_accepted_tours"),    
+    path("coordinator_view_guide_list/", views.react_view, name="coordinator_view_guide_list"),  
+    path("coordinator_view_advisor_list/", views.react_view, name="coordinator_advisor_list"),  
 ]
 

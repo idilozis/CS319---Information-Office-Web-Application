@@ -95,10 +95,10 @@ const CoordinatorFairApplications = () => {
             <Link to="/api/coordinator_accepted_tours" className="sidebar-link">Tour Applications</Link>
           </li>
           <li>
-            <Link to="/api/advisor" className="sidebar-link">Advisor List</Link>
+            <Link to="/api/coordinator_view_advisor_list" className="sidebar-link">Advisor List</Link>
           </li>
           <li>
-            <Link to="/api/guide" className="sidebar-link">Guide List</Link>
+            <Link to="/api/coordinator_view_guide_list" className="sidebar-link">Guide List</Link>
           </li>
           <li>
             <Link to="/api/feed" className="sidebar-link">View Feedbacks</Link>
