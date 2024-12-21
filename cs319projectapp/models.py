@@ -71,6 +71,9 @@ class Tour(models.Model):
         choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')],
         default='pending'
     )  # New field
+    guide1_id = models.IntegerField(blank=True, null=True)
+    guide2_id = models.IntegerField(blank=True, null=True)
+    guide3_id = models.IntegerField(blank=True, null=True)
     
     class Meta:
         db_table = 'highschooltours'  # Use the existing table
@@ -94,7 +97,7 @@ class IndividualTour(models.Model):
         choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')],
         default='pending'
     )
-
+    guide_id = models.IntegerField(blank=True, null=True)
     class Meta:
         db_table = 'individualtours'
 

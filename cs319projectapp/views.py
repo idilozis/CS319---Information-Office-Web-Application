@@ -14,7 +14,8 @@ from .models import Tour
 from .models import IndividualTour
 from .models import UniversityFair
 import json
-
+from django.views import View
+from django.utils.decorators import method_decorator
 
 def login_view(request):
     if request.method == 'POST':
@@ -166,3 +167,33 @@ def submit_university_fair(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
+
+@api_view(['GET'])
+def get_highschool_tours(request):
+    tours = Tour.objects.filter(status='pending').values()
+    return Response(list(tours))
+
+@api_view(['GET'])
+def get_individual_tours(request):
+    tours = IndividualTour.objects.filter(status='pending').values()
+    return Response(list(tours))
+
+@api_view(['POST'])
+def update_tour_status(request):
+    data = request.data
+    tour_type = data.get('type')  # 'highschool' or 'individual'
+    tour_id = data.get('id')
+    status = data.get('status')  # 'accepted' or 'rejected'
+
+    if tour_type == 'highschool':
+        tour = Tour.objects.filter(id=tour_id).first()
+    elif tour_type == 'individual':
+        tour = IndividualTour.objects.filter(id=tour_id).first()
+    else:
+        return Response({'error': 'Invalid tour type'}, status=400)
+
+    if tour:
+        tour.status = status
+        tour.save()
+        return Response({'message': 'Status updated successfully'})
+    return Response({'error': 'Tour not found'}, status=404)

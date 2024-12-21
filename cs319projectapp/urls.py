@@ -37,6 +37,9 @@ urlpatterns = [
     path("coordinator_view_guide_list/", views.react_view, name="coordinator_view_guide_list"),  
     path("coordinator_view_advisor_list/", views.react_view, name="coordinator_advisor_list"),  
     path("coordinator_view_feedback/", views.react_view, name="coordinator_view_feedback"),  
-
+    path('highschool_tours/', views.get_highschool_tours, name='get_highschool_tours'),
+    path('individual_tours/', views.get_individual_tours, name='get_individual_tours'),
+    path('update_tour_status/', views.update_tour_status, name='update_tour_status'),
+    
 ]
 
