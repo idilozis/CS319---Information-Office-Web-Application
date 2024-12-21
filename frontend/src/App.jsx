@@ -15,6 +15,7 @@ import PuantajPage from "./Advisor Pages/PuantajPage/PuantajPage"
 import Settings from "./Advisor Pages/settings/Settings";
 import CoordinatorDashboard from "./CoordinatorPage/Dashboard/CoordinatorDashboard";
 import CoordinatorPuantaj from "./CoordinatorPage/Puantaj Page/CoordinatorPuantaj";
+import ResponsibleAdvisors from "./GuidePages/ResponsibleAdvisors/ResponsibleAdvisors";
 function App() {
   return (
     <Router>
@@ -56,6 +57,7 @@ function App() {
         <Route path="/api/settings/" element={<Settings/>} />
         <Route path="/api/coordinator_dashboard/" element={<CoordinatorDashboard/>} />
         <Route path="/api/coordinator_puantaj/" element={<CoordinatorPuantaj/>} />
+        <Route path="/api/responsible_advisors/" element={<ResponsibleAdvisors/>} />
       </Routes>
     </Router>
   );

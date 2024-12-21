@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./GuideDashboard.css";
@@ -11,11 +12,11 @@ const GuideDashboard = () => {
 
   const schedules = {
     "18-12-2024": [
-      { time: "8.30-9.30", event: "Izmir Fen Lisesi Campus Tour", guide: "Türker K." },
-      { time: "9.30-10.30", event: "Meeting with Advisors", guide: "" },
+      { time: "8.30-9.30", event: "Izmir Fen Lisesi Campus Tour"},
+      { time: "9.30-10.30", event: "Meeting with Advisors"},
     ],
     "19-12-2024": [
-      { time: "12.30-13.30", event: "Ankara Gazi Lisesi Fair Start", guide: "" },
+      { time: "12.30-13.30", event: "Ankara Gazi Lisesi Fair Start"},
     ],
   };
 
@@ -57,16 +58,16 @@ const GuideDashboard = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <a href="/api/guide_dashboard" className="sidebar-link">Dashboard</a>
+            <Link to="/api/guide_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-            <a href="/tours" className="sidebar-link">Tours</a>
+            <Link to="/api/accepted_tours" className="sidebar-link">Tours</Link>
           </li>
           <li>
-            <a href="/api/guide_fairs" className="sidebar-link">Fairs</a>
+            <Link to="/api/guide_fairs" className="sidebar-link">Fairs</Link>
           </li>
           <li>
-            <a href="/responsible-advisors" className="sidebar-link">Responsible Advisors</a>
+            <Link to="/api/responsible_advisors" className="sidebar-link">Responsible Advisors</Link>
           </li>
         </ul>
         <div className="logout">
@@ -87,11 +88,13 @@ const GuideDashboard = () => {
               className="user-avatar"
               alt="User Icon"
             />
-            Can Çakır
+            Kemal Çakır
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
-              <button onClick={() => alert("Go to Settings")}>Settings</button>
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
               <button onClick={() => (window.location.href = "/api/login/")}>
                 Logout
               </button>
@@ -99,7 +102,7 @@ const GuideDashboard = () => {
           )}
         </div>
 
-        <h1>Welcome Back, Can Çakır</h1>
+        <h1>Welcome Back, Kemal Çakır</h1>
         <div className="calendar-schedule-container">
           <div className="calendar">
             <h2>Schedule Calendar</h2>
@@ -114,7 +117,6 @@ const GuideDashboard = () => {
                   <tr>
                     <th>Time Interval</th>
                     <th>Event</th>
-                    <th>Guide</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -122,7 +124,6 @@ const GuideDashboard = () => {
                     <tr key={index}>
                       <td>{item.time}</td>
                       <td>{item.event}</td>
-                      <td>{item.guide || "-"}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -136,5 +137,4 @@ const GuideDashboard = () => {
     </div>
   );
 };
-
 export default GuideDashboard;
