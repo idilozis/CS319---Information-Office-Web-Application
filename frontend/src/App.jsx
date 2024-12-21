@@ -18,6 +18,7 @@ import CoordinatorPuantaj from "./CoordinatorPage/Puantaj Page/CoordinatorPuanta
 import ResponsibleAdvisors from "./GuidePages/ResponsibleAdvisors/ResponsibleAdvisors";
 import CoordinatorFairApplications from "./CoordinatorPage/FairApplications/CoordinatorFairApplications";
 import AcceptedTours from "./GuidePages/AcceptedTours/AcceptedTours";
+import AcceptedToursList from "./CoordinatorPage/AcceptedToursList/acceptedToursList";
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
         <Route path="/api/responsible_advisors/" element={<ResponsibleAdvisors/>} />
         <Route path="/api/coordinator_fair_applications/" element={<CoordinatorFairApplications/>} />
         <Route path="/api/accepted_tours/" element={<AcceptedTours/>} />
+        <Route path="/api/coordinator_accepted_tours/" element={<AcceptedToursList/>} />
       </Routes>
     </Router>
   );

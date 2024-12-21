@@ -32,8 +32,7 @@ urlpatterns = [
     path('coordinator_puantaj/', views.react_view, name='coordinator_puantaj'),
     path("responsible_advisors/", views.react_view, name="responsible_advisors"),
     path("coordinator_fair_applications/", views.react_view, name="coordinator_fair_applications"),
-
-
     path("accepted_tours/", views.react_view, name="accepted_tours"),
+    path("coordinator_accepted_tours/", views.react_view, name="coordinator_accepted_tours"),    
 ]
 

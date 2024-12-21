@@ -89,7 +89,7 @@ const CoordinatorFairApplications = () => {
             <Link to="/api/coordinator_fair_applications" className="sidebar-link">Fair Applications</Link>
           </li>
           <li>
-            <Link to="/api/appl" className="sidebar-link">Tour Applications</Link>
+            <Link to="/api/coordinator_accepted_tours" className="sidebar-link">Tour Applications</Link>
           </li>
           <li>
             <Link to="/api/advisor" className="sidebar-link">Advisor List</Link>
