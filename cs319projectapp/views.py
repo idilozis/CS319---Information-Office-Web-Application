@@ -50,10 +50,6 @@ def login_view(request):
         messages.error(request, "Invalid credentials. Please try again.")
     return render(request, 'login.html')
 
-#@login_required
-def promo_coordinator_dashboard(request):
-    return render(request, "promo_coordinator_dashboard.html")
-
 # Guest Pages
 def guest_dashboard(request):
     return render(request, 'guest_dashboard.html')
