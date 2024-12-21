@@ -66,7 +66,12 @@ class Tour(models.Model):
     additional_notes = models.TextField(blank=True, null=True)
     date = models.DateField()
     time_slot = models.CharField(max_length=50)
-
+    status = models.CharField(
+        max_length=10,
+        choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')],
+        default='pending'
+    )  # New field
+    
     class Meta:
         db_table = 'highschooltours'  # Use the existing table
 
