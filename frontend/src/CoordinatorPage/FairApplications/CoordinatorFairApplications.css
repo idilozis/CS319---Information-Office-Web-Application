@@ -1,0 +1,281 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+.logout {
+  margin-top: auto;
+}
+
+.logout button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.logout button:hover {
+  background-color: #c0392b;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  background-color: #ffffff;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.main-content h1 {
+  margin-top: 0;
+  font-size: 24px;
+}
+
+/* Application Table */
+.application-table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.application-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.application-table th,
+.application-table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.application-table th {
+  background-color: #2c3e50;
+  color: white;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.application-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.application-table td {
+  font-size: 14px;
+  color: #333;
+}
+
+.application-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status Styling */
+.status {
+  font-weight: bold;
+}
+
+.accepted {
+  color: green;
+}
+
+.rejected {
+  color: red;
+}
+
+.cancelled {
+  color: #f39c12;
+}
+
+/* Buttons */
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.accept-button,
+.reject-button,
+.view-notes-button,
+.cancel-button {
+  padding: 8px 12px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.accept-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.accept-button:hover {
+  background-color: #218838;
+}
+
+.reject-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.reject-button:hover {
+  background-color: #c82333;
+}
+
+.view-notes-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.view-notes-button:hover {
+  background-color: #0056b3;
+}
+
+.cancel-button {
+  background-color: #f39c12;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #d68910;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #2c3e50;
+}
+
+.modal p {
+  margin: 15px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.modal-actions {
+  margin-top: 20px;
+}
+
+.confirm-button,
+.cancel-button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.confirm-button:hover {
+  background-color: #2980b9;
+}
+
+.cancel-button:hover {
+  background-color: #c0392b;
+}
+
+.modal-close-button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.modal-close-button:hover {
+  background-color: #2980b9;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+}
