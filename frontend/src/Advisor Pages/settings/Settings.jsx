@@ -8,6 +8,8 @@ const Settings = () => {
   const [studentId, setStudentId] = useState(""); // Dynamic Student ID
   const [currentPassword, setCurrentPassword] = useState("");
   const [newInfo, setNewInfo] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState(""); // "email", "phone", or "password"
@@ -18,14 +20,12 @@ const Settings = () => {
   const DUMMY_PASSWORD = "password123"; // Dummy current password
   const navigate = useNavigate();
 
-  // Simulate fetching data from an API
   useEffect(() => {
-    // Replace this with an actual API call
     const fetchUserData = async () => {
       const response = await new Promise((resolve) =>
         setTimeout(() => {
           resolve({
-            studentId: "12345678", // Replace with fetched data
+            studentId: "12345678",
             email: "user@example.com",
             phoneNumber: "1234567891",
           });
@@ -45,7 +45,7 @@ const Settings = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfileImage(reader.result);
-        setShowSaveButton(true); // Show the save button
+        setShowSaveButton(true);
       };
       reader.readAsDataURL(file);
     }
@@ -53,8 +53,8 @@ const Settings = () => {
 
   const handleSaveImage = () => {
     setSuccessMessage("Profile picture updated successfully!");
-    setShowSaveButton(false); // Hide the save button after saving
-    setTimeout(() => setSuccessMessage(""), 3000); // Clear message after 3 seconds
+    setShowSaveButton(false);
+    setTimeout(() => setSuccessMessage(""), 3000);
   };
 
   const handleChange = (type) => {
@@ -71,6 +71,10 @@ const Settings = () => {
 
   const validatePhoneNumber = (phoneInput) => {
     return /^\d{10}$/.test(phoneInput);
+  };
+
+  const validatePassword = (password) => {
+    return password.length >= 6; // Password must be at least 6 characters
   };
 
   const handleConfirm = () => {
@@ -93,21 +97,34 @@ const Settings = () => {
       }
       setPhoneNumber(newInfo);
       setSuccessMessage("Phone number updated successfully!");
+    } else if (modalType === "password") {
+      if (!validatePassword(newPassword)) {
+        setErrorInModal("Password must be at least 6 characters.");
+        return;
+      }
+      if (newPassword !== confirmNewPassword) {
+        setErrorInModal("New passwords do not match.");
+        return;
+      }
+      setSuccessMessage("Password updated successfully!");
     }
 
-    // Close the modal and reset fields
     setModalVisible(false);
     setNewInfo("");
+    setNewPassword("");
+    setConfirmNewPassword("");
     setCurrentPassword("");
     setErrorInModal("");
 
-    setTimeout(() => setSuccessMessage(""), 3000); // Clear message after 3 seconds
+    setTimeout(() => setSuccessMessage(""), 3000);
   };
 
   const handleCancel = () => {
     setModalVisible(false);
     setErrorInModal("");
     setNewInfo("");
+    setNewPassword("");
+    setConfirmNewPassword("");
     setCurrentPassword("");
     setSuccessMessage("");
   };
@@ -170,19 +187,53 @@ const Settings = () => {
         </div>
       </div>
 
+      {/* Password Section */}
+      <div className="settings-section">
+        <label>Password:</label>
+        <div className="field-container">
+          <span>********</span>
+          <button className="action-button" onClick={() => handleChange("password")}>
+            Change Password
+          </button>
+        </div>
+      </div>
+
       {/* Modal for Changes */}
       {modalVisible && (
         <div className="modal-overlay">
           <div className="modal">
-            <h2>Change {modalType === "email" ? "Email" : "Phone Number"}</h2>
+            <h2>
+              Change {modalType === "email" ? "Email" : modalType === "phone" ? "Phone Number" : "Password"}
+            </h2>
             <div className="modal-content">
-              <label>New {modalType === "email" ? "Email" : "Phone Number"}:</label>
-              <input
-                type="text"
-                value={newInfo}
-                onChange={(e) => setNewInfo(e.target.value)}
-                placeholder={`Enter new ${modalType}`}
-              />
+              {modalType !== "password" ? (
+                <>
+                  <label>New {modalType === "email" ? "Email" : "Phone Number"}:</label>
+                  <input
+                    type="text"
+                    value={newInfo}
+                    onChange={(e) => setNewInfo(e.target.value)}
+                    placeholder={`Enter new ${modalType}`}
+                  />
+                </>
+              ) : (
+                <>
+                  <label>New Password:</label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password"
+                  />
+                  <label>Confirm New Password:</label>
+                  <input
+                    type="password"
+                    value={confirmNewPassword}
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                  />
+                </>
+              )}
               <label>Current Password:</label>
               <input
                 type="password"
