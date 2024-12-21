@@ -1,46 +1,34 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./AcceptedToursList.css";
+import "./ViewFeedback.css";
 
-const AcceptedToursList = () => {
-  const [notesVisible, setNotesVisible] = useState(false);
-  const [notesContent, setNotesContent] = useState("");
+const ViewFeedback = () => {
+  const [feedbackVisible, setFeedbackVisible] = useState(false);
+  const [feedbackContent, setFeedbackContent] = useState("");
 
-  const acceptedTours = [
+  const feedbackList = [
     {
       name: "John Doe",
-      capacity: 50,
       city: "Ankara",
       highSchool: "Ankara Fen Lisesi",
-      contactPhone: "0123 456 78 90",
-      contactEmail: "johndoe@example.com",
-      additionalNotes: "Requires wheelchair if possible.",
+      tourType: "High School",
       tourDate: "21-12-2024",
-      timeSlot: "08:30-10:30",
+      feedback: "The tour was very informative and well-organized. The guides were professional and friendly.",
     },
     {
       name: "Jane Smith",
-      capacity: 40,
       city: "Istanbul",
       highSchool: "Istanbul Lisesi",
-      contactPhone: "0987 654 32 10",
-      contactEmail: "janesmith@example.com",
-      additionalNotes: "Focus on STEM programs.",
+      tourType: "Individual",
       tourDate: "22-12-2024",
-      timeSlot: "10:30-12:30",
+      feedback: "Great experience! Learned a lot about the facilities. Would recommend it to others.",
     },
+    // Add more feedback entries as needed
   ];
 
-  const openNotes = (notes) => {
-    setNotesContent(notes);
-    setNotesVisible(true);
-  };
-
-  const getDayOfWeek = (dateString) => {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const [day, month, year] = dateString.split("-").map(Number);
-    const date = new Date(year, month - 1, day);
-    return days[date.getDay()];
+  const openFeedback = (feedback) => {
+    setFeedbackContent(feedback);
+    setFeedbackVisible(true);
   };
 
   return (
@@ -79,58 +67,52 @@ const AcceptedToursList = () => {
       </div>
 
       <div className="main-content">
-        <h1>Accepted Tour Applications</h1>
-        <div className="accepted-tours-table">
-          <table>
+        <h1>Feedback List</h1>
+        <div className="feedback-table-container">
+          <table className="feedback-table">
             <thead>
               <tr>
-                <th>Name-Surname</th>
-                <th>Capacity</th>
+                <th>Name</th>
                 <th>City</th>
                 <th>High School</th>
-                <th>Contact Phone</th>
-                <th>Contact Email</th>
-                <th>Additional Notes</th>
+                <th>Tour Type</th>
                 <th>Tour Date</th>
-                <th>Day</th>
-                <th>Time Slot</th>
+                <th>Feedback</th>
               </tr>
             </thead>
             <tbody>
-              {acceptedTours.map((tour, index) => (
+              {feedbackList.map((feedback, index) => (
                 <tr key={index}>
-                  <td>{tour.name}</td>
-                  <td>{tour.capacity}</td>
-                  <td>{tour.city}</td>
-                  <td>{tour.highSchool}</td>
-                  <td>{tour.contactPhone}</td>
-                  <td>{tour.contactEmail}</td>
+                  <td>{feedback.name}</td>
+                  <td>{feedback.city}</td>
+                  <td>{feedback.highSchool}</td>
+                  <td>{feedback.tourType}</td>
+                  <td>{feedback.tourDate}</td>
                   <td>
                     <button
-                      className="view-notes-button"
-                      onClick={() => openNotes(tour.additionalNotes)}
+                      className="view-feedback-button"
+                      onClick={() => openFeedback(feedback.feedback)}
                     >
-                      View Notes
+                      View Feedback
                     </button>
                   </td>
-                  <td>{tour.tourDate}</td>
-                  <td>{getDayOfWeek(tour.tourDate)}</td>
-                  <td>{tour.timeSlot}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        {/* Notes Modal */}
-        {notesVisible && (
+        {/* Feedback Modal */}
+        {feedbackVisible && (
           <div className="modal-overlay">
             <div className="modal">
-              <h2>Additional Notes</h2>
-              <p>{notesContent}</p>
+              <h2>Feedback</h2>
+              <div className="modal-content">
+                <p>{feedbackContent}</p>
+              </div>
               <button
                 className="modal-close-button"
-                onClick={() => setNotesVisible(false)}
+                onClick={() => setFeedbackVisible(false)}
               >
                 Close
               </button>
@@ -142,4 +124,4 @@ const AcceptedToursList = () => {
   );
 };
 
-export default AcceptedToursList;
+export default ViewFeedback;

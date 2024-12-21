@@ -58,7 +58,7 @@ const ViewGuideList = () => {
             <Link to="/api/coordinator_view_guide_list" className="sidebar-link">Guide List</Link>
           </li>
           <li>
-            <Link to="/api/feed" className="sidebar-link">View Feedbacks</Link>
+            <Link to="/api/coordinator_view_feedback" className="sidebar-link">View Feedbacks</Link>
           </li>
         </ul>
         <div className="logout">
