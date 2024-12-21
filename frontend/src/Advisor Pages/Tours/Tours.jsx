@@ -17,7 +17,6 @@ const Tours = () => {
     return days[date.getDay()];
   };
 
-
   const [tours, setTours] = useState([
     {
       id: 1,

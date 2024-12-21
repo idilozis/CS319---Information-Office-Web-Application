@@ -4,14 +4,11 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    height: 100vh;
-    overflow: hidden;
   }
   
   .dashboard-container {
     display: flex;
     height: 100vh;
-    overflow: hidden;
   }
   
   /* Sidebar */
@@ -21,10 +18,6 @@ body {
     color: white;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    overflow-y: auto;
   }
   
   .sidebar h2 {
@@ -70,10 +63,9 @@ body {
   
   /* Main Content */
   .main-content {
-    margin-left: 250px;
+    flex: 1;
     padding: 20px;
     background-color: #ffffff;
-    height: 100vh;
     overflow-y: auto;
   }
   
@@ -82,8 +74,54 @@ body {
     font-size: 24px;
   }
   
-  /* Application Table */
-  .application-table {
+  /* User Menu */
+  .user-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+  }
+  
+  .user-icon {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .dropdown-menu button {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu button:hover {
+    background-color: #f4f4f4;
+  }
+  
+  /* Tour Table */
+  .tour-table {
     margin-top: 20px;
     border-collapse: collapse;
     width: 100%;
@@ -93,172 +131,45 @@ body {
     overflow: hidden;
   }
   
-  .application-table table {
+  .tour-table table {
     width: 100%;
     border-collapse: collapse;
   }
   
-  .application-table th,
-  .application-table td {
+  .tour-table th,
+  .tour-table td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
   
-  .application-table th {
+  .tour-table th {
     background-color: #2c3e50;
     color: white;
     text-transform: uppercase;
     font-size: 14px;
   }
   
-  .application-table tr:nth-child(even) {
+  .tour-table tr:nth-child(even) {
     background-color: #f9f9f9;
   }
   
-  /* Assigned Guides */
-  .application-table td ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+  .tour-table ul {
+    padding-left: 20px;
   }
   
-  .application-table td ul li {
-    display: flex; /* Flexbox for proper alignment */
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 5px; /* Add space between buttons */
-  }
-  
-  .application-table td ul li:last-child {
-    margin-bottom: 0; /* No margin for the last guide */
-  }
-  
-  /* Remove Guide Button */
-  .remove-guide-button {
-    background-color: #e74c3c; /* Red background */
-    color: white; /* White text */
-    border: none; /* Remove default border */
-    padding: 5px 10px; /* Add padding for better clickability */
-    border-radius: 4px; /* Round the corners */
-    cursor: pointer; /* Change cursor to pointer */
-    font-size: 12px; /* Slightly smaller font size */
-    margin-left: 10px; /* Add space between guide text and button */
-  }
-  
-  .remove-guide-button:hover {
-    background-color: #c0392b; /* Darker red on hover */
-  }
-  
-  /* Modal Overlay */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .modal h2 {
-    margin-top: 0;
-  }
-  
-  .modal-content label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .modal-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .confirm-button {
-    background-color: #28a745;
+  .tour-table button {
+    background-color: #3498db;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 14px;
+    margin-top: 5px;
   }
   
-  .confirm-button:hover {
-    background-color: #218838;
-  }
-  
-  .cancel-button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .cancel-button:hover {
-    background-color: #c82333;
-  }
-  
-  /* User Menu */
-  .user-menu {
-    position: fixed; /* Change from relative to absolute */
-    top: 20px; /* Adjust to align it properly */
-    right: 20px; /* Adjust to align with the top-right corner */
-    z-index: 10;
-  }
-  
-  .user-icon {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .user-avatar {
-    border-radius: 50%;
-    margin-right: 10px;
-    width: 30px;
-    height: 30px;
-    object-fit: cover;
-  }
-  
-  /* Dropdown Menu */
-  .dropdown-menu {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-  }
-  
-  .dropdown-menu button {
-    background-color: #fff;
-    border: none;
-    padding: 10px 20px;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-  }
-  
-  .dropdown-menu button:hover {
-    background-color: #f5f5f5;
+  .tour-table button:hover {
+    background-color: #2980b9;
   }
   
