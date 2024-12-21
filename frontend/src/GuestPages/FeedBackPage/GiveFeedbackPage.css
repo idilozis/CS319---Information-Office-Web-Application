@@ -53,18 +53,18 @@
 .give-feedback-footer a {
   color: white;
   text-decoration: none;
-  font-size: 1rem; 
+  font-size: 1rem;
   display: block;
-  padding: 10px 15px; 
+  padding: 10px 15px;
   border-radius: 5px;
-  line-height: 1.5; 
+  line-height: 1.5;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .give-feedback-footer a:hover {
-  background-color: #3d3d3d; 
-  color: white; 
-  font-weight: bold; 
+  background-color: #3d3d3d;
+  color: white;
+  font-weight: bold;
 }
 
 /* Main Content */
@@ -134,6 +134,7 @@ textarea {
 .give-feedback-submit-button:hover {
   background-color: #0056b3;
 }
+
 /* Popup Message */
 .popup-message {
   position: fixed;
@@ -169,4 +170,27 @@ textarea {
     opacity: 0;
     transform: translateX(-50%) translateY(-10px);
   }
+}
+
+.tour-type-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tour-type-options .aligned-label {
+  display: flex;
+  align-items: center; 
+  gap: 8px; 
+}
+
+.tour-type-options input[type="radio"] {
+  margin: 0 !important;
+  position: relative !important;
+  top: 10px !important; 
+}
+.tour-type-options label {
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
 }

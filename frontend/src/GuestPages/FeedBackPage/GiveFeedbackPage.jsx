@@ -9,6 +9,7 @@ const GiveFeedbackPage = () => {
   const [selectedCity, setSelectedCity] = useState(""); 
   const [selectedHighSchool, setSelectedHighSchool] = useState("");
   const [popupVisible, setPopupVisible] = useState(false); 
+  const [selectedTourType, setSelectedTourType] = useState("");
 
   useEffect(() => {
     axios
@@ -36,12 +37,17 @@ const GiveFeedbackPage = () => {
       );
   };
 
+  const handleTourTypeChange = (type) => {
+    setSelectedTourType(type);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setPopupVisible(true); 
   
     setSelectedCity("");
     setSelectedHighSchool("");
+    setSelectedTourType("");
     document.getElementById("name").value = "";
     document.getElementById("feedback").value = "";
     document.getElementById("date").value = "";
@@ -82,7 +88,7 @@ const GiveFeedbackPage = () => {
       {/* Main Content */}
       <main className="give-feedback-main-content">
         <div className="give-feedback-form-container">
-          <h2>Guest (Counselor) Give Feedback</h2>
+          <h2>Give Feedback</h2>
           <form onSubmit={handleSubmit}>
             <div className="give-feedback-form-group">
               <label htmlFor="name">Name-Surname:</label>
@@ -131,12 +137,28 @@ const GiveFeedbackPage = () => {
 
             <div className="give-feedback-form-group">
               <label htmlFor="tour-type">Tour Type:</label>
-              <label>
-                <input type="checkbox" /> High School
-              </label>
-              <label>
-                <input type="checkbox" /> Individual
-              </label>
+              <div className="tour-type-options">
+                <label>
+                  <input
+                    type="radio"
+                    name="tourType"
+                    value="High School"
+                    checked={selectedTourType === "High School"}
+                    onChange={() => handleTourTypeChange("High School")}
+                  />
+                  High School
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="tourType"
+                    value="Individual"
+                    checked={selectedTourType === "Individual"}
+                    onChange={() => handleTourTypeChange("Individual")}
+                  />
+                  Individual
+                </label>
+              </div>
             </div>
             <div className="give-feedback-form-group">
               <label htmlFor="date">Tour Date:</label>
