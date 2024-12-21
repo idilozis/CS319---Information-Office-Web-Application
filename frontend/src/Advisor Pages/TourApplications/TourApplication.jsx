@@ -149,6 +149,9 @@ const TourApplication = () => {
             <Link to="/api/advisor_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
+            <Link to="/api/advisor_dashboard" className="sidebar-link">Highschool</Link>
+          </li>
+          <li>
             <Link to="/api/puantaj_page" className="sidebar-link">Puantaj Page</Link>
           </li>
           <li>

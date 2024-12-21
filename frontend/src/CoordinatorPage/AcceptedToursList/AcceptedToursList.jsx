@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./AcceptedToursList.css";
 
 const AcceptedToursList = () => {
@@ -35,30 +36,41 @@ const AcceptedToursList = () => {
     setNotesVisible(true);
   };
 
+  const getDayOfWeek = (dateString) => {
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const [day, month, year] = dateString.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
+    return days[date.getDay()];
+  };
+
   return (
     <div className="dashboard-container">
       <div className="sidebar">
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <a href="/api/guide_dashboard" className="sidebar-link">
-              Dashboard
-            </a>
+            <Link to="/api/coordinator_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-            <a href="/api/accepted_tours" className="sidebar-link">
-              Accepted Tours
-            </a>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">High School Database</Link>
           </li>
           <li>
-            <a href="/api/guide_fairs" className="sidebar-link">
-              Fairs
-            </a>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>
           </li>
           <li>
-            <a href="/api/responsible_advisors" className="sidebar-link">
-              Responsible Advisors
-            </a>
+            <Link to="/api/coordinator_fair_applications" className="sidebar-link">Fair Applications</Link>
+          </li>
+          <li>
+            <Link to="/api/coordinator_accepted_tours" className="sidebar-link">Tour Applications</Link>
+          </li>
+          <li>
+            <Link to="/api/advisor" className="sidebar-link">Advisor List</Link>
+          </li>
+          <li>
+            <Link to="/api/guide" className="sidebar-link">Guide List</Link>
+          </li>
+          <li>
+            <Link to="/api/feed" className="sidebar-link">View Feedbacks</Link>
           </li>
         </ul>
         <div className="logout">
@@ -80,6 +92,7 @@ const AcceptedToursList = () => {
                 <th>Contact Email</th>
                 <th>Additional Notes</th>
                 <th>Tour Date</th>
+                <th>Day</th>
                 <th>Time Slot</th>
               </tr>
             </thead>
@@ -101,6 +114,7 @@ const AcceptedToursList = () => {
                     </button>
                   </td>
                   <td>{tour.tourDate}</td>
+                  <td>{getDayOfWeek(tour.tourDate)}</td>
                   <td>{tour.timeSlot}</td>
                 </tr>
               ))}

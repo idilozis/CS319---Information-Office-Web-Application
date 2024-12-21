@@ -75,6 +75,9 @@ const CoordinatorPuantaj = () => {
             <Link to="/api/coordinator_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">High School Database</Link>
+          </li>
+          <li>
             <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>
           </li>
           <li>
