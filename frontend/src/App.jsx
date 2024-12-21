@@ -23,6 +23,12 @@ import ViewGuideList from "./CoordinatorPage/GuideList/ViewGuideList";
 import ViewAdvisorList from "./CoordinatorPage/AdvisorList/ViewAdvisorList";
 import ViewFeedback from "./CoordinatorPage/ViewFeedBack/ViewFeedback";
 import HighSchoolDatabase from "./CoordinatorPage/Highschool Database/HighSchoolDatabase";
+import DirectorDashboard from "./Director Pages/Director Dashboard/DirectorDashboard";
+import ViewPuantajPage from "./Director Pages/PuantajPage/ViewPuantajPage";
+import D_HighSchoolDatabase from "./Director Pages/Database/HighSchoolDataBase";
+import FairApplications_D from "./Director Pages/FairApplications/FairApplications_D";
+import AcceptedTours_D from "./Director Pages/AcceptedTours/AcceptedTours_D";
+import Feedback_D from "./Director Pages/Feedback_D/Feedback_D";
 
 function App() {
   return (
@@ -73,6 +79,12 @@ function App() {
         <Route path="/api/coordinator_view_advisor_list/" element={<ViewAdvisorList/>} />
         <Route path="/api/coordinator_view_feedback/" element={<ViewFeedback/>} />
         <Route path="/api/coordinator_highschool_database/" element={<HighSchoolDatabase/>} />
+        <Route path="/api/director_dashboard/" element={<DirectorDashboard/>} />
+        <Route path="/api/director_puantaj_page/" element={<ViewPuantajPage/>} />
+        <Route path="/api/director_database/" element={<D_HighSchoolDatabase/>} />
+        <Route path="/api/director_fair_applications/" element={<FairApplications_D/>} />
+        <Route path="/api/director_accepted_tours/" element={<AcceptedTours_D/>} />
+        <Route path="/api/director_feedback/" element={<Feedback_D/>} />
       </Routes>
     </Router>
   );

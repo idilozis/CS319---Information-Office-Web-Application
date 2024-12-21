@@ -51,14 +51,6 @@ def login_view(request):
     return render(request, 'login.html')
 
 #@login_required
-def coordinator_dashboard(request):
-    return render(request, "coordinator_dashboard.html")
-
-#@login_required
-def director_dashboard(request):
-    return render(request, "director_dashboard.html")
-
-#@login_required
 def promo_coordinator_dashboard(request):
     return render(request, "promo_coordinator_dashboard.html")
 

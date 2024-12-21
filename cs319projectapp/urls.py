@@ -8,7 +8,7 @@ urlpatterns = [
     path("guide_dashboard/", views.react_view, name="guide_dashboard"),
     path("advisor_dashboard/", views.react_view, name="advisor_dashboard"),
     path("coordinator_dashboard/", views.react_view, name="coordinator_dashboard"),
-    path("director_dashboard/", views.director_dashboard, name="director_dashboard"),
+    path("director_dashboard/", views.react_view, name="director_dashboard"),
     path("promo_coordinator_dashboard/", views.promo_coordinator_dashboard, name="promo_coordinator_dashboard"),
     path("guest_dashboard/", views.guest_dashboard, name="guest_dashboard"),
     path("apply_fair/", views.react_view, name="apply_fair"),
@@ -41,7 +41,14 @@ urlpatterns = [
     path('individual_tours/', views.get_individual_tours, name='get_individual_tours'),
     path('update_tour_status/', views.update_tour_status, name='update_tour_status'),
     path("coordinator_highschool_database/", views.react_view, name="coordinator_highschool_database"),  
-    
-    
+    path("director_puantaj_page/", views.react_view, name="director_puantaj_page"), 
+    path("director_database/", views.react_view, name="director_database"),
+    path("director_fair_applications/", views.react_view, name="director_fair_applications"),
+    path("director_accepted_tours/", views.react_view, name="director_accepted_tours/"),
+    path("director_feedback/", views.react_view, name="director_feedback/"),
+
+
+
+
 ]
 
