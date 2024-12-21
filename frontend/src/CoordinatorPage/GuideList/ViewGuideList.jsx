@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./ViewGuideList.css";
 
 const ViewGuideList = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const guides = [
     {
       name: "Ahmet Yavuzhan Er",
@@ -31,34 +33,54 @@ const ViewGuideList = () => {
     // Add more guides as needed
   ];
 
+  const filteredGuides = guides.filter((guide) =>
+    guide.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="dashboard-container">
       <div className="sidebar">
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <Link to="/api/coordinator_dashboard" className="sidebar-link">Dashboard</Link>
+            <Link to="/api/coordinator_dashboard" className="sidebar-link">
+              Dashboard
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_puantaj" className="sidebar-link">High School Database</Link>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">
+              High School Database
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">
+              Puantaj Page
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_fair_applications" className="sidebar-link">Fair Applications</Link>
+            <Link to="/api/coordinator_fair_applications" className="sidebar-link">
+              Fair Applications
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_accepted_tours" className="sidebar-link">Tour Applications</Link>
+            <Link to="/api/coordinator_accepted_tours" className="sidebar-link">
+              Tour Applications
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_view_advisor_list" className="sidebar-link">Advisor List</Link>
+            <Link to="/api/coordinator_view_advisor_list" className="sidebar-link">
+              Advisor List
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_view_guide_list" className="sidebar-link">Guide List</Link>
+            <Link to="/api/coordinator_view_guide_list" className="sidebar-link">
+              Guide List
+            </Link>
           </li>
           <li>
-            <Link to="/api/feed" className="sidebar-link">View Feedbacks</Link>
+            <Link to="/api/coordinator_view_feedback" className="sidebar-link">
+              View Feedbacks
+            </Link>
           </li>
         </ul>
         <div className="logout">
@@ -68,6 +90,17 @@ const ViewGuideList = () => {
 
       <div className="main-content">
         <h1>Guide List</h1>
+
+        {/* Search Bar */}
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search by guide name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
         <div className="guide-list-table-container">
           <table className="guide-list-table">
             <thead>
@@ -79,7 +112,7 @@ const ViewGuideList = () => {
               </tr>
             </thead>
             <tbody>
-              {guides.map((guide, index) => (
+              {filteredGuides.map((guide, index) => (
                 <tr key={index}>
                   <td>{guide.name}</td>
                   <td>{guide.bilkentId}</td>

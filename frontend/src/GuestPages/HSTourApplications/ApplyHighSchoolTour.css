@@ -147,7 +147,7 @@ textarea {
 }
 
 .time-slot.free {
-  background-color: #28a745; /* Green for available */
+  background-color: #0099ff; /* Green for available */
   color: white;
 }
 
