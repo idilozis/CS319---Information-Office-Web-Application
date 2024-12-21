@@ -42,7 +42,7 @@ const AcceptedToursList = () => {
     const date = new Date(year, month - 1, day);
     return days[date.getDay()];
   };
-
+ 
   return (
     <div className="dashboard-container">
       <div className="sidebar">
@@ -52,7 +52,7 @@ const AcceptedToursList = () => {
             <Link to="/api/coordinator_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_puantaj" className="sidebar-link">High School Database</Link>
+            <Link to="/api/coordinator_highschool_database" className="sidebar-link">High School Database</Link>
           </li>
           <li>
             <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>

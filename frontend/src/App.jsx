@@ -22,6 +22,7 @@ import AcceptedToursList from "./CoordinatorPage/AcceptedToursList/acceptedTours
 import ViewGuideList from "./CoordinatorPage/GuideList/ViewGuideList";
 import ViewAdvisorList from "./CoordinatorPage/AdvisorList/ViewAdvisorList";
 import ViewFeedback from "./CoordinatorPage/ViewFeedBack/ViewFeedback";
+import HighSchoolDatabase from "./CoordinatorPage/Highschool Database/HighSchoolDatabase";
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
         <Route path="/api/coordinator_view_guide_list/" element={<ViewGuideList/>} />
         <Route path="/api/coordinator_view_advisor_list/" element={<ViewAdvisorList/>} />
         <Route path="/api/coordinator_view_feedback/" element={<ViewFeedback/>} />
+        <Route path="/api/coordinator_highschool_database/" element={<HighSchoolDatabase/>} />
       </Routes>
     </Router>
   );

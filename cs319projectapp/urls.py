@@ -40,6 +40,8 @@ urlpatterns = [
     path('highschool_tours/', views.get_highschool_tours, name='get_highschool_tours'),
     path('individual_tours/', views.get_individual_tours, name='get_individual_tours'),
     path('update_tour_status/', views.update_tour_status, name='update_tour_status'),
+    path("coordinator_highschool_database/", views.react_view, name="coordinator_highschool_database"),  
+    
     
 ]
 

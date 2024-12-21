@@ -43,44 +43,28 @@ const ViewGuideList = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <Link to="/api/coordinator_dashboard" className="sidebar-link">
-              Dashboard
-            </Link>
+            <Link to="/api/coordinator_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_puantaj" className="sidebar-link">
-              High School Database
-            </Link>
+            <Link to="/api/coordinator_highschool_database" className="sidebar-link">High School Database</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_puantaj" className="sidebar-link">
-              Puantaj Page
-            </Link>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_fair_applications" className="sidebar-link">
-              Fair Applications
-            </Link>
+            <Link to="/api/coordinator_fair_applications" className="sidebar-link">Fair Applications</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_accepted_tours" className="sidebar-link">
-              Tour Applications
-            </Link>
+            <Link to="/api/coordinator_accepted_tours" className="sidebar-link">Tour Applications</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_view_advisor_list" className="sidebar-link">
-              Advisor List
-            </Link>
+            <Link to="/api/coordinator_view_advisor_list" className="sidebar-link">Advisor List</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_view_guide_list" className="sidebar-link">
-              Guide List
-            </Link>
+            <Link to="/api/coordinator_view_guide_list" className="sidebar-link">Guide List</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_view_feedback" className="sidebar-link">
-              View Feedbacks
-            </Link>
+            <Link to="/api/coordinator_view_feedback" className="sidebar-link">View Feedbacks</Link>
           </li>
         </ul>
         <div className="logout">

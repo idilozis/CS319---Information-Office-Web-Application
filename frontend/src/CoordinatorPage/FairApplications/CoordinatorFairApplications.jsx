@@ -83,7 +83,7 @@ const CoordinatorFairApplications = () => {
             <Link to="/api/coordinator_dashboard" className="sidebar-link">Dashboard</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_puantaj" className="sidebar-link">High School Database</Link>
+            <Link to="/api/coordinator_highschool_database" className="sidebar-link">High School Database</Link>
           </li>
           <li>
             <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>
