@@ -13,6 +13,7 @@ import GuideList from "./Advisor Pages/GuideList/GuideList";
 import Tours from "./Advisor Pages/Tours/Tours";
 import PuantajPage from "./Advisor Pages/PuantajPage/PuantajPage"
 import Settings from "./Advisor Pages/settings/Settings";
+import CoordinatorDashboard from "./CoordinatorPage/Dashboard/CoordinatorDashboard";
 function App() {
   return (
     <Router>
@@ -52,6 +53,7 @@ function App() {
         <Route path="/api/advisor_tours/" element={<Tours />} />
         <Route path="/api/puantaj_page/" element={<PuantajPage />} />
         <Route path="/api/settings/" element={<Settings/>} />
+        <Route path="/api/coordinator_dashboard/" element={<CoordinatorDashboard/>} />
       </Routes>
     </Router>
   );

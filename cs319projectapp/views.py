@@ -51,19 +51,7 @@ def login_view(request):
 
 # Dashboards
 #@login_required
-def guide_dashboard(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, "react_base.html", context)
 
-def advisor_dashboard(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, "react_base.html", context)
 
 #@login_required
 def coordinator_dashboard(request):
@@ -81,93 +69,12 @@ def promo_coordinator_dashboard(request):
 def guest_dashboard(request):
     return render(request, 'guest_dashboard.html')
 
-def apply_fair(request):
-    # Ensure React integration for the Apply Fair page
+def react_view(request):
     context = {
         'main_js': get_vite_asset_path('index.html', 'file'),
         'main_css': get_vite_asset_path('index.html', 'css'),
     }
-    return render(request, 'react_base.html', context)
-
-def apply_tour(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-
-def apply_hs_tour(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-
-def apply_ind_tour(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-
-def give_feedback(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-
-def contact_us(request):
-    # Ensure React integration for the Contact Us page
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-def fairs_page(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-def guide_fairs_page(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-def tour_application(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-def guide_list(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-def guide_tours(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-def puantaj_page(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-
-def settings(request):
-    context = {
-        'main_js': get_vite_asset_path('index.html', 'file'),
-        'main_css': get_vite_asset_path('index.html', 'css'),
-    }
-    return render(request, 'react_base.html', context)
-
+    return render(request, "react_base.html", context)
 
 
 @api_view(['GET'])
