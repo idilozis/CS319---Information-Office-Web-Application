@@ -1,14 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./CoordinatorFairApplications.css";
 
 const CoordinatorFairApplications = () => {
   const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [notesVisible, setNotesVisible] = useState(false);
   const [modalData, setModalData] = useState({});
   const [notesData, setNotesData] = useState("");
-  const userMenuRef = useRef(null);
 
   const [fairApplications, setFairApplications] = useState([
     {
@@ -44,7 +44,6 @@ const CoordinatorFairApplications = () => {
     setModalData({
       id,
       decision,
-      location: application.location,
     });
     setModalVisible(true);
   };
@@ -73,9 +72,21 @@ const CoordinatorFairApplications = () => {
     setNotesVisible(true);
   };
 
+  const handleClickOutside = (event) => {
+    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      setMenuVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <div className="sidebar">
         <h2>Bilkent Information Office System</h2>
         <ul>
@@ -109,8 +120,31 @@ const CoordinatorFairApplications = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="main-content">
+        <div className="user-menu" ref={userMenuRef}>
+          <div
+            className="user-icon"
+            onClick={() => setMenuVisible(!menuVisible)}
+          >
+            <img
+              src="/static/icons/userSymbol.png"
+              className="user-avatar"
+              alt="User Icon"
+            />
+            Kemal Çakır
+          </div>
+          {menuVisible && (
+            <div className="dropdown-menu">
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
+              <button onClick={() => (window.location.href = "/api/login/")}>
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+
         <h1>Fair Applications</h1>
         <div className="application-table">
           <table>
@@ -137,19 +171,21 @@ const CoordinatorFairApplications = () => {
                   <td>
                     <div className="button-container">
                       {app.status ? (
-                        <>
-                          <span
-                            className={`status ${
-                              app.status === "accepted" ? "accepted" : app.status === "rejected" ? "rejected" : "cancelled"
-                            }`}
-                          >
-                            {app.status === "accepted"
-                              ? "✔ Accepted"
+                        <span
+                          className={`status ${
+                            app.status === "accepted"
+                              ? "accepted"
                               : app.status === "rejected"
-                              ? "✖ Rejected"
-                              : "✖ Cancelled"}
-                          </span>
-                        </>
+                              ? "rejected"
+                              : "cancelled"
+                          }`}
+                        >
+                          {app.status === "accepted"
+                            ? "✔ Accepted"
+                            : app.status === "rejected"
+                            ? "✖ Rejected"
+                            : "✖ Cancelled"}
+                        </span>
                       ) : (
                         <>
                           <button
@@ -166,7 +202,7 @@ const CoordinatorFairApplications = () => {
                           </button>
                         </>
                       )}
-                      {!app.status || app.status === "cancelled" || app.status === "rejected" ? null : (
+                      {app.status === "accepted" && (
                         <button
                           className="cancel-button"
                           onClick={() => openModal(app.id, "cancel")}
@@ -210,9 +246,8 @@ const CoordinatorFairApplications = () => {
             <div className="modal">
               <h2>Confirm Your Decision</h2>
               <p>
-                Are you sure you want to <strong>{modalData.decision}</strong> the
-                application for <strong>{modalData.location}</strong>? This
-                action cannot be undone.
+                Are you sure you want to <strong>{modalData.decision}</strong> the application?
+                This action cannot be undone.
               </p>
               <div className="modal-actions">
                 <button

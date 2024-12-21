@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./HighSchoolDatabase.css";
 
@@ -6,6 +6,9 @@ const HighSchoolDatabase = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("All");
   const [highlightedRow, setHighlightedRow] = useState(null);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
+
   const [highSchools, setHighSchools] = useState([
     {
       name: "Ankara Fen Lisesi",
@@ -84,7 +87,7 @@ const HighSchoolDatabase = () => {
         name: nameInput.value,
         priorityScore: parseFloat(scoreInput.value) || 0,
         city: cityInput.value,
-        appliedBefore: "No",
+        appliedBefore: "No", // Automatically set to "No"
       };
 
       if (newHighSchool.name && newHighSchool.city) {
@@ -108,6 +111,19 @@ const HighSchoolDatabase = () => {
     container.appendChild(modal);
     document.body.appendChild(container);
   };
+
+  const handleClickOutside = (event) => {
+    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      setMenuVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="dashboard-container">
@@ -145,6 +161,30 @@ const HighSchoolDatabase = () => {
       </div>
 
       <div className="main-content">
+        <div className="user-menu" ref={userMenuRef}>
+          <div
+            className="user-icon"
+            onClick={() => setMenuVisible(!menuVisible)}
+          >
+            <img
+              src="/static/icons/userSymbol.png"
+              className="user-avatar"
+              alt="User Icon"
+            />
+            Kemal Çakır
+          </div>
+          {menuVisible && (
+            <div className="dropdown-menu">
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
+              <button onClick={() => (window.location.href = "/api/login/")}>
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+
         <h1>High School Database</h1>
 
         {/* Add High School Button */}

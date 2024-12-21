@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./AcceptedToursList.css";
 
 const AcceptedToursList = () => {
   const [notesVisible, setNotesVisible] = useState(false);
   const [notesContent, setNotesContent] = useState("");
+  const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
 
   const acceptedTours = [
     {
@@ -37,12 +39,33 @@ const AcceptedToursList = () => {
   };
 
   const getDayOfWeek = (dateString) => {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     const [day, month, year] = dateString.split("-").map(Number);
     const date = new Date(year, month - 1, day);
     return days[date.getDay()];
   };
- 
+
+  const handleClickOutside = (event) => {
+    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      setMenuVisible(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="dashboard-container">
       <div className="sidebar">
@@ -79,6 +102,30 @@ const AcceptedToursList = () => {
       </div>
 
       <div className="main-content">
+        <div className="user-menu" ref={userMenuRef}>
+          <div
+            className="user-icon"
+            onClick={() => setMenuVisible(!menuVisible)}
+          >
+            <img
+              src="/static/icons/userSymbol.png"
+              className="user-avatar"
+              alt="User Icon"
+            />
+            Kemal Çakır
+          </div>
+          {menuVisible && (
+            <div className="dropdown-menu">
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
+              <button onClick={() => (window.location.href = "/api/login/")}>
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+
         <h1>Accepted Tour Applications</h1>
         <div className="accepted-tours-table">
           <table>

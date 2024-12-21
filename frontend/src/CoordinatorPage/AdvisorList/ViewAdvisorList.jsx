@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./ViewAdvisorList.css";
 
 const ViewAdvisorList = () => {
+  const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
+
   const advisors = [
     { name: "Ahmet Yavuzhan Er", bilkentId: "123456", contactPhone: "0123 456 78 90", contactEmail: "ahmet.er@bilkent.edu.tr", assignedDay: "Monday" },
     { name: "John Doe", bilkentId: "234567", contactPhone: "0987 654 32 10", contactEmail: "john.doe@bilkent.edu.tr", assignedDay: "Tuesday" },
@@ -16,6 +19,19 @@ const ViewAdvisorList = () => {
   // Sort advisors by assigned day (Monday to Sunday)
   const daysOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const sortedAdvisors = advisors.sort((a, b) => daysOrder.indexOf(a.assignedDay) - daysOrder.indexOf(b.assignedDay));
+
+  const handleClickOutside = (event) => {
+    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      setMenuVisible(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="dashboard-container">
@@ -53,6 +69,30 @@ const ViewAdvisorList = () => {
       </div>
 
       <div className="main-content">
+        <div className="user-menu" ref={userMenuRef}>
+          <div
+            className="user-icon"
+            onClick={() => setMenuVisible(!menuVisible)}
+          >
+            <img
+              src="/static/icons/userSymbol.png"
+              className="user-avatar"
+              alt="User Icon"
+            />
+            Kemal Çakır
+          </div>
+          {menuVisible && (
+            <div className="dropdown-menu">
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
+              <button onClick={() => (window.location.href = "/api/login/")}>
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+
         <h1>Advisor List</h1>
         <div className="advisor-list-table-container">
           <table className="advisor-list-table">

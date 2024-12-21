@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./ViewGuideList.css";
 
 const ViewGuideList = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
 
   const guides = [
     {
@@ -37,6 +39,19 @@ const ViewGuideList = () => {
     guide.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleClickOutside = (event) => {
+    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      setMenuVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="dashboard-container">
       <div className="sidebar">
@@ -68,11 +83,37 @@ const ViewGuideList = () => {
           </li>
         </ul>
         <div className="logout">
-          <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+          <button onClick={() => (window.location.href = "/api/login/")}>
+            Logout
+          </button>
         </div>
       </div>
 
       <div className="main-content">
+        <div className="user-menu" ref={userMenuRef}>
+          <div
+            className="user-icon"
+            onClick={() => setMenuVisible(!menuVisible)}
+          >
+            <img
+              src="/static/icons/userSymbol.png"
+              className="user-avatar"
+              alt="User Icon"
+            />
+            Kemal Çakır
+          </div>
+          {menuVisible && (
+            <div className="dropdown-menu">
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
+              <button onClick={() => (window.location.href = "/api/login/")}>
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+
         <h1>Guide List</h1>
 
         {/* Search Bar */}
