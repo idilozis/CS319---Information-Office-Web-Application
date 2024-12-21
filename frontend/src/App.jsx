@@ -16,6 +16,7 @@ import Settings from "./Advisor Pages/settings/Settings";
 import CoordinatorDashboard from "./CoordinatorPage/Dashboard/CoordinatorDashboard";
 import CoordinatorPuantaj from "./CoordinatorPage/Puantaj Page/CoordinatorPuantaj";
 import ResponsibleAdvisors from "./GuidePages/ResponsibleAdvisors/ResponsibleAdvisors";
+import CoordinatorFairApplications from "./CoordinatorPage/FairApplications/CoordinatorFairApplications";
 import AcceptedTours from "./GuidePages/AcceptedTours/AcceptedTours";
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
         <Route path="/api/coordinator_dashboard/" element={<CoordinatorDashboard/>} />
         <Route path="/api/coordinator_puantaj/" element={<CoordinatorPuantaj/>} />
         <Route path="/api/responsible_advisors/" element={<ResponsibleAdvisors/>} />
+        <Route path="/api/coordinator_fair_applications/" element={<CoordinatorFairApplications/>} />
         <Route path="/api/accepted_tours/" element={<AcceptedTours/>} />
       </Routes>
     </Router>

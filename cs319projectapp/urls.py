@@ -31,6 +31,9 @@ urlpatterns = [
     path('submit_university_fair/', views.submit_university_fair, name='submit_university_fair'),
     path('coordinator_puantaj/', views.react_view, name='coordinator_puantaj'),
     path("responsible_advisors/", views.react_view, name="responsible_advisors"),
+    path("coordinator_fair_applications/", views.react_view, name="coordinator_fair_applications"),
+
+
     path("accepted_tours/", views.react_view, name="accepted_tours"),
 ]
 

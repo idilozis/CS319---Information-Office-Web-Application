@@ -78,7 +78,10 @@ const CoordinatorPuantaj = () => {
             <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>
           </li>
           <li>
-            <Link to="/api/appl" className="sidebar-link">Applications</Link>
+            <Link to="/api/coordinator_fair_applications" className="sidebar-link">Fair Applications</Link>
+          </li>
+          <li>
+            <Link to="/api/appl" className="sidebar-link">Tour Applications</Link>
           </li>
           <li>
             <Link to="/api/advisor" className="sidebar-link">Advisor List</Link>
