@@ -100,3 +100,23 @@ class IndividualTour(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.city} on {self.date}"
+
+from django.db import models
+
+class UniversityFair(models.Model):
+    name = models.CharField(max_length=255)
+    contact_email = models.EmailField()
+    city = models.CharField(max_length=100)
+    highschool_name = models.CharField(max_length=255)
+    additional_notes = models.TextField(blank=True, null=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')],
+        default='pending'
+    )
+
+    class Meta:
+        db_table = 'universityfairs'
+
+    def __str__(self):
+        return f"{self.name} - {self.city}"

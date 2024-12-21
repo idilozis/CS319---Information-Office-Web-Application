@@ -1,45 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./ApplyFairPage.css";
+import axios from "axios";
 
 const ApplyFairPage = () => {
-  // City and High School data
-  const cityData = {
-    Ankara: ["Ankara Fen Lisesi", "TED Ankara College", "Bilkent High School"],
-    Istanbul: ["Robert College", "Uskudar American Academy", "Istanbul High School"],
-    Izmir: ["Izmir American College", "Bornova Anadolu Lisesi", "Izmir High School"],
-  };
-
+  const [cities, setCities] = useState([]);
+  const [highSchools, setHighSchools] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedSchool, setSelectedSchool] = useState("");
   const [popupVisible, setPopupVisible] = useState(false);
 
-  // Handle city selection
+  // Fetch cities on mount
+  useEffect(() => {
+    axios
+      .get("/api/cities/") // Adjust the endpoint if needed
+      .then((response) => {
+        setCities(response.data); // Array of city names
+      })
+      .catch((error) => console.error("Error fetching cities:", error));
+  }, []);
+
+  // Fetch high schools based on the selected city
   const handleCityChange = (e) => {
-    setSelectedCity(e.target.value);
-    setSelectedSchool(""); 
+    const city = e.target.value;
+    setSelectedCity(city);
+
+    if (city) {
+      axios
+        .get(`/api/highschools/${city}/`) // Adjust the endpoint if needed
+        .then((response) => {
+          setHighSchools(response.data); // Array of high school names
+          setSelectedSchool(""); // Reset high school selection
+        })
+        .catch((error) =>
+          console.error(`Error fetching high schools for ${city}:`, error)
+        );
+    } else {
+      setHighSchools([]);
+    }
   };
 
-  // Handle high school selection
-  const handleSchoolChange = (e) => {
-    setSelectedSchool(e.target.value);
-  };
-
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setPopupVisible(true); // Show popup
-  
-    // Clear form fields
-    setSelectedCity("");
-    setSelectedSchool("");
-    document.getElementById("name").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("notes").value = "";
-  
-    setTimeout(() => setPopupVisible(false), 3000); 
+
+    const formData = {
+      name: document.getElementById("name").value,
+      contact_email: document.getElementById("email").value,
+      city: selectedCity,
+      highschool_name: selectedSchool,
+      additional_notes: document.getElementById("notes").value,
+    };
+
+    try {
+      const response = await axios.post("/api/submit_university_fair/", formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.status === 201) {
+        setPopupVisible(true);
+        setTimeout(() => setPopupVisible(false), 3000);
+
+        // Reset form fields
+        setSelectedCity("");
+        setSelectedSchool("");
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("notes").value = "";
+      } else {
+        alert("Error submitting the form.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
-  
+
   return (
     <div className="apply-fair-container">
       {/* Sidebar */}
@@ -76,10 +111,13 @@ const ApplyFairPage = () => {
         <div className="apply-fair-form-container">
           <h2>Apply for University Fair</h2>
           <form onSubmit={handleSubmit}>
+            {/* Name */}
             <div className="apply-fair-form-group">
               <label htmlFor="name">Name-Surname:</label>
               <input type="text" id="name" placeholder="John Doe" required />
             </div>
+
+            {/* Email */}
             <div className="apply-fair-form-group">
               <label htmlFor="email">Contact E-mail:</label>
               <input
@@ -89,6 +127,8 @@ const ApplyFairPage = () => {
                 required
               />
             </div>
+
+            {/* City Selection */}
             <div className="apply-fair-form-group">
               <label htmlFor="city">City:</label>
               <select
@@ -98,19 +138,21 @@ const ApplyFairPage = () => {
                 required
               >
                 <option value="">Choose a City</option>
-                {Object.keys(cityData).map((city) => (
-                  <option key={city} value={city}>
+                {cities.map((city, index) => (
+                  <option key={index} value={city}>
                     {city}
                   </option>
                 ))}
               </select>
             </div>
+
+            {/* High School Selection */}
             <div className="apply-fair-form-group">
-              <label htmlFor="school">High School Name:</label>
+              <label htmlFor="highschoolName">High School Name:</label>
               <select
-                id="school"
+                id="highschoolName"
                 value={selectedSchool}
-                onChange={handleSchoolChange}
+                onChange={(e) => setSelectedSchool(e.target.value)}
                 disabled={!selectedCity}
                 required
               >
@@ -119,14 +161,15 @@ const ApplyFairPage = () => {
                     ? "Choose a High School"
                     : "Select a City First"}
                 </option>
-                {selectedCity &&
-                  cityData[selectedCity].map((school) => (
-                    <option key={school} value={school}>
-                      {school}
-                    </option>
-                  ))}
+                {highSchools.map((school, index) => (
+                  <option key={index} value={school}>
+                    {school}
+                  </option>
+                ))}
               </select>
             </div>
+
+            {/* Additional Notes */}
             <div className="apply-fair-form-group">
               <label htmlFor="notes">Additional Notes:</label>
               <textarea
@@ -134,6 +177,7 @@ const ApplyFairPage = () => {
                 placeholder="Add any additional information here."
               ></textarea>
             </div>
+
             <button type="submit" className="apply-fair-submit-button">
               Submit
             </button>

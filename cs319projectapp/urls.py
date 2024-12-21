@@ -28,5 +28,6 @@ urlpatterns = [
     path("settings/", views.puantaj_page, name="settings"),
     path('submit_tour/', views.submit_tour, name='submit_tour'),
     path('submit_individual_tour/', submit_individual_tour, name='submit_individual_tour'),
+    path('submit_university_fair/', views.submit_university_fair, name='submit_university_fair'),
 ]
 

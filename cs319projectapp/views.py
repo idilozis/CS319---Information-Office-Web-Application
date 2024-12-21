@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Tour
 from .models import IndividualTour
+from .models import UniversityFair
 import json
 
 
@@ -243,4 +244,22 @@ def submit_individual_tour(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
+    return JsonResponse({'error': 'Invalid request method.'}, status=405)
+
+@csrf_exempt
+def submit_university_fair(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            fair = UniversityFair(
+                name=data['name'],
+                contact_email=data['contact_email'],
+                city=data['city'],
+                highschool_name=data['highschool_name'],
+                additional_notes=data.get('additional_notes', '')
+            )
+            fair.save()
+            return JsonResponse({'message': 'University Fair application submitted successfully!'}, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
