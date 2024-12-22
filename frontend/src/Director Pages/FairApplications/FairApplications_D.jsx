@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./FairApplications_D.css";
 
 const FairApplications_D = () => {
@@ -9,60 +10,42 @@ const FairApplications_D = () => {
   const [notesVisible, setNotesVisible] = useState(false);
   const [modalData, setModalData] = useState({});
   const [notesData, setNotesData] = useState("");
+  const [fairApplications, setFairApplications] = useState([]);
 
-  const [fairApplications, setFairApplications] = useState([
-    {
-      id: 1,
-      date: "21-12-2024",
-      time: "10:00 - 14:00",
-      applicant: "John Doe",
-      email: "johndoe@example.com",
-      city: "Ankara",
-      highSchool: "Ankara Fen Lisesi",
-      notes: "Interested in scholarships for top students.",
-      status: null,
-    },
-    {
-      id: 2,
-      date: "20-12-2024",
-      time: "13:00 - 17:00",
-      applicant: "Jane Smith",
-      email: "janesmith@example.com",
-      city: "Istanbul",
-      highSchool: "Istanbul Lisesi",
-      notes: "Focus on STEM programs for students.",
-      status: null,
-    },
-  ]);
+  // Fetch fair applications from the database
+  const fetchFairApplications = async () => {
+    try {
+      const response = await axios.get("/api/get_fair_applications/");
+      const pendingApplications = response.data.filter(
+        (app) => app.status === "pending"
+      ); // Only keep pending applications
+      setFairApplications(pendingApplications);
+    } catch (error) {
+      console.error("Error fetching fair applications:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFairApplications();
+  }, []);
 
   const openModal = (id, decision) => {
-    const application = fairApplications.find((app) => app.id === id);
-    if (application.status && decision !== "cancel") {
-      alert("Decision already made for this application. Changes are not allowed.");
-      return;
-    }
-    setModalData({
-      id,
-      decision,
-    });
+    setModalData({ id, decision });
     setModalVisible(true);
   };
 
-  const handleModalConfirm = () => {
+  const handleModalConfirm = async () => {
     const { id, decision } = modalData;
-
-    setFairApplications((prev) =>
-      prev.map((app) => {
-        if (app.id === id) {
-          if (decision === "cancel") {
-            return { ...app, status: "cancelled" };
-          }
-          return { ...app, status: decision };
-        }
-        return app;
-      })
-    );
-    setModalVisible(false);
+    try {
+      await axios.post("/api/update_fair_application_status/", {
+        id,
+        status: decision,
+      });
+      fetchFairApplications(); // Refresh the list
+      setModalVisible(false);
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
   const handleModalCancel = () => setModalVisible(false);
@@ -88,7 +71,7 @@ const FairApplications_D = () => {
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-        <h2>Bilkent Information Office System</h2>
+      <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
             <Link to="/api/director_dashboard/" className="sidebar-link">Dashboard</Link>
@@ -150,7 +133,7 @@ const FairApplications_D = () => {
                 <th>Contact Email</th>
                 <th>City</th>
                 <th>High School</th>
-                <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -158,55 +141,27 @@ const FairApplications_D = () => {
                 <tr key={app.id}>
                   <td>{app.date}</td>
                   <td>{app.time}</td>
-                  <td>{app.applicant}</td>
-                  <td>{app.email}</td>
+                  <td>{app.name}</td>
+                  <td>{app.contact_email}</td>
                   <td>{app.city}</td>
-                  <td>{app.highSchool}</td>
+                  <td>{app.highschool_name}</td>
                   <td>
                     <div className="button-container">
-                      {app.status ? (
-                        <span
-                          className={`status ${
-                            app.status === "accepted"
-                              ? "accepted"
-                              : app.status === "rejected"
-                              ? "rejected"
-                              : "cancelled"
-                          }`}
-                        >
-                          {app.status === "accepted"
-                            ? "✔ Accepted"
-                            : app.status === "rejected"
-                            ? "✖ Rejected"
-                            : "✖ Cancelled"}
-                        </span>
-                      ) : (
-                        <>
-                          <button
-                            className="accept-button"
-                            onClick={() => openModal(app.id, "accepted")}
-                          >
-                            Accept
-                          </button>
-                          <button
-                            className="reject-button"
-                            onClick={() => openModal(app.id, "rejected")}
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
-                      {app.status === "accepted" && (
-                        <button
-                          className="cancel-button"
-                          onClick={() => openModal(app.id, "cancel")}
-                        >
-                          Cancel
-                        </button>
-                      )}
+                      <button
+                        className="accept-button"
+                        onClick={() => openModal(app.id, "accepted")}
+                      >
+                        Accept
+                      </button>
+                      <button
+                        className="reject-button"
+                        onClick={() => openModal(app.id, "rejected")}
+                      >
+                        Reject
+                      </button>
                       <button
                         className="view-notes-button"
-                        onClick={() => openNotes(app.notes)}
+                        onClick={() => openNotes(app.additional_notes)}
                       >
                         View Notes
                       </button>
@@ -244,16 +199,10 @@ const FairApplications_D = () => {
                 This action cannot be undone.
               </p>
               <div className="modal-actions">
-                <button
-                  className="confirm-button"
-                  onClick={handleModalConfirm}
-                >
+                <button className="confirm-button" onClick={handleModalConfirm}>
                   Confirm
                 </button>
-                <button
-                  className="cancel-button"
-                  onClick={handleModalCancel}
-                >
+                <button className="cancel-button" onClick={handleModalCancel}>
                   Cancel
                 </button>
               </div>

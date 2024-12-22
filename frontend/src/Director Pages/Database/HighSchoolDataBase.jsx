@@ -1,44 +1,34 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./HighSchoolDatabase.css";
+import axios from "axios";
 
 const HighSchoolDatabase = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("All");
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [highSchools, setHighSchools] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newHighSchool, setNewHighSchool] = useState({
+    name: "",
+    score: "",
+    city: "",
+  });
+
   const userMenuRef = useRef(null);
 
-  const [highSchools, setHighSchools] = useState([
-    {
-      name: "Ankara Fen Lisesi",
-      priorityScore: 4.5,
-      city: "Ankara",
-      appliedBefore: "Yes",
-    },
-    {
-      name: "Istanbul Lisesi",
-      priorityScore: 4.2,
-      city: "Istanbul",
-      appliedBefore: "No",
-    },
-    {
-      name: "Izmir Anadolu Lisesi",
-      priorityScore: 4.8,
-      city: "Izmir",
-      appliedBefore: "Yes",
-    },
-    {
-      name: "Bursa Fen Lisesi",
-      priorityScore: 4.0,
-      city: "Bursa",
-      appliedBefore: "No",
-    },
-  ]);
+  // Fetch all high schools
+  useEffect(() => {
+    axios
+      .get("/api/get_all_highschools")
+      .then((response) => {
+        setHighSchools(response.data);
+      })
+      .catch((error) => console.error("Error fetching high schools:", error));
+  }, []);
 
-  // Get unique cities for the filter dropdown
-  const cities = ["All", ...new Set(highSchools.map((school) => school.city))];
-
+  // Filter high schools based on search term and selected city
   const filteredSchools = highSchools.filter((school) => {
     const matchesSearchTerm = school.name
       .toLowerCase()
@@ -47,71 +37,27 @@ const HighSchoolDatabase = () => {
     return matchesSearchTerm && matchesCity;
   });
 
-  const addHighSchool = () => {
-    const container = document.createElement("div");
-    container.className = "modal-overlay";
+  // Add a new high school to the database
+  const handleAddHighSchool = () => {
+    if (!newHighSchool.name || !newHighSchool.city) {
+      alert("High School Name and City are required.");
+      return;
+    }
 
-    const modal = document.createElement("div");
-    modal.className = "modal";
-
-    const title = document.createElement("h2");
-    title.textContent = "Add High School";
-    modal.appendChild(title);
-
-    const nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.placeholder = "Enter High School Name";
-    nameInput.className = "modal-input";
-    modal.appendChild(nameInput);
-
-    const scoreInput = document.createElement("input");
-    scoreInput.type = "number";
-    scoreInput.placeholder = "Enter Priority Score";
-    scoreInput.className = "modal-input";
-    modal.appendChild(scoreInput);
-
-    const cityInput = document.createElement("input");
-    cityInput.type = "text";
-    cityInput.placeholder = "Enter City";
-    cityInput.className = "modal-input";
-    modal.appendChild(cityInput);
-
-    const buttonContainer = document.createElement("div");
-    buttonContainer.className = "button-container";
-
-    const addButton = document.createElement("button");
-    addButton.textContent = "Add";
-    addButton.className = "modal-button confirm-button";
-    addButton.onclick = () => {
-      const newHighSchool = {
-        name: nameInput.value,
-        priorityScore: parseFloat(scoreInput.value) || 0,
-        city: cityInput.value,
-        appliedBefore: "No", // Automatically set to "No"
-      };
-
-      if (newHighSchool.name && newHighSchool.city) {
-        setHighSchools((prevSchools) => [...prevSchools, newHighSchool]);
-        document.body.removeChild(container);
-      } else {
-        alert("High School Name and City are required fields.");
-      }
-    };
-    buttonContainer.appendChild(addButton);
-
-    const cancelButton = document.createElement("button");
-    cancelButton.textContent = "Cancel";
-    cancelButton.className = "modal-button cancel-button";
-    cancelButton.onclick = () => {
-      document.body.removeChild(container);
-    };
-    buttonContainer.appendChild(cancelButton);
-
-    modal.appendChild(buttonContainer);
-    container.appendChild(modal);
-    document.body.appendChild(container);
+    axios
+      .post("/api/add_highschool/", newHighSchool)
+      .then((response) => {
+        setHighSchools((prevHighSchools) => [...prevHighSchools, response.data]);
+        setIsModalOpen(false);
+        setNewHighSchool({ name: "", score: "", city: "" });
+      })
+      .catch((error) => {
+        console.error("Error adding high school:", error);
+        alert("Failed to add high school.");
+      });
   };
 
+  // Handle click outside the menu
   const handleClickOutside = (event) => {
     if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
       setMenuVisible(false);
@@ -128,7 +74,7 @@ const HighSchoolDatabase = () => {
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-        <h2>Bilkent Information Office System</h2>
+      <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
             <Link to="/api/director_dashboard/" className="sidebar-link">Dashboard</Link>
@@ -150,7 +96,9 @@ const HighSchoolDatabase = () => {
           </li>
         </ul>
         <div className="logout">
-          <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+          <button onClick={() => (window.location.href = "/api/login/")}>
+            Logout
+          </button>
         </div>
       </div>
 
@@ -183,7 +131,7 @@ const HighSchoolDatabase = () => {
 
         {/* Add High School Button */}
         <div className="add-high-school">
-          <button onClick={addHighSchool}>Add High School</button>
+          <button onClick={() => setIsModalOpen(true)}>Add High School</button>
         </div>
 
         {/* Search Bar */}
@@ -204,11 +152,14 @@ const HighSchoolDatabase = () => {
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
           >
-            {cities.map((city, index) => (
-              <option key={index} value={city}>
-                {city}
-              </option>
-            ))}
+            <option value="All">All</option>
+            {[...new Set(highSchools.map((school) => school.city))].map(
+              (city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              )
+            )}
           </select>
         </div>
 
@@ -230,15 +181,65 @@ const HighSchoolDatabase = () => {
                   onClick={() => setHighlightedRow(index)}
                 >
                   <td>{school.name}</td>
-                  <td>{school.priorityScore}</td>
+                  <td>{school.score}</td>
                   <td>{school.city}</td>
-                  <td>{school.appliedBefore}</td>
+                  <td>{school.appliedBefore || "No"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Add High School Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Add High School</h2>
+            <input
+              type="text"
+              placeholder="Enter High School Name"
+              value={newHighSchool.name}
+              onChange={(e) =>
+                setNewHighSchool({ ...newHighSchool, name: e.target.value })
+              }
+              className="modal-input"
+            />
+            <input
+              type="number"
+              placeholder="Enter Priority Score"
+              value={newHighSchool.score}
+              onChange={(e) =>
+                setNewHighSchool({ ...newHighSchool, score: e.target.value })
+              }
+              className="modal-input"
+            />
+            <input
+              type="text"
+              placeholder="Enter City"
+              value={newHighSchool.city}
+              onChange={(e) =>
+                setNewHighSchool({ ...newHighSchool, city: e.target.value })
+              }
+              className="modal-input"
+            />
+            <div className="button-container">
+              <button
+                className="modal-button confirm-button"
+                onClick={handleAddHighSchool}
+              >
+                Add
+              </button>
+              <button
+                className="modal-button cancel-button"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

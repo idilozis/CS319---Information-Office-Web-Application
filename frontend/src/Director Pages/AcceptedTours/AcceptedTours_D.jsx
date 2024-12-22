@@ -1,42 +1,31 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./AcceptedTours_D.css";
 
 const AcceptedTours_D = () => {
-  const [notesVisible, setNotesVisible] = useState(false);
-  const [notesContent, setNotesContent] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
   const userMenuRef = useRef(null);
+  const [currentTab, setCurrentTab] = useState("highschool"); // Default tab
+  const [applications, setApplications] = useState([]);
 
-  const acceptedTours = [
-    {
-      name: "John Doe",
-      capacity: 50,
-      city: "Ankara",
-      highSchool: "Ankara Fen Lisesi",
-      contactPhone: "0123 456 78 90",
-      contactEmail: "johndoe@example.com",
-      additionalNotes: "Requires wheelchair if possible.",
-      tourDate: "21-12-2024",
-      timeSlot: "08:30-10:30",
-    },
-    {
-      name: "Jane Smith",
-      capacity: 40,
-      city: "Istanbul",
-      highSchool: "Istanbul Lisesi",
-      contactPhone: "0987 654 32 10",
-      contactEmail: "janesmith@example.com",
-      additionalNotes: "Focus on STEM programs.",
-      tourDate: "22-12-2024",
-      timeSlot: "10:30-12:30",
-    },
-  ];
-
-  const openNotes = (notes) => {
-    setNotesContent(notes);
-    setNotesVisible(true);
+  // Fetch applications based on the selected tab
+  const fetchApplications = async () => {
+    try {
+      const endpoint =
+        currentTab === "highschool"
+          ? "/api/accepted_highschool_tours/"
+          : "/api/accepted_individual_tours/";
+      const response = await axios.get(endpoint);
+      setApplications(response.data);
+    } catch (error) {
+      console.error("Error fetching applications:", error);
+    }
   };
+
+  useEffect(() => {
+    fetchApplications();
+  }, [currentTab]);
 
   const getDayOfWeek = (dateString) => {
     const days = [
@@ -48,7 +37,7 @@ const AcceptedTours_D = () => {
       "Friday",
       "Saturday",
     ];
-    const [day, month, year] = dateString.split("-").map(Number);
+    const [year, month, day] = dateString.split("-").map(Number);
     const date = new Date(year, month - 1, day);
     return days[date.getDay()];
   };
@@ -59,7 +48,7 @@ const AcceptedTours_D = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -69,7 +58,7 @@ const AcceptedTours_D = () => {
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-        <h2>Bilkent Information Office System</h2>
+      <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
             <Link to="/api/director_dashboard/" className="sidebar-link">Dashboard</Link>
@@ -96,88 +85,55 @@ const AcceptedTours_D = () => {
       </div>
 
       <div className="main-content">
-        <div className="user-menu" ref={userMenuRef}>
-          <div
-            className="user-icon"
-            onClick={() => setMenuVisible(!menuVisible)}
+        <h1>Welcome Back, Kemal Çakır</h1>
+        <div className="tab-buttons">
+          <button
+            className={`tab-button ${currentTab === "highschool" ? "active" : ""}`}
+            onClick={() => setCurrentTab("highschool")}AcceptedTours_D
           >
-            <img
-              src="/static/icons/userSymbol.png"
-              className="user-avatar"
-              alt="User Icon"
-            />
-            Kemal Çakır
-          </div>
-          {menuVisible && (
-            <div className="dropdown-menu">
-              <button onClick={() => (window.location.href = "/api/settings/")}>
-                Settings
-              </button>
-              <button onClick={() => (window.location.href = "/api/login/")}>
-                Logout
-              </button>
-            </div>
-          )}
+            High School Applications
+          </button>
+          <button
+            className={`tab-button ${currentTab === "individual" ? "active" : ""}`}
+            onClick={() => setCurrentTab("individual")}
+          >
+            Individual Applications
+          </button>
         </div>
 
-        <h1>Accepted Tour Applications</h1>
-        <div className="accepted-tours-table">
+        <div className="application-table">
           <table>
             <thead>
               <tr>
-                <th>Name-Surname</th>
-                <th>Capacity</th>
-                <th>City</th>
-                <th>High School</th>
-                <th>Contact Phone</th>
-                <th>Contact Email</th>
-                <th>Additional Notes</th>
-                <th>Tour Date</th>
+                <th>Date</th>
                 <th>Day</th>
-                <th>Time Slot</th>
+                <th>Time</th>
+                <th>High School</th>
+                <th>Counselor</th>
+                <th>Contact</th>
+                <th>Student Count</th>
+                <th>Additional Notes</th>
               </tr>
             </thead>
             <tbody>
-              {acceptedTours.map((tour, index) => (
-                <tr key={index}>
-                  <td>{tour.name}</td>
-                  <td>{tour.capacity}</td>
-                  <td>{tour.city}</td>
-                  <td>{tour.highSchool}</td>
-                  <td>{tour.contactPhone}</td>
-                  <td>{tour.contactEmail}</td>
+              {applications.map((app) => (
+                <tr key={app.id}>
+                  <td>{app.date}</td>
+                  <td>{getDayOfWeek(app.date)}</td>
+                  <td>{app.time_slot}</td>
+                  <td>{app.highschool}</td>
+                  <td>{app.counselor_name}</td>
                   <td>
-                    <button
-                      className="view-notes-button"
-                      onClick={() => openNotes(tour.additionalNotes)}
-                    >
-                      View Notes
-                    </button>
+                    <div>{app.contact_phone ? `📞 ${app.contact_phone}` : "📞 N/A"}</div>
+                    <div>{`✉️ ${app.contact_email}`}</div>
                   </td>
-                  <td>{tour.tourDate}</td>
-                  <td>{getDayOfWeek(tour.tourDate)}</td>
-                  <td>{tour.timeSlot}</td>
+                  <td>{app.capacity}</td>
+                  <td>{app.additional_notes || "N/A"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
-        {/* Notes Modal */}
-        {notesVisible && (
-          <div className="modal-overlay">
-            <div className="modal">
-              <h2>Additional Notes</h2>
-              <p>{notesContent}</p>
-              <button
-                className="modal-close-button"
-                onClick={() => setNotesVisible(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
