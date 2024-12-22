@@ -180,3 +180,7 @@ body {
 .fair-table button:hover {
   background-color: #2980b9;
 }
+.fair-table tr.date-passed {
+  background-color: #ffe6e6 !important; /* Ensure consistent light red */
+  color: #a94442 !important; /* Ensure consistent text color */
+}

@@ -27,6 +27,27 @@ const FairPage = () => {
       time: "14:00",
       attendees: [],
     },
+    {
+      highSchool: "Istanbul High School",
+      city: "Istanbul",
+      date: "01-01-2025",
+      time: "14:00",
+      attendees: [],
+    },
+    {
+      highSchool: "Istanbul High School",
+      city: "Istanbul",
+      date: "01-01-2024",
+      time: "14:00",
+      attendees: [],
+    },
+    {
+      highSchool: "Istanbul High School",
+      city: "Istanbul",
+      date: "28-12-2024",
+      time: "14:00",
+      attendees: [],
+    }
   ]);
   const userMenuRef = useRef(null);
 
@@ -62,6 +83,16 @@ const FairPage = () => {
     updatedFairs[index].attendees.push(userName);
     setFairs(updatedFairs);
   };
+  const isDatePassed = (dateString) => {
+    const [day, month, year] = dateString.split("-").map(Number); // Parse `DD-MM-YYYY` format
+    const fairDate = new Date(year, month - 1, day); // Convert to Date object
+  
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ignore time for comparison (midnight of today)
+  
+    return fairDate < today; // Check if the fair date is before today
+  };
+  
 
   return (
     <div className="dashboard-container">
@@ -124,31 +155,32 @@ const FairPage = () => {
               </tr>
             </thead>
             <tbody>
-              {fairs.map((fair, fairIndex) => (
-                <tr key={fairIndex}>
-                  <td>{fair.highSchool}</td>
-                  <td>{fair.city}</td>
-                  <td>{fair.date}</td>
-                  <td>{fair.time}</td>
-                  <td>
-                    <ul>
-                      {fair.attendees.map((attendee, attendeeIndex) => (
-                        <li key={attendeeIndex}>{attendee}</li>
-                      ))}
-                    </ul>
-                    {/* Disable button if the user has added themselves */}
-                    {!fair.attendees.includes(userName) && (
-                      <button
-                        onClick={() => handleAddAttendee(fairIndex)}
-                        style={{ marginTop: "5px" }}
-                      >
-                        Add Yourself
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+                  {fairs.map((fair, fairIndex) => (
+                    <tr key={fairIndex} className={isDatePassed(fair.date) ? "date-passed" : ""}>
+                      <td>{fair.highSchool}</td>
+                      <td>{fair.city}</td>
+                      <td>{fair.date}</td>
+                      <td>{fair.time}</td>
+                      <td>
+                        <ul>
+                          {fair.attendees.map((attendee, attendeeIndex) => (
+                            <li key={attendeeIndex}>{attendee}</li>
+                          ))}
+                        </ul>
+                        {/* Disable button if the date has passed or the user has already added themselves */}
+                        {!isDatePassed(fair.date) && !fair.attendees.includes(userName) && (
+                          <button
+                            onClick={() => handleAddAttendee(fairIndex)}
+                            style={{ marginTop: "5px" }}
+                          >
+                            Add Yourself
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+
           </table>
         </div>
       </div>
