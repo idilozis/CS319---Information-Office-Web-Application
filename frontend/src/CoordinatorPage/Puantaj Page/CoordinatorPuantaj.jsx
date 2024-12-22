@@ -1,31 +1,41 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./CoordinatorPuantaj.css";
 
 const CoordinatorPuantaj = () => {
   const DUMMY_RATE_TOUR = 150; // Dummy rate per tour hour
   const DUMMY_RATE_FAIR = 250; // Dummy rate per fair hour
 
-  const [guides, setGuides] = useState([
-    { name: "Ahmet Yavuzhan Er", tourHours: 17, fairHours: 0, isEditing: false },
-    { name: "John Doe", tourHours: 24, fairHours: 0, isEditing: false },
-    { name: "Zeynep Dönmez", tourHours: 67, fairHours: 7, isEditing: false },
-    { name: "Ali Yıldırım", tourHours: 45, fairHours: 0, isEditing: false },
-    { name: "Berker Kara", tourHours: 0, fairHours: 0, isEditing: false },
-    { name: "Sıla Yılmaz", tourHours: 8, fairHours: 24, isEditing: false },
-  ]);
+  const [guides, setGuides] = useState([]); // Dynamic data from the database
+  const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
 
+  // Fetch guide data from the database
+  const fetchGuides = async () => {
+    try {
+      const response = await axios.get("/api/guides/"); // Replace with your API endpoint
+      setGuides(response.data);
+    } catch (error) {
+      console.error("Error fetching guides:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGuides(); // Fetch data on component mount
+  }, []);
+
+  // Calculate total payroll
   const calculatePayroll = (tourHours, fairHours) => {
     return tourHours * DUMMY_RATE_TOUR + fairHours * DUMMY_RATE_FAIR;
   };
 
+  // Calculate total hours
   const calculateTotalHours = (tourHours, fairHours) => {
     return tourHours + fairHours;
   };
 
-  const [menuVisible, setMenuVisible] = useState(false);
-  const userMenuRef = useRef(null);
-
+  // Close user menu on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -37,34 +47,6 @@ const CoordinatorPuantaj = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const handleEditClick = (index) => {
-    setGuides((prevGuides) => {
-      const updatedGuides = [...prevGuides];
-      updatedGuides[index].isEditing = true;
-      if (updatedGuides[index].tourHours === 0) updatedGuides[index].tourHours = "";
-      if (updatedGuides[index].fairHours === 0) updatedGuides[index].fairHours = "";
-      return updatedGuides;
-    });
-  };
-
-  const handleSaveClick = (index) => {
-    setGuides((prevGuides) => {
-      const updatedGuides = [...prevGuides];
-      updatedGuides[index].isEditing = false;
-      updatedGuides[index].tourHours = updatedGuides[index].tourHours || 0;
-      updatedGuides[index].fairHours = updatedGuides[index].fairHours || 0;
-      return updatedGuides;
-    });
-  };
-
-  const handleInputChange = (index, field, value) => {
-    setGuides((prevGuides) => {
-      const updatedGuides = [...prevGuides];
-      updatedGuides[index][field] = value;
-      return updatedGuides;
-    });
-  };
 
   return (
     <div className="dashboard-container">
@@ -97,7 +79,9 @@ const CoordinatorPuantaj = () => {
           </li>
         </ul>
         <div className="logout">
-          <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+          <button onClick={() => (window.location.href = "/api/login/")}>
+            Logout
+          </button>
         </div>
       </div>
 
@@ -116,13 +100,17 @@ const CoordinatorPuantaj = () => {
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
-              <button onClick={() => (window.location.href = "/api/settings/")}>Settings</button>
-              <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
+              <button onClick={() => (window.location.href = "/api/login/")}>
+                Logout
+              </button>
             </div>
           )}
         </div>
 
-        <h1>Puantaj Edit Page</h1>
+        <h1>Puantaj Page</h1>
         <div className="guide-table">
           <table>
             <thead>
@@ -132,48 +120,16 @@ const CoordinatorPuantaj = () => {
                 <th>Total Fair Hours</th>
                 <th>Total Hours</th>
                 <th>Processed Payroll (₺)</th>
-                <th>Edit</th>
               </tr>
             </thead>
             <tbody>
-              {guides.map((guide, index) => (
-                <tr key={index}>
+              {guides.map((guide) => (
+                <tr key={guide.id}>
                   <td>{guide.name}</td>
-                  <td>
-                    {guide.isEditing ? (
-                      <input
-                        type="number"
-                        value={guide.tourHours}
-                        onChange={(e) => handleInputChange(index, "tourHours", e.target.value)}
-                      />
-                    ) : (
-                      guide.tourHours
-                    )}
-                  </td>
-                  <td>
-                    {guide.isEditing ? (
-                      <input
-                        type="number"
-                        value={guide.fairHours}
-                        onChange={(e) => handleInputChange(index, "fairHours", e.target.value)}
-                      />
-                    ) : (
-                      guide.fairHours
-                    )}
-                  </td>
-                  <td>{calculateTotalHours(guide.tourHours, guide.fairHours)}</td>
-                  <td>{calculatePayroll(guide.tourHours, guide.fairHours)} ₺</td>
-                  <td>
-                    {guide.isEditing ? (
-                      <button className="save-button" onClick={() => handleSaveClick(index)}>
-                        Save
-                      </button>
-                    ) : (
-                      <button className="edit-button" onClick={() => handleEditClick(index)}>
-                        Edit
-                      </button>
-                    )}
-                  </td>
+                  <td>{guide.tour_hours}</td>
+                  <td>{guide.fair_hours}</td>
+                  <td>{calculateTotalHours(guide.tour_hours, guide.fair_hours)}</td>
+                  <td>{calculatePayroll(guide.tour_hours, guide.fair_hours)} ₺</td>
                 </tr>
               ))}
             </tbody>
