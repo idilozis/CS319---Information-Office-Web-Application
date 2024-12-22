@@ -1,44 +1,34 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./ViewGuideList.css";
 
 const ViewGuideList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
   const userMenuRef = useRef(null);
+  const [guides, setGuides] = useState([]); // State for dynamic guide data
 
-  const guides = [
-    {
-      name: "Ahmet Yavuzhan Er",
-      bilkentId: "123456",
-      contactPhone: "0123 456 78 90",
-      contactEmail: "ahmet.er@bilkent.edu.tr",
-    },
-    {
-      name: "John Doe",
-      bilkentId: "234567",
-      contactPhone: "0987 654 32 10",
-      contactEmail: "john.doe@bilkent.edu.tr",
-    },
-    {
-      name: "Jane Smith",
-      bilkentId: "345678",
-      contactPhone: "0123 987 65 43",
-      contactEmail: "jane.smith@bilkent.edu.tr",
-    },
-    {
-      name: "Ali Yıldırım",
-      bilkentId: "456789",
-      contactPhone: "0111 222 33 44",
-      contactEmail: "ali.yildirim@bilkent.edu.tr",
-    },
-    // Add more guides as needed
-  ];
+  // Fetch guides from the API
+  const fetchGuides = async () => {
+    try {
+      const response = await axios.get("/api/guides/"); // API endpoint for fetching guides
+      setGuides(response.data);
+    } catch (error) {
+      console.error("Error fetching guides:", error);
+    }
+  };
 
+  useEffect(() => {
+    fetchGuides(); // Fetch guide data on component mount
+  }, []);
+
+  // Filter guides by search term
   const filteredGuides = guides.filter((guide) =>
     guide.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Close user menu on outside click
   const handleClickOutside = (event) => {
     if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
       setMenuVisible(false);
@@ -58,28 +48,62 @@ const ViewGuideList = () => {
         <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <Link to="/api/coordinator_dashboard" className="sidebar-link">Dashboard</Link>
+            <Link to="/api/coordinator_dashboard" className="sidebar-link">
+              Dashboard
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_highschool_database" className="sidebar-link">High School Database</Link>
+            <Link
+              to="/api/coordinator_highschool_database"
+              className="sidebar-link"
+            >
+              High School Database
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_puantaj" className="sidebar-link">Puantaj Page</Link>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">
+              Puantaj Page
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_fair_applications" className="sidebar-link">Fair Applications</Link>
+            <Link
+              to="/api/coordinator_fair_applications"
+              className="sidebar-link"
+            >
+              Fair Applications
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_accepted_tours" className="sidebar-link">Tour Applications</Link>
+            <Link
+              to="/api/coordinator_accepted_tours"
+              className="sidebar-link"
+            >
+              Tour Applications
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_view_advisor_list" className="sidebar-link">Advisor List</Link>
+            <Link
+              to="/api/coordinator_view_advisor_list"
+              className="sidebar-link"
+            >
+              Advisor List
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_view_guide_list" className="sidebar-link">Guide List</Link>
+            <Link
+              to="/api/coordinator_view_guide_list"
+              className="sidebar-link"
+            >
+              Guide List
+            </Link>
           </li>
           <li>
-            <Link to="/api/coordinator_view_feedback" className="sidebar-link">View Feedbacks</Link>
+            <Link
+              to="/api/coordinator_view_feedback"
+              className="sidebar-link"
+            >
+              View Feedbacks
+            </Link>
           </li>
         </ul>
         <div className="logout">
@@ -137,12 +161,12 @@ const ViewGuideList = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredGuides.map((guide, index) => (
-                <tr key={index}>
+              {filteredGuides.map((guide) => (
+                <tr key={guide.id}>
                   <td>{guide.name}</td>
-                  <td>{guide.bilkentId}</td>
-                  <td>{guide.contactPhone}</td>
-                  <td>{guide.contactEmail}</td>
+                  <td>{guide.bilkentid}</td>
+                  <td>{guide.contact_phone || "N/A"}</td>
+                  <td>{guide.contact_mail || "N/A"}</td>
                 </tr>
               ))}
             </tbody>
