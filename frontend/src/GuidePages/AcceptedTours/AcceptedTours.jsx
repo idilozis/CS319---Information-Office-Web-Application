@@ -80,6 +80,18 @@ const AcceptedTours = () => {
     });
   };
 
+  const isDatePassed = (dateString) => {
+    const [day, month, year] = dateString.split("-").map(Number); // Parse `DD-MM-YYYY`
+    const tourDate = new Date(year, month - 1, day); // Convert to `Date` object
+  
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ignore time for comparison (midnight of today)
+  
+    return tourDate < today; // Check if the tour date is before today
+  };
+  
+  
+
   return (
     <div className="dashboard-container">
       <div className="sidebar">
@@ -147,41 +159,42 @@ const AcceptedTours = () => {
               </tr>
             </thead>
             <tbody>
-              {tours.map((tour, tourIndex) => (
-                <tr key={tourIndex}>
-                  <td>{tour.date}</td>
-                  <td>{tour.time}</td>
-                  <td>{tour.highSchool}</td>
-                  <td>{tour.counselor}</td>
-                  <td>
-                      <div>
-                        {tour.contact.phone ? <span>📞 {tour.contact.phone}</span> : <span>📞 N/A</span>}
-                      </div>
-                      <div>
-                        ✉️ {tour.contact.email}
-                      </div>
-                  </td>
-                  <td>{tour.studentCount}</td>
-                  <td>
-                    <ul>
-                        {tour.attendees.map((attendee, attendeeIndex) => (
-                        <li key={attendeeIndex}>{attendee}</li>
-                        ))}
-                    </ul>
-                    {/* Render the button only if the user is not already in attendees and there is space */}
-                    {!tour.attendees.includes(userName) &&
-                        tour.attendees.length < Math.ceil(tour.studentCount / 60) && (
-                        <button
-                            onClick={() => handleAddAttendee(tourIndex)}
-                            style={{ marginTop: "5px" }}
-                        >
-                            Add Yourself
-                        </button>
-                        )}
-                    </td>
-                </tr>
-              ))}
-            </tbody>
+                  {tours.map((tour, tourIndex) => (
+                    <tr key={tourIndex} className={isDatePassed(tour.date) ? "date-passed" : ""}>
+                      <td>{tour.date}</td>
+                      <td>{tour.time}</td>
+                      <td>{tour.highSchool}</td>
+                      <td>{tour.counselor}</td>
+                      <td>
+                        <div>
+                          {tour.contact.phone ? <span>📞 {tour.contact.phone}</span> : <span>📞 N/A</span>}
+                        </div>
+                        <div>✉️ {tour.contact.email}</div>
+                      </td>
+                      <td>{tour.studentCount}</td>
+                      <td>
+                        <ul>
+                          {tour.attendees.map((attendee, attendeeIndex) => (
+                            <li key={attendeeIndex}>{attendee}</li>
+                          ))}
+                        </ul>
+                        {/* Render the button only if the user is not already in attendees, there is space, and the date hasn't passed */}
+                        {!isDatePassed(tour.date) &&
+                          !tour.attendees.includes(userName) &&
+                          tour.attendees.length < Math.ceil(tour.studentCount / 60) && (
+                            <button
+                              onClick={() => handleAddAttendee(tourIndex)}
+                              style={{ marginTop: "5px" }}
+                            >
+                              Add Yourself
+                            </button>
+                          )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+
+
           </table>
         </div>
       </div>
