@@ -30,9 +30,6 @@ import FairApplications_D from "./Director Pages/FairApplications/FairApplicatio
 import AcceptedTours_D from "./Director Pages/AcceptedTours/AcceptedTours_D";
 import Feedback_D from "./Director Pages/Feedback_D/Feedback_D";
 import Dashboard_p from "./PromotionalCoordinator/Dashboard/Dashboard_p";
-import Feedback_p from "./PromotionalCoordinator/FeedBack/Feedback_p";
-import PauntajPage_p from "./PromotionalCoordinator/Pauntaj Page/PauntajPage_p";
-import TourApplication_p from "./PromotionalCoordinator/TourApplication_p/TourApplication_p";
 
 function App() {
   return (
@@ -89,10 +86,8 @@ function App() {
         <Route path="/api/director_fair_applications/" element={<FairApplications_D/>} />
         <Route path="/api/director_accepted_tours/" element={<AcceptedTours_D/>} />
         <Route path="/api/director_feedback/" element={<Feedback_D/>} />
-        <Route path="/api/promotional_coordinator_pauntaj/" element={<PauntajPage_p/>} />
-        <Route path="/api/promotional_coordinator_feedback/" element={<Feedback_p/>} />
         <Route path="/api/promo_coordinator_dashboard/" element={<Dashboard_p/>} />
-        <Route path="/api/promo_coordinator_tour_application/" element={<TourApplication_p/>} />
+        
       </Routes>
     </Router>
   );
