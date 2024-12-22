@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "./Settings.css";
 
 const Settings = () => {
+  const [name, setName] = useState("Loading..."); // Dynamic Name
   const [email, setEmail] = useState("user@example.com");
   const [phoneNumber, setPhoneNumber] = useState("7017642414");
-  const [studentId, setStudentId] = useState(""); // Dynamic Student ID
+  const [studentId, setStudentId] = useState("Loading..."); // Dynamic Student ID
   const [currentPassword, setCurrentPassword] = useState("");
   const [newInfo, setNewInfo] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -25,12 +26,14 @@ const Settings = () => {
       const response = await new Promise((resolve) =>
         setTimeout(() => {
           resolve({
+            name: "John Doe",
             studentId: "12345678",
             email: "user@example.com",
             phoneNumber: "1234567891",
           });
         }, 1000)
       );
+      setName(response.name);
       setStudentId(response.studentId);
       setEmail(response.email);
       setPhoneNumber(response.phoneNumber);
@@ -157,11 +160,19 @@ const Settings = () => {
         {successMessage && <p className="success-message">{successMessage}</p>}
       </div>
 
+      {/* Name Section */}
+      <div className="settings-section">
+        <label>Name:</label>
+        <div className="field-container">
+          <span className="non-editable-field">{name}</span>
+        </div>
+      </div>
+
       {/* Student ID Section */}
       <div className="settings-section">
         <label>Student ID:</label>
         <div className="field-container">
-          <span className="non-editable-field">{studentId || "Loading..."}</span>
+          <span className="non-editable-field">{studentId}</span>
         </div>
       </div>
 
