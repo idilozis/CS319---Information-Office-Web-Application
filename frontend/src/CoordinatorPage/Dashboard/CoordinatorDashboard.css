@@ -76,7 +76,7 @@ body {
   flex: 1; 
   padding: 20px;
   background-color: #ffffff;
-  overflow-y: auto; /
+  overflow-y: auto;
 }
 
 .main-content h1 {
