@@ -66,7 +66,7 @@ const ViewPuantajPage = () => {
             <Link to="/api/director_fair_applications" className="sidebar-link">Fair Applications</Link>
           </li>
           <li>
-            <Link to="/api/director_accepted_tours" className="sidebar-link">Tour Applications</Link>
+            <Link to="/api/director_accepted_tours" className="sidebar-link">Tours</Link>
           </li>
           <li>
             <Link to="/api/director_feedback" className="sidebar-link">View Feedbacks</Link>
