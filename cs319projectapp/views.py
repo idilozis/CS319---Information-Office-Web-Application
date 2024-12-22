@@ -277,3 +277,48 @@ def update_fair_application_status(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+from .models import Feedback
+
+@csrf_exempt
+def submit_feedback(request):
+    if request.method == 'POST':
+        try:
+            # Parse JSON request body
+            data = json.loads(request.body)
+
+            # Extract fields
+            name = data.get('name')
+            city = data.get('city')
+            highschool = data.get('highschool')
+            tour_type = data.get('tour_type')
+            tour_date = data.get('tour_date')
+            feedback_text = data.get('feedback')
+
+            # Validate fields
+            if not all([name, city, highschool, tour_type, tour_date, feedback_text]):
+                return JsonResponse({'error': 'All fields are required.'}, status=400)
+
+            # Save feedback to the database
+            feedback = Feedback(
+                name=name,
+                city=city,
+                highschool=highschool,
+                tour_type=tour_type,
+                tour_date=tour_date,
+                feedback=feedback_text
+            )
+            feedback.save()
+
+            return JsonResponse({'message': 'Feedback submitted successfully.'}, status=201)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON payload.'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+
+    return JsonResponse({'error': 'Invalid HTTP method.'}, status=405)
+
+def get_feedbacks(request):
+    feedbacks = Feedback.objects.all().values()
+    return JsonResponse(list(feedbacks), safe=False)

@@ -1,32 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./ViewFeedback.css";
 
 const ViewFeedback = () => {
   const [feedbackVisible, setFeedbackVisible] = useState(false);
   const [feedbackContent, setFeedbackContent] = useState("");
   const [menuVisible, setMenuVisible] = useState(false);
+  const [feedbackList, setFeedbackList] = useState([]); // Dynamic feedback data
   const userMenuRef = useRef(null);
 
-  const feedbackList = [
-    {
-      name: "John Doe",
-      city: "Ankara",
-      highSchool: "Ankara Fen Lisesi",
-      tourType: "High School",
-      tourDate: "21-12-2024",
-      feedback: "The tour was very informative and well-organized. The guides were professional and friendly.",
-    },
-    {
-      name: "Jane Smith",
-      city: "Istanbul",
-      highSchool: "Istanbul Lisesi",
-      tourType: "Individual",
-      tourDate: "22-12-2024",
-      feedback: "Great experience! Learned a lot about the facilities. Would recommend it to others.",
-    },
-    // Add more feedback entries as needed
-  ];
+  // Fetch feedback data from the database
+  const fetchFeedbacks = async () => {
+    try {
+      const response = await axios.get("/api/feedbacks/"); // Replace with your API endpoint
+      setFeedbackList(response.data);
+    } catch (error) {
+      console.error("Error fetching feedbacks:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFeedbacks(); // Fetch data on component mount
+  }, []);
 
   const openFeedback = (feedback) => {
     setFeedbackContent(feedback);
@@ -95,8 +91,12 @@ const ViewFeedback = () => {
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
-              <button onClick={() => (window.location.href = "/api/settings/")}>Settings</button>
-              <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+              <button onClick={() => (window.location.href = "/api/settings/")}>
+                Settings
+              </button>
+              <button onClick={() => (window.location.href = "/api/login/")}>
+                Logout
+              </button>
             </div>
           )}
         </div>
@@ -119,9 +119,9 @@ const ViewFeedback = () => {
                 <tr key={index}>
                   <td>{feedback.name}</td>
                   <td>{feedback.city}</td>
-                  <td>{feedback.highSchool}</td>
-                  <td>{feedback.tourType}</td>
-                  <td>{feedback.tourDate}</td>
+                  <td>{feedback.highschool}</td>
+                  <td>{feedback.tour_type}</td>
+                  <td>{feedback.tour_date}</td>
                   <td>
                     <button
                       className="view-feedback-button"

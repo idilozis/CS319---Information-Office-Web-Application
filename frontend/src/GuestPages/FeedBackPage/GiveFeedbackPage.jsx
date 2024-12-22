@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./GiveFeedbackPage.css"; 
-import axios from "axios"; 
+import "./GiveFeedbackPage.css";
+import axios from "axios";
 
 const GiveFeedbackPage = () => {
-  const [cities, setCities] = useState([]); 
+  const [cities, setCities] = useState([]);
   const [highSchools, setHighSchools] = useState([]);
-  const [selectedCity, setSelectedCity] = useState(""); 
+  const [selectedCity, setSelectedCity] = useState("");
   const [selectedHighSchool, setSelectedHighSchool] = useState("");
-  const [popupVisible, setPopupVisible] = useState(false); 
+  const [popupVisible, setPopupVisible] = useState(false);
   const [selectedTourType, setSelectedTourType] = useState("");
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const GiveFeedbackPage = () => {
       .then((response) => {
         console.log(`High schools in ${city}:`, response.data);
         setHighSchools(response.data);
-        setSelectedHighSchool(""); 
+        setSelectedHighSchool(""); // Reset high school selection
       })
       .catch((error) =>
         console.error(`Error fetching high schools for ${city}:`, error)
@@ -43,18 +43,38 @@ const GiveFeedbackPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPopupVisible(true); 
-  
-    setSelectedCity("");
-    setSelectedHighSchool("");
-    setSelectedTourType("");
-    document.getElementById("name").value = "";
-    document.getElementById("feedback").value = "";
-    document.getElementById("date").value = "";
-  
-    setTimeout(() => setPopupVisible(false), 3000); 
+
+    // Collect feedback data
+    const feedbackData = {
+      name: document.getElementById("name").value,
+      city: selectedCity,
+      highschool: selectedHighSchool,
+      tour_type: selectedTourType,
+      tour_date: document.getElementById("date").value,
+      feedback: document.getElementById("feedback").value,
+    };
+
+    // Send data to the backend
+    axios
+      .post("/api/submit_feedback/", feedbackData)
+      .then((response) => {
+        console.log("Feedback submitted:", response.data);
+        setPopupVisible(true);
+
+        // Clear form fields
+        setSelectedCity("");
+        setSelectedHighSchool("");
+        setSelectedTourType("");
+        document.getElementById("name").value = "";
+        document.getElementById("feedback").value = "";
+        document.getElementById("date").value = "";
+
+        setTimeout(() => setPopupVisible(false), 3000); // Hide popup after 3 seconds
+      })
+      .catch((error) => {
+        console.error("Error submitting feedback:", error);
+      });
   };
-  
 
   return (
     <div className="give-feedback-container">
@@ -180,9 +200,7 @@ const GiveFeedbackPage = () => {
 
         {/* Popup Message */}
         {popupVisible && (
-          <div className="popup-message">
-            Thank you for your feedback!
-          </div>
+          <div className="popup-message">Thank you for your feedback!</div>
         )}
       </main>
     </div>

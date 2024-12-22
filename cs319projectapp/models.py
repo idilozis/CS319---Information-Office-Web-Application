@@ -143,3 +143,22 @@ class UniversityFair(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.city} on {self.date} at {self.time}"
+
+class Feedback(models.Model):
+    TOUR_TYPE_CHOICES = [
+        ('High School', 'High School'),
+        ('Individual', 'Individual'),
+    ]
+
+    name = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    highschool = models.CharField(max_length=100, blank=True, null=True)
+    tour_type = models.CharField(max_length=50, choices=TOUR_TYPE_CHOICES)
+    tour_date = models.DateField()
+    feedback = models.TextField()
+
+    class Meta:
+        db_table = 'feedback'
+
+    def __str__(self):
+        return f"{self.name} - {self.tour_type}"
