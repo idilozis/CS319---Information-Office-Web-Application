@@ -57,6 +57,24 @@ class HighSchool(models.Model):
 
 from django.db import models
 
+from django.db import models
+
+class Guide(models.Model):
+    bilkentid = models.CharField(max_length=20, unique=True)  # Unique identifier
+    name = models.CharField(max_length=255)  # Name of the guide
+    contact_mail = models.EmailField()  # Contact email of the guide
+    contact_phone = models.CharField(max_length=20)  # Contact phone of the guide
+    tour_hours = models.PositiveIntegerField(default=0)  # Total hours worked for tours
+    fair_hours = models.PositiveIntegerField(default=0)  # Total hours worked for fairs
+    payroll = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Payroll amount
+
+    class Meta:
+        db_table = 'guides'  # Explicitly map to the 'guides' table in MySQL
+
+    def __str__(self):
+        return f"{self.name} ({self.bilkentid})"
+
+
 class Tour(models.Model):
     counselor_name = models.CharField(max_length=255)
     capacity = models.PositiveIntegerField()

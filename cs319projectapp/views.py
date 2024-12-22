@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Tour
 from .models import IndividualTour
 from .models import UniversityFair
+from .models import Guide
 import json
 from django.views import View
 from django.utils.decorators import method_decorator
@@ -164,6 +165,46 @@ def get_highschool_tours(request):
 @api_view(['GET'])
 def get_individual_tours(request):
     tours = IndividualTour.objects.filter(status='pending').values()
+    return Response(list(tours))
+
+@api_view(['GET'])
+def get_accepted_highschool_tours(request):
+    tours = Tour.objects.filter(status='accepted')
+    result = []
+
+    for tour in tours:
+        guide_names = []
+        if tour.guide1_id:
+            guide1 = Guide.objects.filter(id=tour.guide1_id).first()
+            if guide1:
+                guide_names.append(guide1.name)
+        if tour.guide2_id:
+            guide2 = Guide.objects.filter(id=tour.guide2_id).first()
+            if guide2:
+                guide_names.append(guide2.name)
+        if tour.guide3_id:
+            guide3 = Guide.objects.filter(id=tour.guide3_id).first()
+            if guide3:
+                guide_names.append(guide3.name)
+
+        result.append({
+            'id': tour.id,
+            'date': tour.date,
+            'time_slot': tour.time_slot,
+            'highschool': tour.highschool,
+            'counselor_name': tour.counselor_name,
+            'contact_phone': tour.contact_phone,
+            'contact_email': tour.contact_email,
+            'capacity': tour.capacity,
+            'guides': guide_names,  # Include guide names
+        })
+
+    return Response(result)
+
+
+@api_view(['GET'])
+def get_accepted_individual_tours(request):
+    tours = IndividualTour.objects.filter(status='accepted').values()
     return Response(list(tours))
 
 @api_view(['POST'])

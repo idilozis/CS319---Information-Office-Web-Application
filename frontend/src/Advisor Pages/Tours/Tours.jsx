@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./Tours.css";
 
 const Tours = () => {
@@ -8,69 +9,56 @@ const Tours = () => {
   const [modalData, setModalData] = useState({});
   const userMenuRef = useRef(null);
 
-  const assignedDay = "Saturday"; 
+  const assignedDay = "Friday";
+  const [tours, setTours] = useState([]);
 
   const getDayName = (dateString) => {
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const [day, month, year] = dateString.split("-").map(Number); 
-    const date = new Date(year, month - 1, day); 
+    const [year, month, day] = dateString.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
     return days[date.getDay()];
   };
 
-  const [tours, setTours] = useState([
-    {
-      id: 1,
-      date: "21-12-2024",
-      time: "8.30-12.30",
-      highSchool: "Ankara Fen Lisesi",
-      counselor: "Türkan Meşe",
-      contact: {
-        phone: "123 456 78 91",
-        email: "turkan@example.com",
-      },
-      studentCount: 50,
-      guides: ["Guide 1"],
-    },
-    {
-      id: 2,
-      date: "22-12-2024",
-      time: "10.00-14.00",
-      highSchool: "Izmir Fen Lisesi",
-      counselor: "Ayşe Yılmaz",
-      contact: {
-        phone: "987 654 32 10",
-        email: "ayse@example.com",
-      },
-      studentCount: 120,
-      guides: ["Guide 2", "Guide 3"],
-    },
-    {
-      id: 3,
-      date: "23-12-2024",
-      time: "9.00-13.00",
-      highSchool: "Istanbul Erkek Lisesi",
-      counselor: "Mehmet Bozkır",
-      contact: {
-        phone: null,
-        email: "mehmet@example.com",
-      },
-      studentCount: 75,
-      guides: ["Guide 4"],
-    },
-  ]);
+  // Fetch tours and resolve guide names from IDs
+  const fetchTours = async () => {
+    try {
+      const response = await axios.get("/api/accepted_highschool_tours/"); // Fetch highschool tours
+      const toursWithGuides = await Promise.all(
+        response.data.map(async (tour) => {
+          const guides = [];
+          if (tour.guide1_id) {
+            const guide1 = await fetchGuideName(tour.guide1_id);
+            if (guide1) guides.push(guide1);
+          }
+          if (tour.guide2_id) {
+            const guide2 = await fetchGuideName(tour.guide2_id);
+            if (guide2) guides.push(guide2);
+          }
+          if (tour.guide3_id) {
+            const guide3 = await fetchGuideName(tour.guide3_id);
+            if (guide3) guides.push(guide3);
+          }
+          return { ...tour, guides };
+        })
+      );
+      setTours(toursWithGuides);
+    } catch (error) {
+      console.error("Error fetching tours:", error);
+    }
+  };
 
-  const filteredTours = tours.filter((tour) => getDayName(tour.date) === assignedDay);
+  const fetchGuideName = async (guideId) => {
+    try {
+      const response = await axios.get(`/api/guides/${guideId}/`); // Fetch guide details
+      return response.data.name; // Return the guide's name
+    } catch (error) {
+      console.error(`Error fetching guide with ID ${guideId}:`, error);
+      return null;
+    }
+  };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-        setMenuVisible(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    fetchTours(); // Fetch tours on component mount
   }, []);
 
   const openRemoveGuideModal = (tourId, guideIndex, guideName) => {
@@ -78,23 +66,29 @@ const Tours = () => {
     setModalVisible(true);
   };
 
-  const handleRemoveGuide = () => {
+  const handleRemoveGuide = async () => {
     const { tourId, guideIndex } = modalData;
-    const updatedTours = tours.map((tour) => {
-      if (tour.id === tourId) {
-        const updatedGuides = [...tour.guides];
-        updatedGuides.splice(guideIndex, 1); 
-        return { ...tour, guides: updatedGuides };
-      }
-      return tour;
-    });
-    setTours(updatedTours);
-    setModalVisible(false); 
+    try {
+      const updatedTours = tours.map((tour) => {
+        if (tour.id === tourId) {
+          const updatedGuides = [...tour.guides];
+          updatedGuides.splice(guideIndex, 1);
+          return { ...tour, guides: updatedGuides };
+        }
+        return tour;
+      });
+      setTours(updatedTours);
+      setModalVisible(false);
+    } catch (error) {
+      console.error("Error removing guide:", error);
+    }
   };
 
   const handleModalCancel = () => {
     setModalVisible(false);
   };
+
+  const filteredTours = tours.filter((tour) => getDayName(tour.date) === assignedDay);
 
   return (
     <div className="dashboard-container">
@@ -154,6 +148,7 @@ const Tours = () => {
 
         <h1>Tour Details</h1>
         <h3 className="assigned-day">Your Assigned Day: {assignedDay}</h3>
+
         <div className="application-table">
           <table>
             <thead>
@@ -169,22 +164,22 @@ const Tours = () => {
             </thead>
             <tbody>
               {filteredTours.map((tour) => {
-                const requiredGuides = Math.ceil(tour.studentCount / 60);
+                const requiredGuides = Math.ceil(tour.capacity / 60); // Calculate required guides
                 return (
                   <tr key={tour.id}>
                     <td>{tour.date}</td>
-                    <td>{tour.time}</td>
-                    <td>{tour.highSchool}</td>
-                    <td>{tour.counselor}</td>
+                    <td>{tour.time_slot}</td>
+                    <td>{tour.highschool}</td>
+                    <td>{tour.counselor_name}</td>
                     <td>
                       <div>
-                        {tour.contact.phone ? <span>📞 {tour.contact.phone}</span> : <span>📞 N/A</span>}
+                        {tour.contact_phone ? <span>📞 {tour.contact_phone}</span> : <span>📞 N/A</span>}
                       </div>
                       <div>
-                        ✉️ {tour.contact.email}
+                        ✉️ {tour.contact_email}
                       </div>
                     </td>
-                    <td>{tour.studentCount}</td>
+                    <td>{tour.capacity}</td>
                     <td>
                       <ul>
                         {tour.guides.map((guide, index) => (
@@ -204,7 +199,7 @@ const Tours = () => {
                         ))}
                       </ul>
                       <p>
-                        <strong>{requiredGuides - tour.guides.length}</strong> more guides needed
+                        <strong>{Math.max(0, requiredGuides - tour.guides.length)}</strong> more guides needed
                       </p>
                     </td>
                   </tr>
