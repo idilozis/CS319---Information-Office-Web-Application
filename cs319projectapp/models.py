@@ -125,11 +125,13 @@ class IndividualTour(models.Model):
 from django.db import models
 
 class UniversityFair(models.Model):
-    name = models.CharField(max_length=255)
-    contact_email = models.EmailField()
-    city = models.CharField(max_length=100)
-    highschool_name = models.CharField(max_length=255)
-    additional_notes = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=255)  # Name of the person applying
+    contact_email = models.EmailField()  # Contact email
+    city = models.CharField(max_length=100)  # City of the fair
+    highschool_name = models.CharField(max_length=255)  # Name of the high school
+    date = models.DateField()  # New field for the date of the fair
+    time = models.CharField(max_length=50)  # New field for the time of the fair
+    additional_notes = models.TextField(blank=True, null=True)  # Additional notes for the application
     status = models.CharField(
         max_length=10,
         choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')],
@@ -140,4 +142,4 @@ class UniversityFair(models.Model):
         db_table = 'universityfairs'
 
     def __str__(self):
-        return f"{self.name} - {self.city}"
+        return f"{self.name} - {self.city} on {self.date} at {self.time}"

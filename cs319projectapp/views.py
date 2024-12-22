@@ -143,15 +143,27 @@ def submit_individual_tour(request):
 def submit_university_fair(request):
     if request.method == 'POST':
         try:
+            # Parse incoming data
             data = json.loads(request.body)
+
+            # Validate required fields
+            required_fields = ['name', 'contact_email', 'city', 'highschool_name', 'date', 'time']
+            missing_fields = [field for field in required_fields if field not in data]
+            if missing_fields:
+                return JsonResponse({'error': f'Missing fields: {", ".join(missing_fields)}'}, status=400)
+
+            # Create a new UniversityFair object
             fair = UniversityFair(
                 name=data['name'],
                 contact_email=data['contact_email'],
                 city=data['city'],
                 highschool_name=data['highschool_name'],
-                additional_notes=data.get('additional_notes', '')
+                date=data['date'],
+                time=data['time'],
+                additional_notes=data.get('additional_notes', ''),  # Optional field
             )
             fair.save()
+
             return JsonResponse({'message': 'University Fair application submitted successfully!'}, status=201)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
