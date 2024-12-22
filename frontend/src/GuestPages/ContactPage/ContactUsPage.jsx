@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./ContactUsPage.css";
 
 const ContactUsPage = () => {
+  const [advisors, setAdvisors] = useState([]); // State to store advisor data
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch advisors from the API
+  useEffect(() => {
+    const fetchAdvisors = async () => {
+      try {
+        const response = await fetch("/api/advisors/"); // Update the endpoint as needed
+        if (!response.ok) {
+          throw new Error("Failed to fetch advisors");
+        }
+        const data = await response.json();
+        setAdvisors(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+    fetchAdvisors();
+  }, []);
+
   return (
     <div className="contact-us-container">
       {/* Sidebar */}
@@ -10,7 +33,9 @@ const ContactUsPage = () => {
         <h2>Bilkent Information Office System</h2>
         <ul className="contact-us-menu">
           <li>
-          <a href="/api/guest_dashboard/" className="menu-link">Home</a>
+            <a href="/api/guest_dashboard/" className="menu-link">
+              Home
+            </a>
           </li>
           <li>
             <Link to="/api/apply_fair/">Apply for Fair</Link>
@@ -37,30 +62,20 @@ const ContactUsPage = () => {
         </header>
         <div className="contact-us-info-container">
           <h2>Our Advisors</h2>
-          <div className="contact-card">
-            <p><strong>Dr. John Smith</strong></p>
-            <p>Advisor</p>
-            <p>Email: john.smith@example.com</p>
-            <p>Phone: +1 123-456-7890</p>
-          </div>
-          <div className="contact-card">
-            <p><strong>Dr. Sarah Johnson</strong></p>
-            <p>Advisor</p>
-            <p>Email: sarah.johnson@example.com</p>
-            <p>Phone: +1 987-654-3210</p>
-          </div>
-          <div className="contact-card">
-            <p><strong>Dr. Michael Brown</strong></p>
-            <p>Advisor</p>
-            <p>Email: michael.brown@example.com</p>
-            <p>Phone: +1 456-789-1234</p>
-          </div>
-          <div className="contact-card">
-            <p><strong>Dr. Emily Davis</strong></p>
-            <p>Advisor</p>
-            <p>Email: emily.davis@example.com</p>
-            <p>Phone: +1 321-654-9876</p>
-          </div>
+          {loading && <p>Loading advisors...</p>}
+          {error && <p className="error-message">{error}</p>}
+          {!loading &&
+            !error &&
+            advisors.map((advisor, index) => (
+              <div key={index} className="contact-card">
+                <p>
+                  <strong>{advisor.name}</strong>
+                </p>
+                <p>Advisor</p>
+                <p>Email: {advisor.contact_email}</p>
+                <p>Phone: {advisor.contact_phone}</p>
+              </div>
+            ))}
         </div>
       </main>
     </div>
