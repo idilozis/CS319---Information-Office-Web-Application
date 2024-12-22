@@ -1,35 +1,48 @@
-import './ResponsibleAdvisors.css';
-import { Link } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import "./ResponsibleAdvisors.css";
 
-function ResponsibleAdvisors() {
-    const advisors = [
-        { weekday: 'Monday', name: 'Ahmet Yavuzhan Er', contact: '123 456 78 90' },
-        { weekday: 'Tuesday', name: 'John Doe', contact: '123 456 78 90' },
-        { weekday: 'Wednesday', name: 'Zeynep Dönmez', contact: '123 456 78 90' },
-        { weekday: 'Thursday', name: 'Kemal Çakır', contact: '123 456 78 90' },
-        { weekday: 'Friday', name: 'Berker Karakaş', contact: '123 456 78 90' },
-        { weekday: 'Saturday', name: 'Sıla Yılmaz', contact: '123 456 78 90' },
-        { weekday: 'Sunday', name: 'Zeynep Dursun', contact: '123 456 78 90' }
-    ];
-    const [menuVisible, setMenuVisible] = useState(false);
-    const userMenuRef = useRef(null);
-    useEffect(() => {
-        function handleOutsideClick(event) {
-            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
-                setMenuVisible(false); // Close the menu
-            }
-        }
+const ResponsibleAdvisors = () => {
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [advisors, setAdvisors] = useState([]); // State for advisor data
+  const userMenuRef = useRef(null);
 
-        document.addEventListener("mousedown", handleOutsideClick);
+  // Fetch advisors from the API
+  const fetchAdvisors = async () => {
+    try {
+      const response = await fetch("/api/advisors/");
+      const data = await response.json();
+      setAdvisors(data);
+    } catch (error) {
+      console.error("Error fetching advisors:", error);
+    }
+  };
 
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
-    }, []);
+  useEffect(() => {
+    fetchAdvisors(); // Fetch advisor data on component mount
+  }, []);
 
-    return (
-      <div className="dashboard-container">
+  // Close user menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setMenuVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Sort advisors by assigned day (Monday to Sunday)
+  const daysOrder = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const sortedAdvisors = [...advisors].sort(
+    (a, b) => daysOrder.indexOf(a.assigned_day) - daysOrder.indexOf(b.assigned_day)
+  );
+
+  return (
+    <div className="dashboard-container">
       <div className="sidebar">
         <h2>Bilkent Information Office System</h2>
         <ul>
@@ -52,7 +65,6 @@ function ResponsibleAdvisors() {
           </button>
         </div>
       </div>
-      
 
       <div className="main-content">
         <div className="user-menu" ref={userMenuRef}>
@@ -78,35 +90,35 @@ function ResponsibleAdvisors() {
             </div>
           )}
         </div>
+
+        <h1>Advisor List</h1>
+        <div className="advisor-list-table-container">
+          <table className="advisor-list-table">
+            <thead>
+              <tr>
+                <th>Advisor Name</th>
+                <th>Bilkent ID</th>
+                <th>Contact Phone</th>
+                <th>Contact Email</th>
+                <th>Assigned Day</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedAdvisors.map((advisor, index) => (
+                <tr key={advisor.id}>
+                  <td>{advisor.name}</td>
+                  <td>{advisor.bilkent_id}</td>
+                  <td>{advisor.contact_phone}</td>
+                  <td>{advisor.contact_email}</td>
+                  <td>{advisor.assigned_day}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        
-        <div className="advisor-container">
-        <div className="advisor-content">
-            <h3>Responsible Advisors</h3>
-            <div className="advisor-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Weekday</th>
-                            <th>Advisor Name</th>
-                            <th>Contact Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {advisors.map((advisor, index) => (
-                            <tr key={index}>
-                                <td>{advisor.weekday}</td>
-                                <td>{advisor.name}</td>
-                                <td>{advisor.contact}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        </div>
-        </div>
-    );
-}
+      </div>
+    </div>
+  );
+};
 
 export default ResponsibleAdvisors;
