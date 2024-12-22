@@ -254,3 +254,26 @@ def get_guides(request):
 
     # Return the modified guide list as JSON
     return Response(guide_list)
+
+
+@csrf_exempt
+def get_fair_applications(request):
+    if request.method == 'GET':
+        pending_fairs = UniversityFair.objects.filter(status='pending').values()
+        return JsonResponse(list(pending_fairs), safe=False)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def update_fair_application_status(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            fair = UniversityFair.objects.get(id=data['id'])
+            fair.status = data['status']
+            fair.save()
+            return JsonResponse({'message': 'Status updated successfully!'}, status=200)
+        except UniversityFair.DoesNotExist:
+            return JsonResponse({'error': 'Fair application not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
