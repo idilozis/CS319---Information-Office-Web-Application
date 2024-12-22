@@ -98,7 +98,7 @@ const HighSchoolDatabase = () => {
           </li>
           <li>
             <Link to="/api/coordinator_accepted_tours" className="sidebar-link">
-              Tour Applications
+              Tours
             </Link>
           </li>
           <li>
