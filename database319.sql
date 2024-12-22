@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `advisors`
+--
+
+DROP TABLE IF EXISTS `advisors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `advisors` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bilkent_id` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contact_phone` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contact_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `assigned_day` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `advisors`
+--
+
+LOCK TABLES `advisors` WRITE;
+/*!40000 ALTER TABLE `advisors` DISABLE KEYS */;
+INSERT INTO `advisors` VALUES (1,'Ahmet Yavuzhan Er','22001236','0123 456 78 90','ahmet.er@bilkent.edu.tr','Monday'),(2,'Ali Yıldırım','22001237','0111 222 33 44','ali.yildirim@bilkent.edu.tr','Thursday'),(3,'Berker Kara','22001238','0333 444 55 66','berker.kara@bilkent.edu.tr','Friday'),(4,'Sıla Yılmaz','22001239','0444 555 66 77','sila.yilmaz@bilkent.edu.tr','Saturday'),(5,'Zeynep Dursun','22001240','0555 666 77 88','zeynep.dursun@bilkent.edu.tr','Sunday');
+/*!40000 ALTER TABLE `advisors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `auth_group`
 --
 
@@ -320,6 +348,35 @@ INSERT INTO `django_session` VALUES ('e1ilcct2bpx2rx0xqw5lh0k0qzgcnyu3','.eJxVjE
 UNLOCK TABLES;
 
 --
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `feedback` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `highschool` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tour_type` enum('High School','Individual') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tour_date` date NOT NULL,
+  `feedback` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feedback`
+--
+
+LOCK TABLES `feedback` WRITE;
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+INSERT INTO `feedback` VALUES (1,'İrfan Hakan','Izmir','İzmir Fen Lisesi','High School','2025-01-03','I enjoyed the tour at smosh.');
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `guides`
 --
 
@@ -363,7 +420,7 @@ CREATE TABLE `highschools` (
   `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `score` float DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -372,7 +429,7 @@ CREATE TABLE `highschools` (
 
 LOCK TABLES `highschools` WRITE;
 /*!40000 ALTER TABLE `highschools` DISABLE KEYS */;
-INSERT INTO `highschools` VALUES (1,'Ankara Fen Lisesi','ANKARA',99.17),(2,'İzmir Fen Lisesi','İZMİR',98.54),(3,'Atatürk Lisesi','İZMİR',97.4),(4,'Tofaş Fen Lisesi','BURSA',97.27),(5,'Adana Fen Lisesi','ADANA',96.39),(6,'Ankara Pursaklar Fen Lisesi','ANKARA',96.18),(7,'Osman Ulubaş Kayseri Fen Lisesi','KAYSERİ',95.42),(8,'Prof. Dr. Aziz Sancar Fen Lisesi','ANKARA',93.92),(9,'Yusuf Ziya Öner Fen Lisesi','ANTALYA',93.77),(10,'Nilüfer Borsa İstanbul Fen Lisesi','BURSA',93.12),(11,'Eyüp Aygar Fen Lisesi','MERSİN',92.19),(12,'Erbakır Fen Lisesi','DENİZLİ',91.9),(13,'Aydın Fen Lisesi','AYDIN',89.63),(14,'Buca İnci-Özer Tırnaklı Fen Lisesi','İZMİR',89.58),(15,'Meram Fen Lisesi','KONYA',88.49),(16,'Atatürk Anadolu Lisesi','ANKARA',87.79),(17,'Samsun Garip Zeycan Yıldırım Fen Lisesi','SAMSUN',87.67),(18,'Sümer Fen Lisesi','KAYSERİ',86.86),(19,'Kocaeli Fen Lisesi','KOCAELİ',86.73),(20,'Vehbi Dinçerler Fen Lisesi','GAZİANTEP',86.56),(21,'Seyhan Borsa İstanbul Fen Lisesi','ADANA',85.53),(22,'Cumhuriyet Fen Lisesi','ANKARA',85.52),(23,'Eskişehir Fatih Fen Lisesi','ESKİŞEHİR',85.5),(24,'Trabzon Merkez Fen Lisesi','TRABZON',85.43),(25,'Özdemir Bayraktar Havacılık ve Uzay Lisesi','ANKARA',85.32),(26,'Manisa Fen Lisesi','MANİSA',85.09),(27,'Bornova Anadolu Lisesi','İZMİR',84.88),(28,'Bursa Anadolu Lisesi','BURSA',84.86),(29,'Malatya Erman Ilıcak Fen Lisesi','MALATYA',84.47),(30,'Rekabet Kurumu Cumhuriyet Fen Lisesi','DİYARBAKIR',84.46),(31,'Nazilli Fen Lisesi','AYDIN',84.44),(32,'Yahya Akel Fen Lisesi','MERSİN',84.23),(33,'Keçiören Vatansever Aydoğan Fen Lisesi','ANKARA',83.2),(34,'AYDEM Fen Lisesi','DENİZLİ',82.36),(35,'Ahmet Hamdi Gökbayrak Fen Lisesi','BURSA',79.61),(36,'Mahmut Sami Ramazanoğlu Anadolu İmam Hatip Lisesi','KONYA',78.4),(37,'Antalya Anadolu Lisesi','ANTALYA',77.73),(38,'Isparta Süleyman Demirel Fen Lisesi','ISPARTA',77.14),(39,'Ankara Erman Ilıcak Fen Lisesi','ANKARA',74.99),(40,'Ebru Nayim Fen Lisesi','TEKİRDAĞ',74.79),(41,'Aziz Atik Fen Lisesi','SAMSUN',74.75),(42,'Yenimahalle Fen Lisesi','ANKARA',74.53),(43,'TOBB Fen Lisesi','GAZİANTEP',74.34),(44,'Halil Kale Fen Lisesi','MANİSA',73.57),(45,'TOBB Osmaniye Fen Lisesi','OSMANİYE',73.22),(46,'Kaya Karakaya Fen Lisesi','ELAZIĞ',70.21),(47,'Muammer Dereli Fen Lisesi','KOCAELİ',69.31),(48,'Süleyman Demirel Fen Lisesi','AFYONKARAHİSAR',69.11),(49,'Erzurum İbrahim Hakkı Fen Lisesi','ERZURUM',69.02),(50,'İzmir Kız Lisesi','İZMİR',68.25),(51,'Kayseri Fen Lisesi','KAYSERİ',68.19),(52,'Trabzon Yomra Fen Lisesi','TRABZON',67.6),(53,'ASELSAN Mesleki ve Teknik Anadolu Lisesi','ANKARA',67.59),(54,'Adana Anadolu Lisesi','ADANA',67.46),(55,'Karatay Fen Lisesi','KONYA',67.2),(56,'Tokat Milli Piyango İhya Balak Fen Lisesi','TOKAT',66.91),(57,'Borsa İstanbul Fen Lisesi','DİYARBAKIR',66.67),(58,'Prof.Dr.İlhan Kılıçözlü Fen Lisesi','KIRŞEHİR',65.6),(59,'Yücel Boru Fen Lisesi','KOCAELİ',65.19),(60,'Canik Fen Lisesi','SAMSUN',62.77),(61,'Eskişehir Anadolu Lisesi','ESKİŞEHİR',60.22),(62,'Selçuklu Fen Lisesi','KONYA',60.14),(63,'Menteşe TOBB Fen Lisesi','MUĞLA',59.08),(64,'Yaşar Kımıl Fen Lisesi','DENİZLİ',58.93),(65,'Özkent Akbilek Fen Lisesi','ANKARA',56.02),(66,'Kütahya Nafi Güral Fen Lisesi','KÜTAHYA',55.5),(67,'Ahmet Erdem Anadolu Lisesi','BURSA',54.74),(68,'Nuh Mehmet Küçükçalık Anadolu Lisesi','KAYSERİ',54.54),(69,'Kahramanmaraş TOBB Fen Lisesi','KAHRAMANMARAŞ',52.24),(70,'Çanakkale Fen Lisesi','ÇANAKKALE',49.34),(71,'Sivas Fen Lisesi','SİVAS',48.24),(72,'Hüseyin Girenes Fen Lisesi','ANTALYA',43.12),(73,'Sakarya Cevat Ayhan Fen Lisesi','SAKARYA',42.65),(74,'Aksaray Şehit Pilot Hamza Gümüşsoy Fen Lisesi','AKSARAY',41.99),(75,'Sesim Sarpkaya Fen Lisesi','MERSİN',39.01),(76,'Macide-Ramiz Taşkınlar Fen Lisesi','MANİSA',38.88),(77,'Batman Fen Lisesi','BATMAN',37.98),(78,'Adem-Tolunay Anadolu Lisesi','ANTALYA',36.02),(79,'Şehit Turgut Solak Fen Lisesi','BALIKESİR',35.26),(80,'Van Türk Telekom Fen Lisesi','VAN',33.9),(81,'Antalya TOBB Fen Lisesi','ANTALYA',31.76),(82,'Abdulkadir Konukoğlu Fen Lisesi','GAZİANTEP',29.58),(83,'Karşıyaka Cihat Kora Anadolu Lisesi','İZMİR',29.48),(84,'Şehit Özcan Kan Fen Lisesi','KOCAELİ',21.65),(85,'Şanlıurfa Fen Lisesi','ŞANLIURFA',21.39),(86,'Buca Fatma Saygın Anadolu Lisesi','İZMİR',21.24),(87,'Gazi Anadolu Lisesi','ANKARA',19.64),(88,'Ankara Atatürk Lisesi','ANKARA',18.89),(89,'15 Temmuz Şehitleri Fen Lisesi','ÇORUM',17.51),(90,'Kepez Mahmut Celalettin Ökten Anadolu Lisesi','ANTALYA',12.98),(91,'Altıeylül Fen Lisesi','BALIKESİR',11.36),(92,'Şükrü Şankaya Anadolu Lisesi','BURSA',9.76),(93,'Vali Aydın Arslan Fen Lisesi','DİYARBAKIR',7.88),(94,'Ordu Fen Lisesi','ORDU',5.98),(95,'Sami Yangın Anadolu Lisesi','KAYSERİ',3.87),(96,'Meram Anadolu Lisesi','KONYA',3.82),(97,'Çiğli Fen Lisesi','İZMİR',1.18),(98,'Kastamonu Fen Lisesi','KASTAMONU',0.79),(99,'Ortaklar Fen Lisesi','AYDIN',0.58),(100,'ÇEAS Anadolu Lisesi','ADANA',0.43);
+INSERT INTO `highschools` VALUES (1,'Ankara Fen Lisesi','ANKARA',99.17),(2,'İzmir Fen Lisesi','İZMİR',98.54),(3,'Atatürk Lisesi','İZMİR',97.4),(4,'Tofaş Fen Lisesi','BURSA',97.27),(5,'Adana Fen Lisesi','ADANA',96.39),(6,'Ankara Pursaklar Fen Lisesi','ANKARA',96.18),(7,'Osman Ulubaş Kayseri Fen Lisesi','KAYSERİ',95.42),(8,'Prof. Dr. Aziz Sancar Fen Lisesi','ANKARA',93.92),(9,'Yusuf Ziya Öner Fen Lisesi','ANTALYA',93.77),(10,'Nilüfer Borsa İstanbul Fen Lisesi','BURSA',93.12),(11,'Eyüp Aygar Fen Lisesi','MERSİN',92.19),(12,'Erbakır Fen Lisesi','DENİZLİ',91.9),(13,'Aydın Fen Lisesi','AYDIN',89.63),(14,'Buca İnci-Özer Tırnaklı Fen Lisesi','İZMİR',89.58),(15,'Meram Fen Lisesi','KONYA',88.49),(16,'Atatürk Anadolu Lisesi','ANKARA',87.79),(17,'Samsun Garip Zeycan Yıldırım Fen Lisesi','SAMSUN',87.67),(18,'Sümer Fen Lisesi','KAYSERİ',86.86),(19,'Kocaeli Fen Lisesi','KOCAELİ',86.73),(20,'Vehbi Dinçerler Fen Lisesi','GAZİANTEP',86.56),(21,'Seyhan Borsa İstanbul Fen Lisesi','ADANA',85.53),(22,'Cumhuriyet Fen Lisesi','ANKARA',85.52),(23,'Eskişehir Fatih Fen Lisesi','ESKİŞEHİR',85.5),(24,'Trabzon Merkez Fen Lisesi','TRABZON',85.43),(25,'Özdemir Bayraktar Havacılık ve Uzay Lisesi','ANKARA',85.32),(26,'Manisa Fen Lisesi','MANİSA',85.09),(27,'Bornova Anadolu Lisesi','İZMİR',84.88),(28,'Bursa Anadolu Lisesi','BURSA',84.86),(29,'Malatya Erman Ilıcak Fen Lisesi','MALATYA',84.47),(30,'Rekabet Kurumu Cumhuriyet Fen Lisesi','DİYARBAKIR',84.46),(31,'Nazilli Fen Lisesi','AYDIN',84.44),(32,'Yahya Akel Fen Lisesi','MERSİN',84.23),(33,'Keçiören Vatansever Aydoğan Fen Lisesi','ANKARA',83.2),(34,'AYDEM Fen Lisesi','DENİZLİ',82.36),(35,'Ahmet Hamdi Gökbayrak Fen Lisesi','BURSA',79.61),(36,'Mahmut Sami Ramazanoğlu Anadolu İmam Hatip Lisesi','KONYA',78.4),(37,'Antalya Anadolu Lisesi','ANTALYA',77.73),(38,'Isparta Süleyman Demirel Fen Lisesi','ISPARTA',77.14),(39,'Ankara Erman Ilıcak Fen Lisesi','ANKARA',74.99),(40,'Ebru Nayim Fen Lisesi','TEKİRDAĞ',74.79),(41,'Aziz Atik Fen Lisesi','SAMSUN',74.75),(42,'Yenimahalle Fen Lisesi','ANKARA',74.53),(43,'TOBB Fen Lisesi','GAZİANTEP',74.34),(44,'Halil Kale Fen Lisesi','MANİSA',73.57),(45,'TOBB Osmaniye Fen Lisesi','OSMANİYE',73.22),(46,'Kaya Karakaya Fen Lisesi','ELAZIĞ',70.21),(47,'Muammer Dereli Fen Lisesi','KOCAELİ',69.31),(48,'Süleyman Demirel Fen Lisesi','AFYONKARAHİSAR',69.11),(49,'Erzurum İbrahim Hakkı Fen Lisesi','ERZURUM',69.02),(50,'İzmir Kız Lisesi','İZMİR',68.25),(51,'Kayseri Fen Lisesi','KAYSERİ',68.19),(52,'Trabzon Yomra Fen Lisesi','TRABZON',67.6),(53,'ASELSAN Mesleki ve Teknik Anadolu Lisesi','ANKARA',67.59),(54,'Adana Anadolu Lisesi','ADANA',67.46),(55,'Karatay Fen Lisesi','KONYA',67.2),(56,'Tokat Milli Piyango İhya Balak Fen Lisesi','TOKAT',66.91),(57,'Borsa İstanbul Fen Lisesi','DİYARBAKIR',66.67),(58,'Prof.Dr.İlhan Kılıçözlü Fen Lisesi','KIRŞEHİR',65.6),(59,'Yücel Boru Fen Lisesi','KOCAELİ',65.19),(60,'Canik Fen Lisesi','SAMSUN',62.77),(61,'Eskişehir Anadolu Lisesi','ESKİŞEHİR',60.22),(62,'Selçuklu Fen Lisesi','KONYA',60.14),(63,'Menteşe TOBB Fen Lisesi','MUĞLA',59.08),(64,'Yaşar Kımıl Fen Lisesi','DENİZLİ',58.93),(65,'Özkent Akbilek Fen Lisesi','ANKARA',56.02),(66,'Kütahya Nafi Güral Fen Lisesi','KÜTAHYA',55.5),(67,'Ahmet Erdem Anadolu Lisesi','BURSA',54.74),(68,'Nuh Mehmet Küçükçalık Anadolu Lisesi','KAYSERİ',54.54),(69,'Kahramanmaraş TOBB Fen Lisesi','KAHRAMANMARAŞ',52.24),(70,'Çanakkale Fen Lisesi','ÇANAKKALE',49.34),(71,'Sivas Fen Lisesi','SİVAS',48.24),(72,'Hüseyin Girenes Fen Lisesi','ANTALYA',43.12),(73,'Sakarya Cevat Ayhan Fen Lisesi','SAKARYA',42.65),(74,'Aksaray Şehit Pilot Hamza Gümüşsoy Fen Lisesi','AKSARAY',41.99),(75,'Sesim Sarpkaya Fen Lisesi','MERSİN',39.01),(76,'Macide-Ramiz Taşkınlar Fen Lisesi','MANİSA',38.88),(77,'Batman Fen Lisesi','BATMAN',37.98),(78,'Adem-Tolunay Anadolu Lisesi','ANTALYA',36.02),(79,'Şehit Turgut Solak Fen Lisesi','BALIKESİR',35.26),(80,'Van Türk Telekom Fen Lisesi','VAN',33.9),(81,'Antalya TOBB Fen Lisesi','ANTALYA',31.76),(82,'Abdulkadir Konukoğlu Fen Lisesi','GAZİANTEP',29.58),(83,'Karşıyaka Cihat Kora Anadolu Lisesi','İZMİR',29.48),(84,'Şehit Özcan Kan Fen Lisesi','KOCAELİ',21.65),(85,'Şanlıurfa Fen Lisesi','ŞANLIURFA',21.39),(86,'Buca Fatma Saygın Anadolu Lisesi','İZMİR',21.24),(87,'Gazi Anadolu Lisesi','ANKARA',19.64),(88,'Ankara Atatürk Lisesi','ANKARA',18.89),(89,'15 Temmuz Şehitleri Fen Lisesi','ÇORUM',17.51),(90,'Kepez Mahmut Celalettin Ökten Anadolu Lisesi','ANTALYA',12.98),(91,'Altıeylül Fen Lisesi','BALIKESİR',11.36),(92,'Şükrü Şankaya Anadolu Lisesi','BURSA',9.76),(93,'Vali Aydın Arslan Fen Lisesi','DİYARBAKIR',7.88),(94,'Ordu Fen Lisesi','ORDU',5.98),(95,'Sami Yangın Anadolu Lisesi','KAYSERİ',3.87),(96,'Meram Anadolu Lisesi','KONYA',3.82),(97,'Çiğli Fen Lisesi','İZMİR',1.18),(98,'Kastamonu Fen Lisesi','KASTAMONU',0.79),(99,'Ortaklar Fen Lisesi','AYDIN',0.58),(100,'ÇEAS Anadolu Lisesi','ADANA',0.43),(101,'Hakanto Lisesi','Greenpath',102);
 /*!40000 ALTER TABLE `highschools` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -432,7 +489,7 @@ CREATE TABLE `individualtours` (
   `status` enum('pending','accepted','rejected') COLLATE utf8mb4_unicode_ci DEFAULT 'pending',
   `guide_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -441,7 +498,7 @@ CREATE TABLE `individualtours` (
 
 LOCK TABLES `individualtours` WRITE;
 /*!40000 ALTER TABLE `individualtours` DISABLE KEYS */;
-INSERT INTO `individualtours` VALUES (1,'İrfan Hakan','Ankara','Ankara Fen Lisesi','3424324344','hakan.karakoc@ug.bilkent.edu.tr','gfgfgfgf','xdxd','2025-01-09','accepted',NULL);
+INSERT INTO `individualtours` VALUES (1,'İrfan Hakan','Ankara','Ankara Fen Lisesi','3424324344','hakan.karakoc@ug.bilkent.edu.tr','gfgfgfgf','xdxd','2025-01-09','accepted',NULL),(2,'Hakanto','Izmir','Atatürk Lisesi','3424324344','hakan.karakoc@ug.bilkent.edu.tr','gfgfgfgf','xdxdx','2025-01-10','accepted',NULL),(3,'Hakanto','Izmir','Atatürk Lisesi','3424324344','i.hakan_karakoc@hotmail.com','gfgfgfgf','xdxd','2025-01-09','accepted',NULL);
 /*!40000 ALTER TABLE `individualtours` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -463,7 +520,7 @@ CREATE TABLE `universityfairs` (
   `additional_notes` text,
   `status` enum('pending','accepted','rejected') DEFAULT 'pending',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -472,7 +529,7 @@ CREATE TABLE `universityfairs` (
 
 LOCK TABLES `universityfairs` WRITE;
 /*!40000 ALTER TABLE `universityfairs` DISABLE KEYS */;
-INSERT INTO `universityfairs` VALUES (1,'İrfan Hakan','hakan.karakoc@ug.bilkent.edu.tr','Ankara','Ankara Fen Lisesi','2025-01-01','08:58','xdxd','pending'),(2,'Hakanto','i.hakan_karakoc@hotmail.com','Ankara','Prof. Dr. Aziz Sancar Fen Lisesi','2025-01-10','05:00','deneme','pending');
+INSERT INTO `universityfairs` VALUES (1,'İrfan Hakan','hakan.karakoc@ug.bilkent.edu.tr','Ankara','Ankara Fen Lisesi','2025-01-01','08:58','xdxd','rejected'),(2,'Hakanto','i.hakan_karakoc@hotmail.com','Ankara','Prof. Dr. Aziz Sancar Fen Lisesi','2025-01-10','05:00','deneme','accepted'),(3,'İrfan Hakan','hakan.karakoc@ug.bilkent.edu.tr','Ankara','Ankara Fen Lisesi','2025-01-02','08:27','','accepted');
 /*!40000 ALTER TABLE `universityfairs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -510,4 +567,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-22 16:01:13
+-- Dump completed on 2024-12-22 20:34:47
