@@ -54,6 +54,7 @@ urlpatterns = [
     path('accepted_individual_tours/', views.get_accepted_individual_tours, name='get_accepted_individual_tours'),
     path('guides/', views.get_guides, name='get_guides'),
     path('get_fair_applications/', views.get_fair_applications, name='get_fair_applications'),
+    path('get_accepted_fair_applications/', views.get_accepted_fair_applications, name='get_accepted_fair_applications'),
     path('update_fair_application_status/', views.update_fair_application_status, name='update_fair_application_status'),
     path('submit_feedback/', views.submit_feedback, name='submit_feedback'),
     path('feedbacks/', views.get_feedbacks, name='get_feedbacks'),

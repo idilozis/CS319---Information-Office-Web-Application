@@ -1,31 +1,41 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./PauntajPage_p.css";
 
 const PauntajPage_p = () => {
   const DUMMY_RATE_TOUR = 150; // Dummy rate per tour hour
   const DUMMY_RATE_FAIR = 250; // Dummy rate per fair hour
 
-  const [guides] = useState([
-    { name: "Ahmet Yavuzhan Er", tourHours: 17, fairHours: 0 },
-    { name: "John Doe", tourHours: 24, fairHours: 0 },
-    { name: "Zeynep Dönmez", tourHours: 67, fairHours: 7 },
-    { name: "Ali Yıldırım", tourHours: 45, fairHours: 0 },
-    { name: "Berker Kara", tourHours: 0, fairHours: 0 },
-    { name: "Sıla Yılmaz", tourHours: 8, fairHours: 24 },
-  ]);
+  const [guides, setGuides] = useState([]); // Dynamic data from the database
+  const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
 
+  // Fetch guide data from the database
+  const fetchGuides = async () => {
+    try {
+      const response = await axios.get("/api/guides/"); // Replace with your API endpoint
+      setGuides(response.data);
+    } catch (error) {
+      console.error("Error fetching guides:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGuides(); // Fetch data on component mount
+  }, []);
+
+  // Calculate total payroll
   const calculatePayroll = (tourHours, fairHours) => {
     return tourHours * DUMMY_RATE_TOUR + fairHours * DUMMY_RATE_FAIR;
   };
 
+  // Calculate total hours
   const calculateTotalHours = (tourHours, fairHours) => {
     return tourHours + fairHours;
   };
 
-  const [menuVisible, setMenuVisible] = useState(false);
-  const userMenuRef = useRef(null);
-
+  // Close user menu on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -41,7 +51,7 @@ const PauntajPage_p = () => {
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-        <h2>Bilkent Information Office System</h2>
+      <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
             <Link to="/api/promo_coordinator_dashboard" className="sidebar-link">Dashboard</Link>
@@ -104,13 +114,13 @@ const PauntajPage_p = () => {
               </tr>
             </thead>
             <tbody>
-              {guides.map((guide, index) => (
-                <tr key={index}>
+              {guides.map((guide) => (
+                <tr key={guide.id}>
                   <td>{guide.name}</td>
-                  <td>{guide.tourHours}</td>
-                  <td>{guide.fairHours}</td>
-                  <td>{calculateTotalHours(guide.tourHours, guide.fairHours)}</td>
-                  <td>{calculatePayroll(guide.tourHours, guide.fairHours)} ₺</td>
+                  <td>{guide.tour_hours}</td>
+                  <td>{guide.fair_hours}</td>
+                  <td>{calculateTotalHours(guide.tour_hours, guide.fair_hours)}</td>
+                  <td>{calculatePayroll(guide.tour_hours, guide.fair_hours)} ₺</td>
                 </tr>
               ))}
             </tbody>

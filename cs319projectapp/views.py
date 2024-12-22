@@ -303,6 +303,13 @@ def get_fair_applications(request):
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
+def get_accepted_fair_applications(request):
+    if request.method == 'GET':
+        pending_fairs = UniversityFair.objects.filter(status='accepted').values()
+        return JsonResponse(list(pending_fairs), safe=False)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@csrf_exempt
 def update_fair_application_status(request):
     if request.method == 'POST':
         try:
