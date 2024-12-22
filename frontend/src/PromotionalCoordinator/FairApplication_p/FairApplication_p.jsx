@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./FairApplication_p.css";
 
@@ -7,29 +7,31 @@ const FairApplication_p = () => {
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [viewNotes, setViewNotes] = useState("");
   const [selectedApplicationId, setSelectedApplicationId] = useState(null);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
 
   const [applications, setApplications] = useState([
     {
-        id: 1,
-        date: "21-12-2024",
-        time: "10:00 - 14:00",
-        applicant: "John Doe",
-        email: "johndoe@example.com",
-        city: "Ankara",
-        highSchool: "Ankara Fen Lisesi",
-        notes: "Interested in scholarships for top students.",
-        status: "accepted",
+      id: 1,
+      date: "21-12-2024",
+      time: "10:00 - 14:00",
+      applicant: "John Doe",
+      email: "johndoe@example.com",
+      city: "Ankara",
+      highSchool: "Ankara Fen Lisesi",
+      notes: "Interested in scholarships for top students.",
+      status: "accepted",
     },
     {
-        id: 2,
-        date: "20-12-2024",
-        time: "13:00 - 17:00",
-        applicant: "Jane Smith",
-        email: "janesmith@example.com",
-        city: "Istanbul",
-        highSchool: "Istanbul Lisesi",
-        notes: "Focus on STEM programs for students.",
-        status: "pending",
+      id: 2,
+      date: "20-12-2024",
+      time: "13:00 - 17:00",
+      applicant: "Jane Smith",
+      email: "janesmith@example.com",
+      city: "Istanbul",
+      highSchool: "Istanbul Lisesi",
+      notes: "Focus on STEM programs for students.",
+      status: "pending",
     },
   ]);
 
@@ -52,8 +54,21 @@ const FairApplication_p = () => {
     setConfirmationVisible(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setMenuVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="dashboard-container">
+      {/* Sidebar */}
       <div className="sidebar">
         <h2>Bilkent Information Office System</h2>
         <ul>
@@ -74,13 +89,30 @@ const FairApplication_p = () => {
           </li>
         </ul>
         <div className="logout">
-          <button onClick={() => (window.location.href = "/api/login/")}>
-            Logout
-          </button>
+          <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="main-content">
+        {/* User Menu */}
+        <div className="user-menu" ref={userMenuRef}>
+          <div className="user-icon" onClick={() => setMenuVisible(!menuVisible)}>
+            <img
+              src="/static/icons/userSymbol.png"
+              className="user-avatar"
+              alt="User Icon"
+            />
+            Kemal Çakır
+          </div>
+          {menuVisible && (
+            <div className="dropdown-menu">
+              <button onClick={() => (window.location.href = "/api/settings/")}>Settings</button>
+              <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+            </div>
+          )}
+        </div>
+
         <h1>Fair Applications</h1>
         <div className="application-table-container">
           <table className="application-table">
@@ -155,8 +187,7 @@ const FairApplication_p = () => {
             <div className="modal">
               <h2>Confirm Cancellation</h2>
               <p>
-                Are you sure you want to cancel this application? This action is{" "}
-                <strong>irreversible</strong>.
+                Are you sure you want to cancel this application? This action is <strong>irreversible</strong>.
               </p>
               <div className="modal-actions">
                 <button className="confirm-button" onClick={handleCancel}>

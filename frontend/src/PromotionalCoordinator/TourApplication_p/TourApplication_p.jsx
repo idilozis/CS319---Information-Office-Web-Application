@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./TourApplication_p.css";
 
@@ -7,13 +7,15 @@ const TourApplication_p = () => {
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [viewNotes, setViewNotes] = useState("");
   const [selectedApplicationId, setSelectedApplicationId] = useState(null);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const userMenuRef = useRef(null);
 
   const [applications, setApplications] = useState([
     {
       id: 1,
       date: "24-12-2024",
       time: "10:30 - 12:30",
-      capacity:"60",
+      capacity: "60",
       applicant: "John Doe",
       city: "Ankara",
       highSchool: "Ankara Fen Lisesi",
@@ -25,7 +27,7 @@ const TourApplication_p = () => {
       id: 2,
       date: "26-12-2024",
       time: "08:30 - 10:30",
-      capacity:"120",
+      capacity: "120",
       applicant: "Jane Smith",
       city: "Istanbul",
       highSchool: "Istanbul Lisesi",
@@ -54,6 +56,18 @@ const TourApplication_p = () => {
     setConfirmationVisible(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setMenuVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="dashboard-container">
       <div className="sidebar">
@@ -76,13 +90,28 @@ const TourApplication_p = () => {
           </li>
         </ul>
         <div className="logout">
-          <button onClick={() => (window.location.href = "/api/login/")}>
-            Logout
-          </button>
+          <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
         </div>
       </div>
 
       <div className="main-content">
+        <div className="user-menu" ref={userMenuRef}>
+          <div className="user-icon" onClick={() => setMenuVisible(!menuVisible)}>
+            <img
+              src="/static/icons/userSymbol.png"
+              className="user-avatar"
+              alt="User Icon"
+            />
+            Kemal Çakır
+          </div>
+          {menuVisible && (
+            <div className="dropdown-menu">
+              <button onClick={() => (window.location.href = "/api/settings/")}>Settings</button>
+              <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+            </div>
+          )}
+        </div>
+
         <h1>Tour Applications</h1>
         <div className="application-table-container">
           <table className="application-table">
@@ -159,7 +188,7 @@ const TourApplication_p = () => {
             <div className="modal">
               <h2>Confirm Cancellation</h2>
               <p>
-                Are you sure you want to cancel this application? This action is{" "}
+                Are you sure you want to cancel this application? This action is {" "}
                 <strong>irreversible</strong>.
               </p>
               <div className="modal-actions">
