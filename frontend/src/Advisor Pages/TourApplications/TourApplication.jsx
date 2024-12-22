@@ -60,6 +60,12 @@ const TourApplication = () => {
   const viewNotes = (notes) => {
     alert(notes || "No additional notes provided.");
   };
+  const isDatePassed = (dateString) => {
+    const today = new Date();
+    const [year, month, day] = dateString.split("-").map(Number);
+    const tourDate = new Date(year, month - 1, day);
+    return tourDate < today;
+  };
 
   return (
     <div className="dashboard-container">
@@ -161,18 +167,19 @@ const TourApplication = () => {
     </tr>
   </thead>
   <tbody>
-    {applications.map((app) => (
-      <tr key={app.id}>
-        <td>{app.date}</td>
-        <td>{new Date(app.date).toLocaleDateString("en-US", { weekday: "long" })}</td>
-        <td>{app.time_slot}</td>
-        <td>{app.highschool}</td>
-        <td>{app.counselor_name || "-"}</td>
-        <td>
-          {app.contact_phone}, {app.contact_email}
-        </td>
-        <td>{app.capacity || app.student_count}</td>
-        <td>
+  {applications.map((app) => (
+    <tr key={app.id} className={isDatePassed(app.date) ? "date-passed" : ""}>
+      <td>{app.date}</td>
+      <td>{new Date(app.date).toLocaleDateString("en-US", { weekday: "long" })}</td>
+      <td>{app.time_slot}</td>
+      <td>{app.highschool}</td>
+      <td>{app.counselor_name || "-"}</td>
+      <td>
+        {app.contact_phone}, {app.contact_email}
+      </td>
+      <td>{app.capacity || app.student_count}</td>
+      <td>
+        {!isDatePassed(app.date) && ( // Only render buttons if the date hasn't passed
           <div className="button-container">
             <button className="accept-button" onClick={() => updateStatus(app.id, "accepted")}>
               Accept
@@ -184,10 +191,12 @@ const TourApplication = () => {
               View Notes
             </button>
           </div>
-        </td>
-      </tr>
-    ))}
-  </tbody>
+        )}
+      </td>
+    </tr>
+  ))}
+</tbody>
+
 </table>
 
       </div>
