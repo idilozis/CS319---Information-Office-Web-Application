@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./TourApplication_p.css";
+import "./FairApplication_p.css";
 
-const TourApplication_p = () => {
+const FairApplication_p = () => {
   const [viewVisible, setViewVisible] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [viewNotes, setViewNotes] = useState("");
@@ -10,22 +10,26 @@ const TourApplication_p = () => {
 
   const [applications, setApplications] = useState([
     {
-      id: 1,
-      applicant: "John Doe",
-      city: "Ankara",
-      highSchool: "Ankara Fen Lisesi",
-      email: "johndoe@example.com",
-      notes: "Looking for scholarships.",
-      status: "accepted",
+        id: 1,
+        date: "21-12-2024",
+        time: "10:00 - 14:00",
+        applicant: "John Doe",
+        email: "johndoe@example.com",
+        city: "Ankara",
+        highSchool: "Ankara Fen Lisesi",
+        notes: "Interested in scholarships for top students.",
+        status: "accepted",
     },
     {
-      id: 2,
-      applicant: "Jane Smith",
-      city: "Istanbul",
-      highSchool: "Istanbul Lisesi",
-      email: "janesmith@example.com",
-      notes: "Focus on STEM programs.",
-      status: "pending",
+        id: 2,
+        date: "20-12-2024",
+        time: "13:00 - 17:00",
+        applicant: "Jane Smith",
+        email: "janesmith@example.com",
+        city: "Istanbul",
+        highSchool: "Istanbul Lisesi",
+        notes: "Focus on STEM programs for students.",
+        status: "pending",
     },
   ]);
 
@@ -60,7 +64,7 @@ const TourApplication_p = () => {
             <Link to="/api/promotional_coordinator_pauntaj" className="sidebar-link">Puantaj Page</Link>
           </li>
           <li>
-            <Link to="/api/promo_coordinator_fair_application" className="sidebar-link">Fair Applications</Link>
+            <Link to="/api/coordinator_fair_applications" className="sidebar-link">Fair Applications</Link>
           </li>
           <li>
             <Link to="/api/promo_coordinator_tour_application" className="sidebar-link">Tour Applications</Link>
@@ -77,15 +81,17 @@ const TourApplication_p = () => {
       </div>
 
       <div className="main-content">
-        <h1>Tour Applications</h1>
+        <h1>Fair Applications</h1>
         <div className="application-table-container">
           <table className="application-table">
             <thead>
               <tr>
+                <th>Date</th>
+                <th>Time</th>
                 <th>Applicant</th>
+                <th>Email</th>
                 <th>City</th>
                 <th>High School</th>
-                <th>Email</th>
                 <th>Notes</th>
                 <th>Status</th>
               </tr>
@@ -93,10 +99,12 @@ const TourApplication_p = () => {
             <tbody>
               {applications.map((application) => (
                 <tr key={application.id}>
+                  <td>{application.date}</td>
+                  <td>{application.time}</td>
                   <td>{application.applicant}</td>
+                  <td>{application.email}</td>
                   <td>{application.city}</td>
                   <td>{application.highSchool}</td>
-                  <td>{application.email}</td>
                   <td>
                     <button
                       className="view-notes-button"
@@ -169,4 +177,4 @@ const TourApplication_p = () => {
   );
 };
 
-export default TourApplication_p;
+export default FairApplication_p;

@@ -31,6 +31,7 @@ import AcceptedTours_D from "./Director Pages/AcceptedTours/AcceptedTours_D";
 import Feedback_D from "./Director Pages/Feedback_D/Feedback_D";
 import Dashboard_p from "./PromotionalCoordinator/Dashboard/Dashboard_p";
 import TourApplication_p from "./PromotionalCoordinator/TourApplication_p/TourApplication_p";
+import FairApplication_p from "./PromotionalCoordinator/FairApplication_p/FairApplication_p";
 
 function App() {
   return (
@@ -89,6 +90,7 @@ function App() {
         <Route path="/api/director_feedback/" element={<Feedback_D/>} />
         <Route path="/api/promo_coordinator_dashboard/" element={<Dashboard_p/>} />
         <Route path="/api/promo_coordinator_tour_application/" element={<TourApplication_p/>} />
+        <Route path="/api/promo_coordinator_fair_application/" element={<FairApplication_p/>} />
         
       </Routes>
     </Router>
