@@ -11,6 +11,9 @@ const TourApplication_p = () => {
   const [applications, setApplications] = useState([
     {
       id: 1,
+      date: "24-12-2024",
+      time: "10:30 - 12:30",
+      capacity:"60",
       applicant: "John Doe",
       city: "Ankara",
       highSchool: "Ankara Fen Lisesi",
@@ -20,6 +23,9 @@ const TourApplication_p = () => {
     },
     {
       id: 2,
+      date: "26-12-2024",
+      time: "08:30 - 10:30",
+      capacity:"120",
       applicant: "Jane Smith",
       city: "Istanbul",
       highSchool: "Istanbul Lisesi",
@@ -82,6 +88,9 @@ const TourApplication_p = () => {
           <table className="application-table">
             <thead>
               <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Capacity</th>
                 <th>Applicant</th>
                 <th>City</th>
                 <th>High School</th>
@@ -93,6 +102,9 @@ const TourApplication_p = () => {
             <tbody>
               {applications.map((application) => (
                 <tr key={application.id}>
+                  <td>{application.date}</td>
+                  <td>{application.time}</td>
+                  <td>{application.capacity}</td>
                   <td>{application.applicant}</td>
                   <td>{application.city}</td>
                   <td>{application.highSchool}</td>

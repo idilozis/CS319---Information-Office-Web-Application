@@ -49,6 +49,8 @@ const ApplyFairPage = () => {
       city: selectedCity,
       highschool_name: selectedSchool,
       additional_notes: document.getElementById("notes").value,
+      date: document.getElementById("date").value,
+      time: document.getElementById("time").value,
     };
 
     try {
@@ -66,6 +68,8 @@ const ApplyFairPage = () => {
         document.getElementById("name").value = "";
         document.getElementById("email").value = "";
         document.getElementById("notes").value = "";
+        document.getElementById("date").value = "";
+        document.getElementById("time").value = "";
       } else {
         alert("Error submitting the form.");
       }
@@ -167,6 +171,27 @@ const ApplyFairPage = () => {
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Date */}
+            <div className="apply-fair-form-group">
+              <label htmlFor="date">Date:</label>
+              <input
+                type="date"
+                id="date"
+                min={new Date().toISOString().split("T")[0]} // Ensure future dates only
+                required
+              />
+            </div>
+
+            {/* Time */}
+            <div className="apply-fair-form-group">
+              <label htmlFor="time">Time:</label>
+              <input
+                type="time"
+                id="time"
+                required
+              />
             </div>
 
             {/* Additional Notes */}

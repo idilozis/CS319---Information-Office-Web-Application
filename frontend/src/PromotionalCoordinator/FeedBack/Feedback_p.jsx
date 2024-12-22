@@ -57,7 +57,7 @@ const Feedback_p = () => {
             <Link to="/api/promotional_coordinator_pauntaj" className="sidebar-link">Puantaj Page</Link>
           </li>
           <li>
-            <Link to="/api/coordinator_fair_applications" className="sidebar-link">Fair Applications</Link>
+            <Link to="/api/promo_coordinator_fair_application" className="sidebar-link">Fair Applications</Link>
           </li>
           <li>
             <Link to="/api/promo_coordinator_tour_application" className="sidebar-link">Tour Applications</Link>
