@@ -58,5 +58,7 @@ urlpatterns = [
     path('submit_feedback/', views.submit_feedback, name='submit_feedback'),
     path('feedbacks/', views.get_feedbacks, name='get_feedbacks'),
     path('advisors/', views.advisor_list, name='advisor_list'),
+    path('get_all_highschools/', views.get_all_highschools, name='get_all_highschools'),
+    path('add_highschool/', views.add_highschool, name='add_highschool'),
 ]
 

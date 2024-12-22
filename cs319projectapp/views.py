@@ -18,6 +18,7 @@ import json
 from django.views import View
 from django.utils.decorators import method_decorator
 from .models import Advisor  # Import the Advisor model
+from rest_framework import status
 
 def login_view(request):
     if request.method == 'POST':
@@ -80,6 +81,43 @@ def get_cities(request):
 def get_highschools(request, city):
     highschools = HighSchool.objects.filter(city=city).values_list('name', flat=True)
     return Response(list(highschools))
+
+@api_view(['GET'])
+def get_all_highschools(request):
+    highschools = HighSchool.objects.all().values('name', 'city', 'score')
+    return Response(list(highschools))
+
+@api_view(['POST'])
+def add_highschool(request):
+    try:
+        # Extract the data from the request
+        name = request.data.get('name')
+        city = request.data.get('city')
+        score = request.data.get('score', 0)  # Default to 0 if not provided
+
+        # Validate required fields
+        if not name or not city:
+            return Response(
+                {"error": "High School name and city are required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Create and save the new high school
+        highschool = HighSchool.objects.create(name=name, city=city, score=score)
+        highschool.save()
+
+        # Respond with the created high school data
+        return Response(
+            {"id": highschool.id, "name": highschool.name, "city": highschool.city, "score": highschool.score},
+            status=status.HTTP_201_CREATED
+        )
+
+    except Exception as e:
+        # Handle unexpected errors
+        return Response(
+            {"error": f"An error occurred: {str(e)}"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 @csrf_exempt
 def submit_tour(request):
