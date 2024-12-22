@@ -465,7 +465,7 @@ CREATE TABLE `highschooltours` (
 
 LOCK TABLES `highschooltours` WRITE;
 /*!40000 ALTER TABLE `highschooltours` DISABLE KEYS */;
-INSERT INTO `highschooltours` VALUES (1,'İrfan Hakan',2,'Ankara Fen Lisesi','0123 456 01 01','hakan.karakoc@ug.bilkent.edu.tr','try','2025-01-08','01:30-03:30','accepted',NULL,NULL,NULL),(2,'İrfan Hakan',23,'Ankara Fen Lisesi','0123 456 01 02','hakan.karakoc@ug.bilkent.edu.tr','xdxd','2025-01-07','01:30-03:30','accepted',NULL,NULL,NULL),(3,'Hakanto',32,'Ankara Fen Lisesi','0123 456 01 01','hakan.karakoc@ug.bilkent.edu.tr','xdxd','2025-01-10','10:30-12:30','accepted',NULL,NULL,NULL),(4,'İrfan Hakan',123,'Ankara Pursaklar Fen Lisesi','0123 456 01 01','hakan.karakoc@ug.bilkent.edu.tr','xdxd','2025-01-10','01:30-03:30','accepted',NULL,NULL,NULL);
+INSERT INTO `highschooltours` VALUES (1,'İrfan Hakan',2,'Ankara Fen Lisesi','0123 456 01 01','hakan.karakoc@ug.bilkent.edu.tr','try','2025-01-08','01:30-03:30','accepted',NULL,NULL,NULL),(2,'İrfan Hakan',23,'Ankara Fen Lisesi','0123 456 01 02','hakan.karakoc@ug.bilkent.edu.tr','xdxd','2025-01-07','01:30-03:30','accepted',NULL,NULL,NULL),(3,'Hakanto',32,'Ankara Fen Lisesi','0123 456 01 01','hakan.karakoc@ug.bilkent.edu.tr','xdxd','2025-01-10','10:30-12:30','accepted',NULL,NULL,NULL),(4,'İrfan Hakan',123,'Ankara Pursaklar Fen Lisesi','0123 456 01 01','hakan.karakoc@ug.bilkent.edu.tr','xdxd','2025-01-10','01:30-03:30','accepted',NULL,NULL,NULL),(5,'YAVUZ',2,'Ankara Fen Lisesi','0123 456 01 01','hakan.karakoc@ug.bilkent.edu.tr','try','2024-12-13','13:30-15:30','accepted',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `highschooltours` ENABLE KEYS */;
 UNLOCK TABLES;
 

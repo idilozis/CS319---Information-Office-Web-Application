@@ -18,6 +18,12 @@ const Tours = () => {
     const date = new Date(year, month - 1, day);
     return days[date.getDay()];
   };
+  const isDatePassed = (dateString) => {
+    const today = new Date();
+    const [year, month, day] = dateString.split("-").map(Number);
+    const tourDate = new Date(year, month - 1, day);
+    return tourDate < today;
+  };
 
   // Fetch tours and resolve guide names from IDs
   const fetchTours = async () => {
@@ -166,7 +172,7 @@ const Tours = () => {
               {filteredTours.map((tour) => {
                 const requiredGuides = Math.ceil(tour.capacity / 60); // Calculate required guides
                 return (
-                  <tr key={tour.id}>
+                  <tr key={tour.id} className={isDatePassed(tour.date) ? "date-passed" : ""}>
                     <td>{tour.date}</td>
                     <td>{tour.time_slot}</td>
                     <td>{tour.highschool}</td>

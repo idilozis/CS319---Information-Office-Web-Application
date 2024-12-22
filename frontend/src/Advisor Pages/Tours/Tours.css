@@ -133,6 +133,11 @@ body {
 .application-table td ul li:last-child {
   margin-bottom: 0; /* No margin for the last guide */
 }
+/* Row Style for Passed Dates */
+.date-passed {
+  background-color: #ffe6e6; /* Light red background */
+  color: #a94442; /* Slightly darker text for emphasis */
+}
 
 /* Remove Guide Button */
 .remove-guide-button {
