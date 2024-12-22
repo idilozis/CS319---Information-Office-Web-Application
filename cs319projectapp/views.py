@@ -226,3 +226,19 @@ def update_tour_status(request):
         tour.save()
         return Response({'message': 'Status updated successfully'})
     return Response({'error': 'Tour not found'}, status=404)
+
+@api_view(['GET'])
+def get_guides(request):
+    # Fetch all fields from the Guide table
+    guides = Guide.objects.all().values()
+    
+    # Optional: Modify fields if needed
+    guide_list = []
+    for guide in guides:
+        guide_entry = {**guide}  # Copy all fields
+        guide_entry["contact_phone"] = guide["contact_phone"] or "N/A"  # Replace null with "N/A"
+        guide_entry["contact_mail"] = guide["contact_mail"] or "N/A"    # Replace null with "N/A"
+        guide_list.append(guide_entry)
+
+    # Return the modified guide list as JSON
+    return Response(guide_list)

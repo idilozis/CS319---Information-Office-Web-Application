@@ -1,38 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./GuideList.css";
 
 const GuideList = () => {
   const [menuVisible, setMenuVisible] = useState(false);
+  const [guides, setGuides] = useState([]); // State for guide data
   const userMenuRef = useRef(null);
 
-  // Guide data
-  const [guides, setGuides] = useState([
-    {
-      id: 1,
-      name: "Türker Kaya",
-      contact: {
-        phone: "123 456 78 91",
-        email: "turker.kaya@example.com",
-      },
-    },
-    {
-      id: 2,
-      name: "Ayşe Yılmaz",
-      contact: {
-        phone: "987 654 32 10",
-        email: null, // Email missing
-      },
-    },
-    {
-      id: 3,
-      name: "Mehmet Bozkır",
-      contact: {
-        phone: null, // Phone missing
-        email: "mehmet.bozkir@example.com",
-      },
-    },
-  ]);
+  // Fetch guides from the API
+  const fetchGuides = async () => {
+    try {
+      const response = await axios.get("/api/guides/"); // API endpoint to fetch guides
+      setGuides(response.data);
+    } catch (error) {
+      console.error("Error fetching guides:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGuides(); // Fetch guide data on component mount
+  }, []);
 
   // Close user menu on outside click
   useEffect(() => {
@@ -72,9 +60,7 @@ const GuideList = () => {
           </li>
         </ul>
         <div className="logout">
-          <button onClick={() => (window.location.href = "/api/login/")}>
-            Logout
-          </button>
+          <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
         </div>
       </div>
 
@@ -90,15 +76,11 @@ const GuideList = () => {
               alt="User Icon"
             />
             Kemal Çakır
-            </div>
+          </div>
           {menuVisible && (
             <div className="dropdown-menu">
-              <button onClick={() => (window.location.href = "/api/settings/")}>
-                Settings
-              </button>
-              <button onClick={() => (window.location.href = "/api/login/")}>
-                Logout
-              </button>
+              <button onClick={() => (window.location.href = "/api/settings/")}>Settings</button>
+              <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
             </div>
           )}
         </div>
@@ -118,10 +100,10 @@ const GuideList = () => {
                   <td>{guide.name}</td>
                   <td>
                     <div>
-                      {guide.contact.phone ? <span>📞 {guide.contact.phone}</span> : <span>📞 N/A</span>}
+                      {guide.contact_phone ? <span>📞 {guide.contact_phone}</span> : <span>📞 N/A</span>}
                     </div>
                     <div>
-                      {guide.contact.email ? <span>✉️ {guide.contact.email}</span> : <span>✉️ N/A</span>}
+                      {guide.contact_mail ? <span>✉️ {guide.contact_mail}</span> : <span>✉️ N/A</span>}
                     </div>
                   </td>
                 </tr>
