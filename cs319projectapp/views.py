@@ -17,6 +17,7 @@ from .models import Guide
 import json
 from django.views import View
 from django.utils.decorators import method_decorator
+from .models import Advisor  # Import the Advisor model
 
 def login_view(request):
     if request.method == 'POST':
@@ -322,3 +323,9 @@ def submit_feedback(request):
 def get_feedbacks(request):
     feedbacks = Feedback.objects.all().values()
     return JsonResponse(list(feedbacks), safe=False)
+
+
+
+def advisor_list(request):
+    advisors = Advisor.objects.all().values()
+    return JsonResponse(list(advisors), safe=False)

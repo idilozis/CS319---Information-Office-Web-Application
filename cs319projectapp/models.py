@@ -74,6 +74,19 @@ class Guide(models.Model):
     def __str__(self):
         return f"{self.name} ({self.bilkentid})"
 
+class Advisor(models.Model):
+    name = models.CharField(max_length=100)  # Advisor Name
+    bilkent_id = models.CharField(max_length=10)  # Bilkent ID
+    contact_phone = models.CharField(max_length=15)  # Contact Phone
+    contact_email = models.EmailField()  # Contact Email
+    assigned_day = models.CharField(max_length=10)  # Assigned Day
+
+    class Meta:
+        db_table = 'advisors'  # Explicitly map to the 'guides' table in MySQL
+
+    def __str__(self):
+        return self.name
+
 
 class Tour(models.Model):
     counselor_name = models.CharField(max_length=255)

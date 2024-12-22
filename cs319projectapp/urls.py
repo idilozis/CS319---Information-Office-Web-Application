@@ -57,5 +57,6 @@ urlpatterns = [
     path('update_fair_application_status/', views.update_fair_application_status, name='update_fair_application_status'),
     path('submit_feedback/', views.submit_feedback, name='submit_feedback'),
     path('feedbacks/', views.get_feedbacks, name='get_feedbacks'),
+    path('advisors/', views.advisor_list, name='advisor_list'),
 ]
 
