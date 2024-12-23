@@ -5,9 +5,21 @@ import "./AcceptedTours.css";
 const AcceptedTours = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const userName = "Kemal Çakır"; // Current user's name
+  const userMenuRef = useRef(null);
 
-  const [tours, setTours] = useState([
-    {
+  // Function to retrieve tours from localStorage or use default
+  const getInitialTours = () => {
+    const storedTours = localStorage.getItem("acceptedTours");
+    if (storedTours) {
+      try {
+        return JSON.parse(storedTours);
+      } catch (error) {
+        console.error("Failed to parse tours from localStorage:", error);
+      }
+    }
+    // Default tours data
+    return [
+      {
         id: 1,
         date: "21-12-2024",
         time: "8.30-12.30",
@@ -46,9 +58,17 @@ const AcceptedTours = () => {
         studentCount: 75,
         attendees: ["Ali"],
       },
-  ]);
-  const userMenuRef = useRef(null);
+    ];
+  };
 
+  const [tours, setTours] = useState(getInitialTours);
+
+  // Update localStorage whenever tours state changes
+  useEffect(() => {
+    localStorage.setItem("acceptedTours", JSON.stringify(tours));
+  }, [tours]);
+
+  // Handle clicks outside the user menu to close it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -72,10 +92,19 @@ const AcceptedTours = () => {
       return;
     }
 
+    // Prevent adding the same user multiple times
+    if (selectedTour.attendees.includes(userName)) {
+      alert("You have already added yourself to this tour.");
+      return;
+    }
+
     // Update the attendees for the selected tour
     setTours((prevTours) => {
       const updatedTours = [...prevTours];
-      updatedTours[index].attendees = [...updatedTours[index].attendees, userName];
+      updatedTours[index].attendees = [
+        ...updatedTours[index].attendees,
+        userName,
+      ];
       return updatedTours;
     });
   };
@@ -83,14 +112,12 @@ const AcceptedTours = () => {
   const isDatePassed = (dateString) => {
     const [day, month, year] = dateString.split("-").map(Number); // Parse `DD-MM-YYYY`
     const tourDate = new Date(year, month - 1, day); // Convert to `Date` object
-  
+
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Ignore time for comparison (midnight of today)
-  
+
     return tourDate < today; // Check if the tour date is before today
   };
-  
-  
 
   return (
     <div className="dashboard-container">
@@ -119,7 +146,9 @@ const AcceptedTours = () => {
           </li>
         </ul>
         <div className="logout">
-          <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+          <button onClick={() => (window.location.href = "/api/login/")}>
+            Logout
+          </button>
         </div>
       </div>
 
@@ -134,12 +163,16 @@ const AcceptedTours = () => {
               className="user-avatar"
               alt="User Icon"
             />
-            Kemal Çakır
+            {userName}
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
               <button onClick={() => alert("Go to Settings")}>Settings</button>
-              <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
+              <button
+                onClick={() => (window.location.href = "/api/login/")}
+              >
+                Logout
+              </button>
             </div>
           )}
         </div>
@@ -159,42 +192,47 @@ const AcceptedTours = () => {
               </tr>
             </thead>
             <tbody>
-                  {tours.map((tour, tourIndex) => (
-                    <tr key={tourIndex} className={isDatePassed(tour.date) ? "date-passed" : ""}>
-                      <td>{tour.date}</td>
-                      <td>{tour.time}</td>
-                      <td>{tour.highSchool}</td>
-                      <td>{tour.counselor}</td>
-                      <td>
-                        <div>
-                          {tour.contact.phone ? <span>📞 {tour.contact.phone}</span> : <span>📞 N/A</span>}
-                        </div>
-                        <div>✉️ {tour.contact.email}</div>
-                      </td>
-                      <td>{tour.studentCount}</td>
-                      <td>
-                        <ul>
-                          {tour.attendees.map((attendee, attendeeIndex) => (
-                            <li key={attendeeIndex}>{attendee}</li>
-                          ))}
-                        </ul>
-                        {/* Render the button only if the user is not already in attendees, there is space, and the date hasn't passed */}
-                        {!isDatePassed(tour.date) &&
-                          !tour.attendees.includes(userName) &&
-                          tour.attendees.length < Math.ceil(tour.studentCount / 60) && (
-                            <button
-                              onClick={() => handleAddAttendee(tourIndex)}
-                              style={{ marginTop: "5px" }}
-                            >
-                              Add Yourself
-                            </button>
-                          )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-
-
+              {tours.map((tour, tourIndex) => (
+                <tr
+                  key={tour.id} // Use unique identifier for key
+                  className={isDatePassed(tour.date) ? "date-passed" : ""}
+                >
+                  <td>{tour.date}</td>
+                  <td>{tour.time}</td>
+                  <td>{tour.highSchool}</td>
+                  <td>{tour.counselor}</td>
+                  <td>
+                    <div>
+                      {tour.contact.phone ? (
+                        <span>📞 {tour.contact.phone}</span>
+                      ) : (
+                        <span>📞 N/A</span>
+                      )}
+                    </div>
+                    <div>✉️ {tour.contact.email}</div>
+                  </td>
+                  <td>{tour.studentCount}</td>
+                  <td>
+                    <ul>
+                      {tour.attendees.map((attendee, attendeeIndex) => (
+                        <li key={attendeeIndex}>{attendee}</li>
+                      ))}
+                    </ul>
+                    {/* Render the button only if the user is not already in attendees, there is space, and the date hasn't passed */}
+                    {!isDatePassed(tour.date) &&
+                      !tour.attendees.includes(userName) &&
+                      tour.attendees.length < Math.ceil(tour.studentCount / 60) && (
+                        <button
+                          onClick={() => handleAddAttendee(tourIndex)}
+                          style={{ marginTop: "5px" }}
+                        >
+                          Add Yourself
+                        </button>
+                      )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>
