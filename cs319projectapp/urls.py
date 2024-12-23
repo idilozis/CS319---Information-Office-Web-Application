@@ -61,5 +61,7 @@ urlpatterns = [
     path('advisors/', views.advisor_list, name='advisor_list'),
     path('get_all_highschools/', views.get_all_highschools, name='get_all_highschools'),
     path('add_highschool/', views.add_highschool, name='add_highschool'),
+    path('remove_guide/<int:guide_id>/', views.remove_guide, name='remove_guide'),
+    path('add_guide/', views.add_guide, name='add_guide'),
 ]
 

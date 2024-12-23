@@ -374,3 +374,52 @@ def get_feedbacks(request):
 def advisor_list(request):
     advisors = Advisor.objects.all().values()
     return JsonResponse(list(advisors), safe=False)
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Guide
+
+@csrf_exempt
+def add_guide(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            name = data.get('name')
+            bilkent_id = data.get('bilkentid')
+            contact_phone = data.get('contact_phone')
+            contact_mail = data.get('contact_mail')
+
+            if not name or not bilkent_id:
+                return JsonResponse({'error': 'Name and Bilkent ID are required.'}, status=400)
+
+            guide = Guide.objects.create(
+                name=name,
+                bilkentid=bilkent_id,
+                contact_phone=contact_phone,
+                contact_mail=contact_mail
+            )
+            return JsonResponse({
+                'id': guide.id,
+                'name': guide.name,
+                'bilkentid': guide.bilkentid,
+                'contact_phone': guide.contact_phone,
+                'contact_mail': guide.contact_mail
+            }, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+@csrf_exempt
+def remove_guide(request, guide_id):
+    if request.method == 'DELETE':
+        try:
+            guide = Guide.objects.get(id=guide_id)
+            guide.delete()
+            return JsonResponse({'message': 'Guide removed successfully.'}, status=200)
+        except Guide.DoesNotExist:
+            return JsonResponse({'error': 'Guide not found.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)

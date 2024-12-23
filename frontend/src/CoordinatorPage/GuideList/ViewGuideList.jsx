@@ -68,7 +68,7 @@ const ViewGuideList = () => {
     }
 
     try {
-      const response = await axios.post("/api/guides/", newGuide); // POST new guide to the server
+      const response = await axios.post("/api/add_guide/", newGuide); // POST new guide to the server
       setGuides([...guides, response.data]); // Add new guide to the list
       // Reset form fields
       setNewGuide({
@@ -86,7 +86,7 @@ const ViewGuideList = () => {
   // Remove a guide by ID
   const handleRemoveGuide = async (id) => {
     try {
-      await axios.delete(`/api/guides/${id}/`); // Send DELETE request to remove guide
+      await axios.delete(`/api/remove_guide/${id}/`); // Send DELETE request to remove guide
       const updatedGuides = guides.filter((guide) => guide.id !== id);
       setGuides(updatedGuides);
     } catch (error) {
