@@ -105,7 +105,7 @@ const TourApplication_p = () => {
               className="user-avatar"
               alt="User Icon"
             />
-            Kemal Çakır
+            Dilek Yıldız
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
@@ -115,7 +115,7 @@ const TourApplication_p = () => {
           )}
         </div>
 
-        <h1>Welcome Back, Kemal Çakır</h1>
+        <h1>Welcome Back, Dilek Yıldız</h1>
 
         {/* Toggle Buttons */}
         <div className="toggle-buttons">

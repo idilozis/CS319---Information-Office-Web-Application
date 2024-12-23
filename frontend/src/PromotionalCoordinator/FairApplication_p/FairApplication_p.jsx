@@ -112,7 +112,7 @@ const FairApplication_p = () => {
               className="user-avatar"
               alt="User Icon"
             />
-            Kemal Çakır
+            Dilek Yıldız
           </div>
           {menuVisible && (
             <div className="dropdown-menu">

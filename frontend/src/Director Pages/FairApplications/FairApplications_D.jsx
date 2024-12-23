@@ -108,7 +108,7 @@ const FairApplications_D = () => {
               className="user-avatar"
               alt="User Icon"
             />
-            Kemal Çakır
+            Örsan Örge
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
