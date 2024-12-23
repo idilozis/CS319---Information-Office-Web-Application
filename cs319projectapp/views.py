@@ -248,6 +248,7 @@ def get_accepted_highschool_tours(request):
             'contact_email': tour.contact_email,
             'capacity': tour.capacity,
             'guides': guide_names,  # Include guide names
+            'additional_notes': tour.additional_notes,
         })
 
     return Response(result)
