@@ -170,7 +170,7 @@ const Settings = () => {
 
       {/* Student ID Section */}
       <div className="settings-section">
-        <label>Student ID:</label>
+        <label>Bilkent ID:</label>
         <div className="field-container">
           <span className="non-editable-field">{studentId}</span>
         </div>
