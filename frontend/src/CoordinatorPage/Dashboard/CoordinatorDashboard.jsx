@@ -98,7 +98,7 @@ const CoordinatorDashboard = () => {
               className="user-avatar"
               alt="User Icon"
             />
-            Kemal Çakır
+            Boray Güvenç
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
@@ -108,7 +108,7 @@ const CoordinatorDashboard = () => {
           )}
         </div>
 
-        <h1>Welcome Back, Kemal Çakır</h1>
+        <h1>Welcome Back, Boray Güvenç</h1>
         <div className="calendar-schedule-container">
           <div className="calendar">
             <h2>Schedule Calendar</h2>

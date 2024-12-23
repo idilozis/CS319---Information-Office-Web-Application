@@ -87,7 +87,7 @@ const ViewFeedback = () => {
               className="user-avatar"
               alt="User Icon"
             />
-            Kemal Çakır
+            Boray Güvenç
           </div>
           {menuVisible && (
             <div className="dropdown-menu">

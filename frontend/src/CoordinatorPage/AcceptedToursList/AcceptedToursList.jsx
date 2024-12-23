@@ -94,7 +94,7 @@ const AcceptedToursList= () => {
       </div>
 
       <div className="main-content">
-        <h1>Welcome Back, Kemal Çakır</h1>
+        <h1>Welcome Back, Boray Güvenç</h1>
         <div className="tab-buttons">
           <button
             className={`tab-button ${currentTab === "highschool" ? "active" : ""}`}
