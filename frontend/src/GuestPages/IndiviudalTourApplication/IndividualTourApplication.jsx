@@ -73,7 +73,8 @@ const IndividualTourApplication = () => {
       });
   
       if (response.status === 201) {
-        alert("Form submitted successfully!");
+        setPopupVisible(true); 
+        setTimeout(() => setPopupVisible(false), 3000); 
   
         // Reset form fields
         setSelectedCity("");
