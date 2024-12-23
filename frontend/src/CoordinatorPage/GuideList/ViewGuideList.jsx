@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-// import axios from "axios"; // If you're purely using localStorage, you may not need axios
+import axios from "axios"; // Import axios for API calls
 import "./ViewGuideList.css";
 
 const ViewGuideList = () => {
@@ -19,33 +19,20 @@ const ViewGuideList = () => {
     contact_mail: "",
   });
 
-  // Fetch guides from the API (Optional - if you want to fetch from your backend initially)
-  /*
+  // Fetch guides from the database on component mount
   const fetchGuides = async () => {
     try {
-      const response = await axios.get("/api/guides/");
+      const response = await axios.get("/api/guides/"); // Replace with your actual endpoint
       setGuides(response.data);
     } catch (error) {
       console.error("Error fetching guides:", error);
     }
-  };*/
-  
+  };
 
-  // Load guides from localStorage on first render
+  // Call fetchGuides on component mount
   useEffect(() => {
-    const storedGuides = JSON.parse(localStorage.getItem("guides"));
-    if (storedGuides && storedGuides.length > 0) {
-      setGuides(storedGuides);
-    } else {
-      // If local storage is empty, optionally load from server
-      // fetchGuides();
-    }
+    fetchGuides();
   }, []);
-
-  // Whenever guides change, update localStorage
-  useEffect(() => {
-    localStorage.setItem("guides", JSON.stringify(guides));
-  }, [guides]);
 
   // Filter guides by search term
   const filteredGuides = guides.filter((guide) =>
@@ -73,36 +60,39 @@ const ViewGuideList = () => {
   };
 
   // Add a new guide
-  const handleAddGuide = (e) => {
+  const handleAddGuide = async (e) => {
     e.preventDefault();
     if (!newGuide.name.trim()) {
       alert("Guide Name cannot be empty.");
       return;
     }
 
-    const newGuideEntry = {
-      id: Date.now(), // Temporary ID based on timestamp
-      name: newGuide.name,
-      bilkentid: newGuide.bilkentid,
-      contact_phone: newGuide.contact_phone,
-      contact_mail: newGuide.contact_mail,
-    };
-
-    setGuides([...guides, newGuideEntry]);
-
-    // Reset form fields
-    setNewGuide({
-      name: "",
-      bilkentid: "",
-      contact_phone: "",
-      contact_mail: "",
-    });
+    try {
+      const response = await axios.post("/api/guides/", newGuide); // POST new guide to the server
+      setGuides([...guides, response.data]); // Add new guide to the list
+      // Reset form fields
+      setNewGuide({
+        name: "",
+        bilkentid: "",
+        contact_phone: "",
+        contact_mail: "",
+      });
+    } catch (error) {
+      console.error("Error adding guide:", error);
+      alert("Error adding guide. Please try again.");
+    }
   };
 
   // Remove a guide by ID
-  const handleRemoveGuide = (id) => {
-    const updatedGuides = guides.filter((guide) => guide.id !== id);
-    setGuides(updatedGuides);
+  const handleRemoveGuide = async (id) => {
+    try {
+      await axios.delete(`/api/guides/${id}/`); // Send DELETE request to remove guide
+      const updatedGuides = guides.filter((guide) => guide.id !== id);
+      setGuides(updatedGuides);
+    } catch (error) {
+      console.error("Error removing guide:", error);
+      alert("Error removing guide. Please try again.");
+    }
   };
 
   return (
