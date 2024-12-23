@@ -102,6 +102,19 @@ const FairPage = () => {
     setModalVisible(false);
     setModalMessage("");
   };
+  
+  const isDatePassed = (dateString) => {
+    // Parse the input date string in "YYYY-MM-DD" format
+    const [year, month, day] = dateString.split("-").map(Number);
+    const fairDate = new Date(year, month - 1, day); // Create Date object for the fair date
+  
+    const today = new Date(); // Get today's date
+    today.setHours(0, 0, 0, 0); // Reset hours, minutes, seconds, and milliseconds
+  
+    return fairDate < today; // Check if the fair date is before today's date
+  };
+  
+
 
   return (
     <div className="dashboard-container">
@@ -175,37 +188,41 @@ const FairPage = () => {
               </tr>
             </thead>
             <tbody>
-              {fairs.map((fair, fairIndex) => (
-                <tr key={fairIndex}>
-                  <td>{fair.highSchool}</td>
-                  <td>{fair.city}</td>
-                  <td>{fair.date}</td>
-                  <td>{fair.time}</td>
-                  <td>
-                    <ul>
-                      {fair.attendees.map((attendee, attendeeIndex) => (
-                        <li key={attendeeIndex}>{attendee}</li>
-                      ))}
-                    </ul>
-                    {fair.attendees.includes(userName) ? (
-                      <button
-                        onClick={() => handleRemoveAttendee(fairIndex)}
-                        style={{ marginTop: "5px" }}
-                      >
-                        Remove
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleAddAttendee(fairIndex)}
-                        style={{ marginTop: "5px" }}
-                      >
-                        Add
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+                  {fairs.map((fair, fairIndex) => (
+                    <tr key={fairIndex} className={isDatePassed(fair.date) ? "date-passed" : ""}>
+                      <td>{fair.highSchool}</td>
+                      <td>{fair.city}</td>
+                      <td>{fair.date}</td>
+                      <td>{fair.time}</td>
+                      <td>
+                        <ul>
+                          {fair.attendees.map((attendee, attendeeIndex) => (
+                            <li key={attendeeIndex}>{attendee}</li>
+                          ))}
+                        </ul>
+                        {/* Only render buttons if the date has not passed */}
+                        {!isDatePassed(fair.date) &&
+                          (fair.attendees.includes(userName) ? (
+                            <button
+                              onClick={() => handleRemoveAttendee(fairIndex)}
+                              style={{ marginTop: "5px" }}
+                            >
+                              Remove
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleAddAttendee(fairIndex)}
+                              style={{ marginTop: "5px" }}
+                            >
+                              Add
+                            </button>
+                          ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+
+
           </table>
         </div>
         {modalVisible && (
