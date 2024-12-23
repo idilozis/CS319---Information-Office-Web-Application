@@ -83,6 +83,49 @@ body {
   font-size: 24px;
 }
 
+/* User Menu */
+.user-menu {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.user-icon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #f4f4f4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown-menu button:hover {
+  background-color: #ddd;
+}
+
 /* Guide List Table */
 .guide-list-table-container {
   max-height: 70vh;
@@ -124,6 +167,7 @@ body {
 .guide-list-table tr:hover {
   background-color: #f1f1f1;
 }
+
 /* Search Bar Styles */
 .search-bar {
   margin-bottom: 20px;
@@ -144,4 +188,54 @@ body {
   border-color: #007bff;
   box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
   outline: none;
+}
+
+/* Add Guide Form */
+.add-guide-container {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-guide-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.add-guide-form input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.add-guide-button {
+  padding: 10px;
+  background-color: #2c3e50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.add-guide-button:hover {
+  background-color: #34495e;
+}
+
+/* Remove Guide Button */
+.remove-guide-button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.remove-guide-button:hover {
+  background-color: #c0392b;
 }
