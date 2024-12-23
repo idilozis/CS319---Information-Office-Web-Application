@@ -11,7 +11,6 @@ body {
 .dashboard-container {
   display: flex;
   height: 100vh;
-  overflow: hidden;
 }
 
 /* Sidebar */
@@ -83,8 +82,39 @@ body {
   font-size: 24px;
 }
 
-/* Table Styles */
-.accepted-tours-table {
+/* Tab Buttons */
+.tab-buttons {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background-color: #ffffff;
+  color: #2c3e50;
+  border: 2px solid #2c3e50;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 10px;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.tab-button.active {
+  background-color: #007bff;
+  color: #ffffff;
+  border-color: #007bff;
+}
+
+.tab-button:hover {
+  background-color: #0056b3;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Application Table */
+.application-table {
   margin-top: 20px;
   border-collapse: collapse;
   width: 100%;
@@ -94,60 +124,60 @@ body {
   overflow: hidden;
 }
 
-.accepted-tours-table table {
+.application-table table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.accepted-tours-table th,
-.accepted-tours-table td {
+.application-table th,
+.application-table td {
   padding: 15px;
   text-align: center;
   border-bottom: 1px solid #ddd;
 }
 
-.accepted-tours-table th {
+.application-table th {
   background-color: #2c3e50;
   color: white;
   text-transform: uppercase;
   font-size: 14px;
 }
 
-.accepted-tours-table tr:nth-child(even) {
+.application-table tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.accepted-tours-table td {
+.application-table td {
   font-size: 14px;
   color: #333;
 }
 
-.accepted-tours-table tr:hover {
+.application-table tr:hover {
   background-color: #f1f1f1;
 }
 
+/* Row Style for Passed Dates */
+.date-passed {
+  background-color: #ffe6e6; /* Light red background */
+  color: #a94442; /* Slightly darker text for emphasis */
+}
+
+/* View Notes Button */
 .view-notes-button {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 12px 20px;
+  padding: 8px 12px;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 5px;
   font-size: 14px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s, transform 0.3s;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  line-height: normal; 
-  min-height: 40px; 
 }
 
 .view-notes-button:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
 }
-
 
 /* Modal Styles */
 .modal-overlay {
@@ -192,42 +222,10 @@ body {
   cursor: pointer;
   border-radius: 8px;
   font-size: 14px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s, transform 0.3s;
 }
 
 .modal-close-button:hover {
   background-color: #c0392b;
-  transform: translateY(-2px);
-}
-
-/* Switch Buttons Styles */
-.tab-buttons {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-}
-
-.tab-button {
-  background-color: #ffffff;
-  color: #2c3e50;
-  border: 2px solid #2c3e50;
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-right: 10px;
-  transition: background-color 0.3s, color 0.3s, transform 0.3s;
-}
-
-.tab-button.active {
-  background-color: #007bff;
-  color: #ffffff;
-  border-color: #007bff;
-}
-
-.tab-button:hover {
-  background-color: #0056b3;
-  color: white;
   transform: translateY(-2px);
 }

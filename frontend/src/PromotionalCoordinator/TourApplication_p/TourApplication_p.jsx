@@ -109,12 +109,8 @@ const TourApplication_p = () => {
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
-              <button onClick={() => (window.location.href = "/api/settings/")}>
-                Settings
-              </button>
-              <button onClick={() => (window.location.href = "/api/login/")}>
-                Logout
-              </button>
+              <button onClick={() => (window.location.href = "/api/settings/")}>Settings</button>
+              <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
             </div>
           )}
         </div>
@@ -148,10 +144,11 @@ const TourApplication_p = () => {
               <th>Date</th>
               <th>Day</th>
               <th>Time</th>
-              <th>High School</th>
-              <th>Counselor</th>
+              {selectedType === "highschool" && <th>High School</th>}
+              {selectedType === "highschool" && <th>Counselor</th>}
+              {selectedType === "individual" && <th>Name</th>}
               <th>Contact</th>
-              <th>Student Count</th>
+              {selectedType === "highschool" && <th>Student Count</th>}
               <th>Status</th>
             </tr>
           </thead>
@@ -165,12 +162,13 @@ const TourApplication_p = () => {
                   })}
                 </td>
                 <td>{app.time_slot}</td>
-                <td>{app.highschool || "-"}</td>
-                <td>{app.counselor_name || "-"}</td>
+                {selectedType === "highschool" && <td>{app.highschool || "-"}</td>}
+                {selectedType === "highschool" && <td>{app.counselor_name || "-"}</td>}
+                {selectedType === "individual" && <td>{app.name || "-"}</td>}
                 <td>
                   {app.contact_phone || "-"}, {app.contact_email || "-"}
                 </td>
-                <td>{app.capacity || app.student_count}</td>
+                {selectedType === "highschool" && <td>{app.capacity || app.student_count}</td>}
                 <td>
                   {app.status !== "cancelled" ? (
                     <button

@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import "./TourApplication.css";
 
 const TourApplication = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [menuVisible, setMenuVisible] = useState(false);
-  const userMenuRef = useRef(null);
-
-  // New State for Applications
-  const [applications, setApplications] = useState([]);
   const [selectedType, setSelectedType] = useState("highschool"); // Default type
+  const [applications, setApplications] = useState([]);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [viewNotes, setViewNotes] = useState("");
+  const userMenuRef = useRef(null);
 
   // Fetch Applications based on Selected Type
   const fetchApplications = async () => {
@@ -44,22 +42,19 @@ const TourApplication = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      const requestBody = {
-        type: selectedType, // 'highschool' or 'individual'
-        id: id,
-        status: status,
-      };
-      await axios.post("/api/update_tour_status/", requestBody);
+      await axios.post("/api/update_tour_status/", {
+        type: selectedType,
+        id,
+        status,
+      });
       fetchApplications(); // Refresh the list
     } catch (error) {
       console.error("Error updating status:", error);
     }
   };
-  
 
-  const viewNotes = (notes) => {
-    alert(notes || "No additional notes provided.");
-  };
+  const openNotes = (notes) => setViewNotes(notes || "No additional notes provided.");
+
   const isDatePassed = (dateString) => {
     const today = new Date();
     const [year, month, day] = dateString.split("-").map(Number);
@@ -104,9 +99,7 @@ const TourApplication = () => {
           </li>
         </ul>
         <div className="logout">
-          <button onClick={() => (window.location.href = "/api/login/")}>
-            Logout
-          </button>
+          <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
         </div>
       </div>
 
@@ -125,12 +118,8 @@ const TourApplication = () => {
           </div>
           {menuVisible && (
             <div className="dropdown-menu">
-              <button onClick={() => (window.location.href = "/api/settings/")}>
-                Settings
-              </button>
-              <button onClick={() => (window.location.href = "/api/login/")}>
-                Logout
-              </button>
+              <button onClick={() => (window.location.href = "/api/settings/")}>Settings</button>
+              <button onClick={() => (window.location.href = "/api/login/")}>Logout</button>
             </div>
           )}
         </div>
@@ -139,66 +128,100 @@ const TourApplication = () => {
 
         {/* Toggle Buttons */}
         <div className="toggle-buttons">
-  <button
-    className={`toggle-button ${selectedType === "highschool" ? "active" : ""}`}
-    onClick={() => setSelectedType("highschool")}
-  >
-    High School Applications
-  </button>
-  <button
-    className={`toggle-button ${selectedType === "individual" ? "active" : ""}`}
-    onClick={() => setSelectedType("individual")}
-  >
-    Individual Applications
-  </button>
-</div>
+          <button
+            className={`toggle-button ${
+              selectedType === "highschool" ? "active" : ""
+            }`}
+            onClick={() => setSelectedType("highschool")}
+          >
+            High School Applications
+          </button>
+          <button
+            className={`toggle-button ${
+              selectedType === "individual" ? "active" : ""
+            }`}
+            onClick={() => setSelectedType("individual")}
+          >
+            Individual Applications
+          </button>
+        </div>
 
-<table className="application-table">
-  <thead>
-    <tr>
-      <th>DATE</th>
-      <th>DAY</th>
-      <th>TIME</th>
-      <th>HIGH SCHOOL</th>
-      <th>COUNSELOR</th>
-      <th>CONTACT</th>
-      <th>STUDENT COUNT</th>
-      <th>STATUS</th>
-    </tr>
-  </thead>
-  <tbody>
-  {applications.map((app) => (
-    <tr key={app.id} className={isDatePassed(app.date) ? "date-passed" : ""}>
-      <td>{app.date}</td>
-      <td>{new Date(app.date).toLocaleDateString("en-US", { weekday: "long" })}</td>
-      <td>{app.time_slot}</td>
-      <td>{app.highschool}</td>
-      <td>{app.counselor_name || "-"}</td>
-      <td>
-        {app.contact_phone}, {app.contact_email}
-      </td>
-      <td>{app.capacity || app.student_count}</td>
-      <td>
-        {!isDatePassed(app.date) && ( // Only render buttons if the date hasn't passed
-          <div className="button-container">
-            <button className="accept-button" onClick={() => updateStatus(app.id, "accepted")}>
-              Accept
-            </button>
-            <button className="reject-button" onClick={() => updateStatus(app.id, "rejected")}>
-              Reject
-            </button>
-            <button className="view-notes-button" onClick={() => viewNotes(app.additional_notes)}>
-              View Notes
-            </button>
+        {/* Applications Table */}
+        <table className="application-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Day</th>
+              {selectedType === "highschool" && <th>Time</th>}
+              {selectedType === "highschool" && <th>High School</th>}
+              {selectedType === "highschool" && <th>Counselor</th>}
+              {selectedType === "individual" && <th>Name</th>}
+              <th>Contact</th>
+              {selectedType === "highschool" && <th>Student Count</th>}
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {applications.map((app) => (
+              <tr key={app.id} className={isDatePassed(app.date) ? "date-passed" : ""}>
+                <td>{app.date}</td>
+                <td>
+                  {new Date(app.date).toLocaleDateString("en-US", {
+                    weekday: "long",
+                  })}
+                </td>
+                {selectedType === "highschool" && <td>{app.time_slot}</td>}
+                {selectedType === "highschool" && <td>{app.highschool || "-"}</td>}
+                {selectedType === "highschool" && <td>{app.counselor_name || "-"}</td>}
+                {selectedType === "individual" && <td>{app.name || "-"}</td>}
+                <td>
+                  {app.contact_phone || "-"}, {app.contact_email || "-"}
+                </td>
+                {selectedType === "highschool" && <td>{app.capacity || app.student_count}</td>}
+                <td>
+                  {!isDatePassed(app.date) && (
+                    <div className="button-container">
+                      <button
+                        className="accept-button"
+                        onClick={() => updateStatus(app.id, "accepted")}
+                      >
+                        Accept
+                      </button>
+                      <button
+                        className="reject-button"
+                        onClick={() => updateStatus(app.id, "rejected")}
+                      >
+                        Reject
+                      </button>
+                      <button
+                        className="view-notes-button"
+                        onClick={() => openNotes(app.additional_notes)}
+                      >
+                        View Notes
+                      </button>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Notes Modal */}
+        {viewNotes && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Application Notes</h2>
+              <p>{viewNotes}</p>
+              <button
+                className="modal-close-button"
+                onClick={() => setViewNotes("")}
+              >
+                Close
+              </button>
+            </div>
           </div>
         )}
-      </td>
-    </tr>
-  ))}
-</tbody>
-
-</table>
-
       </div>
     </div>
   );

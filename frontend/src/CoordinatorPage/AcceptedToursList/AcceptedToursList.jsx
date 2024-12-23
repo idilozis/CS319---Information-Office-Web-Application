@@ -1,13 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import "./AcceptedToursList.css";
 
-const AcceptedToursList = () => {
+const AcceptedToursList= () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const userMenuRef = useRef(null);
   const [currentTab, setCurrentTab] = useState("highschool"); // Default tab
   const [applications, setApplications] = useState([]);
+  const [viewNotes, setViewNotes] = useState("");
 
   // Fetch applications based on the selected tab
   const fetchApplications = async () => {
@@ -54,6 +55,8 @@ const AcceptedToursList = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const openNotes = (notes) => setViewNotes(notes || "No additional notes provided.");
 
   return (
     <div className="dashboard-container">
@@ -114,32 +117,64 @@ const AcceptedToursList = () => {
                 <th>Date</th>
                 <th>Day</th>
                 <th>Time</th>
-                <th>High School</th>
-                <th>Counselor</th>
+                {currentTab === "highschool" && <th>High School</th>}
+                {currentTab === "highschool" && <th>Counselor</th>}
+                {currentTab === "individual" && <th>Name</th>}
                 <th>Contact</th>
-                <th>Student Count</th>
+                {currentTab === "highschool" && <th>Student Count</th>}
                 <th>Additional Notes</th>
               </tr>
             </thead>
             <tbody>
-              {applications.map((app) => (
-                <tr key={app.id}>
-                  <td>{app.date}</td>
-                  <td>{getDayOfWeek(app.date)}</td>
-                  <td>{app.time_slot}</td>
-                  <td>{app.highschool}</td>
-                  <td>{app.counselor_name}</td>
-                  <td>
-                    <div>{app.contact_phone ? `📞 ${app.contact_phone}` : "📞 N/A"}</div>
-                    <div>{`✉️ ${app.contact_email}`}</div>
-                  </td>
-                  <td>{app.capacity}</td>
-                  <td>{app.additional_notes || "N/A"}</td>
-                </tr>
-              ))}
+              {applications.map((app) => {
+                const today = new Date();
+                const [year, month, day] = app.date.split("-").map(Number);
+                const applicationDate = new Date(year, month - 1, day);
+                const isDatePassed = applicationDate < today;
+
+                return (
+                  <tr key={app.id} className={isDatePassed ? "date-passed" : ""}>
+                    <td>{app.date}</td>
+                    <td>{getDayOfWeek(app.date)}</td>
+                    <td>{app.time_slot}</td>
+                    {currentTab === "highschool" && <td>{app.highschool}</td>}
+                    {currentTab === "highschool" && <td>{app.counselor_name}</td>}
+                    {currentTab === "individual" && <td>{app.name}</td>}
+                    <td>
+                      <div>{app.contact_phone ? `📞 ${app.contact_phone}` : "📞 N/A"}</div>
+                      <div>{`✉️ ${app.contact_email}`}</div>
+                    </td>
+                    {currentTab === "highschool" && <td>{app.capacity}</td>}
+                    <td>
+                      <button
+                        className="view-notes-button"
+                        onClick={() => openNotes(app.additional_notes)}
+                      >
+                        View Notes
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
+
+        {/* Notes Modal */}
+        {viewNotes && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>Application Notes</h2>
+              <p>{viewNotes}</p>
+              <button
+                className="modal-close-button"
+                onClick={() => setViewNotes("")}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
