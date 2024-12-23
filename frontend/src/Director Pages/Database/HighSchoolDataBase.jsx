@@ -5,7 +5,7 @@ import axios from "axios";
 
 const HighSchoolDatabase = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCity, setSelectedCity] = useState("All");
+  const [selectedCity, setSelectedCity] = useState("ALL");
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [menuVisible, setMenuVisible] = useState(false);
   const [highSchools, setHighSchools] = useState([]);
@@ -15,6 +15,7 @@ const HighSchoolDatabase = () => {
     score: "",
     city: "",
   });
+  const [sortOrder, setSortOrder] = useState(null); // 'asc' or 'desc'
 
   const userMenuRef = useRef(null);
 
@@ -28,14 +29,34 @@ const HighSchoolDatabase = () => {
       .catch((error) => console.error("Error fetching high schools:", error));
   }, []);
 
-  // Filter high schools based on search term and selected city
-  const filteredSchools = highSchools.filter((school) => {
-    const matchesSearchTerm = school.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesCity = selectedCity === "All" || school.city === selectedCity;
-    return matchesSearchTerm && matchesCity;
-  });
+  // Handle sorting
+  const handleSort = () => {
+    let newSortOrder = "asc";
+    if (sortOrder === "asc") {
+      newSortOrder = "desc";
+    }
+    setSortOrder(newSortOrder);
+  };
+
+  // Filter and sort high schools based on search term, selected city, and sort order
+  const filteredSchools = highSchools
+    .filter((school) => {
+      const matchesSearchTerm = school.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCity =
+        selectedCity === "ALL" || school.city.toUpperCase() === selectedCity;
+      return matchesSearchTerm && matchesCity;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a.score - b.score;
+      } else if (sortOrder === "desc") {
+        return b.score - a.score;
+      } else {
+        return 0; // No sorting
+      }
+    });
 
   // Add a new high school to the database
   const handleAddHighSchool = () => {
@@ -45,7 +66,10 @@ const HighSchoolDatabase = () => {
     }
 
     axios
-      .post("/api/add_highschool/", newHighSchool)
+      .post("/api/add_highschool/", {
+        ...newHighSchool,
+        city: newHighSchool.city.toUpperCase(),
+      })
       .then((response) => {
         setHighSchools((prevHighSchools) => [...prevHighSchools, response.data]);
         setIsModalOpen(false);
@@ -74,25 +98,47 @@ const HighSchoolDatabase = () => {
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-      <h2>Bilkent Information Office System</h2>
+        <h2>Bilkent Information Office System</h2>
         <ul>
           <li>
-            <Link to="/api/director_dashboard/" className="sidebar-link">Dashboard</Link>
+            <Link to="/api/coordinator_dashboard" className="sidebar-link">
+              Dashboard
+            </Link>
           </li>
           <li>
-            <Link to="/api/director_database" className="sidebar-link">High School Database</Link>
+            <Link to="/api/coordinator_highschool_database" className="sidebar-link">
+              High School Database
+            </Link>
           </li>
           <li>
-            <Link to="/api/director_puantaj_page" className="sidebar-link">Puantaj Page</Link>
+            <Link to="/api/coordinator_puantaj" className="sidebar-link">
+              Puantaj Page
+            </Link>
           </li>
           <li>
-            <Link to="/api/director_fair_applications" className="sidebar-link">Fair Applications</Link>
+            <Link to="/api/coordinator_fair_applications" className="sidebar-link">
+              Fair Applications
+            </Link>
           </li>
           <li>
-            <Link to="/api/director_accepted_tours" className="sidebar-link">Tours</Link>
+            <Link to="/api/coordinator_accepted_tours" className="sidebar-link">
+              Tours
+            </Link>
           </li>
           <li>
-            <Link to="/api/director_feedback" className="sidebar-link">View Feedbacks</Link>
+            <Link to="/api/coordinator_view_advisor_list" className="sidebar-link">
+              Advisor List
+            </Link>
+          </li>
+          <li>
+            <Link to="/api/coordinator_view_guide_list" className="sidebar-link">
+              Guide List
+            </Link>
+          </li>
+          <li>
+            <Link to="/api/coordinator_view_feedback" className="sidebar-link">
+              View Feedbacks
+            </Link>
           </li>
         </ul>
         <div className="logout">
@@ -152,8 +198,8 @@ const HighSchoolDatabase = () => {
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
           >
-            <option value="All">All</option>
-            {[...new Set(highSchools.map((school) => school.city))].map(
+            <option value="ALL">ALL</option>
+            {[...new Set(highSchools.map((school) => school.city.toUpperCase()))].map(
               (city, index) => (
                 <option key={index} value={city}>
                   {city}
@@ -168,7 +214,10 @@ const HighSchoolDatabase = () => {
             <thead>
               <tr>
                 <th>High School Name</th>
-                <th>Priority Score</th>
+                <th onClick={handleSort} className="sortable-header">
+                  Priority Score{" "}
+                  {sortOrder === "asc" ? "↑" : sortOrder === "desc" ? "↓" : ""}
+                </th>
                 <th>City</th>
                 <th>Applied Before</th>
               </tr>
@@ -182,7 +231,7 @@ const HighSchoolDatabase = () => {
                 >
                   <td>{school.name}</td>
                   <td>{school.score}</td>
-                  <td>{school.city}</td>
+                  <td>{school.city.toUpperCase()}</td>
                   <td>{school.appliedBefore || "No"}</td>
                 </tr>
               ))}
