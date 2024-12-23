@@ -21,20 +21,20 @@ const defaultTours = [
       email: "turkan@example.com",
     },
     studentCount: 50,
-    attendees: ["Idil"],
+    attendees: ["Kemal Çakır"],
   },
   {
     id: 2,
     date: "23-12-2024",
     time: "9.00-13.00",
-    highSchool: "Istanbul Erkek Lisesi",
+    highSchool: "Ankara Fen Lisesi",
     counselor: "Mehmet Bozkır",
     contact: {
       phone: null,
       email: "mehmet@example.com",
     },
     studentCount: 75,
-    attendees: ["Ali"],
+    attendees: ["Kemal Çakır"],
   },
   {
     id: 3,
@@ -47,7 +47,7 @@ const defaultTours = [
       email: "anshu@example.com",
     },
     studentCount: 75,
-    attendees: ["Ali"],
+    attendees: [],
   },
   {
     id: 4,
@@ -60,7 +60,7 @@ const defaultTours = [
       email: "memettu@example.com",
     },
     studentCount: 75,
-    attendees: ["Ali"],
+    attendees: [],
   },
   // Add more default tours here as needed
 ];
@@ -152,7 +152,7 @@ const AcceptedTours = () => {
 
     if (selectedTour.attendees.length >= maxAttendees) {
       alert(
-        `Maximum attendees reached for this tour. (1 attendee per 60 students)`
+        `Maximum attendees reached for this tour. (${maxAttendees} attendee${maxAttendees > 1 ? 's' : ''} allowed)`
       );
       return;
     }
@@ -191,6 +191,18 @@ const AcceptedTours = () => {
       return;
     }
 
+    // Check if removal is allowed
+    const canRemove = !isDatePassed(selectedTour.date) && !isWithinSevenDays(selectedTour.date);
+    if (!canRemove) {
+      // Determine the reason
+      if (isDatePassed(selectedTour.date)) {
+        alert("Cannot remove yourself from a past tour.");
+      } else if (isWithinSevenDays(selectedTour.date)) {
+        alert("Cannot remove yourself within seven days of the tour.");
+      }
+      return;
+    }
+
     // Update the attendees for the selected tour
     const updatedTours = [...tours];
     updatedTours[tourIndex].attendees = updatedTours[tourIndex].attendees.filter(
@@ -202,18 +214,18 @@ const AcceptedTours = () => {
     setUserRegistrations(userRegistrations.filter((id) => id !== tourId));
   };
 
-  // Function to check if the tour date has passed
+  // Function to check if the tour date has passed or is today
   const isDatePassed = (dateString) => {
-    const [day, month, year] = dateString.split("-").map(Number); // Parse `DD-MM-YYYY`
+    const [day, month, year] = dateString.split("-").map(Number); // Parse `DD-MM-YYYY` format
     const tourDate = new Date(year, month - 1, day); // Convert to `Date` object
 
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Ignore time for comparison (midnight of today)
 
-    return tourDate < today; // Check if the tour date is before today
+    return tourDate <= today; // True if tourDate is before or equal to today
   };
 
-  // Function to check if the tour is within the next seven days
+  // Helper function to check if the tour is within the next seven days
   const isWithinSevenDays = (dateString) => {
     const [day, month, year] = dateString.split("-").map(Number); // Parse `DD-MM-YYYY`
     const tourDate = new Date(year, month - 1, day); // Convert to `Date` object
@@ -342,8 +354,7 @@ const AcceptedTours = () => {
             <tbody>
               {tours.map((tour) => {
                 const userIsAttendee = tour.attendees.includes(userName);
-                const withinSevenDays = isWithinSevenDays(tour.date);
-                const canRemove = !withinSevenDays;
+                const canRemove = !isDatePassed(tour.date) && !isWithinSevenDays(tour.date);
 
                 return (
                   <tr
@@ -378,30 +389,30 @@ const AcceptedTours = () => {
                           Math.ceil(tour.studentCount / 60) && (
                           <button
                             onClick={() => handleAddAttendee(tour.id)}
-                            style={{ marginTop: "5px" }}
+                            className="add-button"
                           >
                             Add Yourself
                           </button>
                         )}
 
-                      {/* Remove Yourself Button */}
-                      {userIsAttendee && (
+                      {/* Remove Yourself Button - Option B: Hide the button */}
+                      {userIsAttendee && canRemove && (
                         <button
                           onClick={() => handleRemoveAttendee(tour.id)}
-                          className={
-                            canRemove
-                              ? "remove-button"
-                              : "remove-button disabled"
-                          }
-                          disabled={!canRemove}
-                          title={
-                            canRemove
-                              ? "Remove yourself from this tour"
-                              : "Cannot remove within seven days of the tour"
-                          }
+                          className="remove-button"
+                          title="Remove yourself from this tour"
                         >
                           Remove Yourself
                         </button>
+                      )}
+
+                      {/* Informational Message when button is hidden */}
+                      {userIsAttendee && !canRemove && (
+                        <div className="remove-info">
+                          {isDatePassed(tour.date)
+                            ? "Cannot remove yourself from a past tour."
+                            : "Cannot remove yourself within seven days of the tour."}
+                        </div>
                       )}
                     </td>
                   </tr>

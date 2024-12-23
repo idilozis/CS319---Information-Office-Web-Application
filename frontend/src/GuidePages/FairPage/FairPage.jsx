@@ -16,7 +16,7 @@ const defaultFairs = [
     city: "Izmir",
     date: "18-12-2024",
     time: "12:30",
-    attendees: ["Idil"],
+    attendees: ["Kemal Çakır"],
   },
   {
     id: 2,
@@ -24,36 +24,36 @@ const defaultFairs = [
     city: "Ankara",
     date: "18-12-2024",
     time: "10:00",
-    attendees: [],
+    attendees: ["Kemal Çakır"],
   },
   {
     id: 3,
-    highSchool: "Istanbul High School",
-    city: "Istanbul",
+    highSchool: "Tofaş Fen Lisesi",
+    city: "Bursa",
     date: "19-12-2024",
     time: "14:00",
-    attendees: [],
+    attendees: ["Kemal Çakır"],
   },
   {
     id: 4,
-    highSchool: "Istanbul High School",
-    city: "Istanbul",
+    highSchool: "Adana Fen Lisesi",
+    city: "Adana",
     date: "01-01-2025",
     time: "14:00",
     attendees: [],
   },
   {
     id: 5,
-    highSchool: "Istanbul High School",
-    city: "Istanbul",
+    highSchool: "Ankara Pursaklar Fen Lisesi",
+    city: "Ankara",
     date: "01-01-2024",
     time: "14:00",
-    attendees: [],
+    attendees: ["Kemal Çakır"],
   },
   {
     id: 6,
-    highSchool: "Istanbul High School",
-    city: "Istanbul",
+    highSchool: "Prof. Dr. Aziz Sancar Fen Lisesi",
+    city: "Ankara",
     date: "28-12-2024",
     time: "14:00",
     attendees: [],
@@ -189,6 +189,18 @@ const FairPage = () => {
       return;
     }
 
+    // Check if removal is allowed
+    const canRemove = !isDatePassed(selectedFair.date) && !isWithinSevenDays(selectedFair.date);
+    if (!canRemove) {
+      // Determine the reason
+      if (isDatePassed(selectedFair.date)) {
+        alert("Cannot remove yourself from a past fair.");
+      } else if (isWithinSevenDays(selectedFair.date)) {
+        alert("Cannot remove yourself within seven days of the fair.");
+      }
+      return;
+    }
+
     // Update the attendees for the selected fair
     const updatedFairs = [...fairs];
     updatedFairs[fairIndex].attendees = updatedFairs[fairIndex].attendees.filter(
@@ -200,15 +212,29 @@ const FairPage = () => {
     setUserFairRegistrations(userFairRegistrations.filter((id) => id !== fairId));
   };
 
-  // Function to check if the fair date has passed
+  // Function to check if the fair date has passed or is today
   const isDatePassed = (dateString) => {
     const [day, month, year] = dateString.split("-").map(Number); // Parse `DD-MM-YYYY` format
     const fairDate = new Date(year, month - 1, day); // Convert to Date object
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Ignore time for comparison (midnight of today)
+    today.setHours(0, 0, 0, 0); // Set to midnight to ignore time
 
-    return fairDate < today; // Check if the fair date is before today
+    return fairDate <= today; // Check if the fair date is before or equal to today
+  };
+
+  // Helper function to check if the fair is within the next seven days
+  const isWithinSevenDays = (dateString) => {
+    const [day, month, year] = dateString.split("-").map(Number); // Parse `DD-MM-YYYY`
+    const fairDate = new Date(year, month - 1, day); // Convert to Date object
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set start of today, removing time component to compare only dates
+
+    const sevenDaysFromNow = new Date(today);
+    sevenDaysFromNow.setDate(today.getDate() + 6); // Set seven days from start of today, including today
+
+    // Return true if fairDate is today or within the next 6 days
+    return fairDate >= today && fairDate <= sevenDaysFromNow;
   };
 
   // Function to reset fairs and user registrations (for testing purposes)
@@ -324,7 +350,7 @@ const FairPage = () => {
             <tbody>
               {fairs.map((fair) => {
                 const userIsAttendee = fair.attendees.includes(userName);
-                const canRemove = !isWithinSevenDays(fair.date);
+                const canRemove = !isDatePassed(fair.date) && !isWithinSevenDays(fair.date);
 
                 return (
                   <tr
@@ -351,25 +377,31 @@ const FairPage = () => {
                         </button>
                       )}
 
-                      {/* Remove Yourself Button */}
-                      {userIsAttendee && (
+                      {/* Remove Yourself Button - Option B: Hide the button */}
+                      {userIsAttendee && canRemove && (
                         <button
                           onClick={() => handleRemoveAttendee(fair.id)}
-                          className={
-                            canRemove
-                              ? "remove-button"
-                              : "remove-button disabled"
-                          }
-                          disabled={!canRemove}
-                          title={
-                            canRemove
-                              ? "Remove yourself from this fair"
-                              : "Cannot remove within seven days of the fair"
-                          }
+                          className="remove-button"
+                          title="Remove yourself from this fair"
                           style={{ marginTop: "5px" }}
                         >
                           Remove Yourself
                         </button>
+                      )}
+                      {/* Informational Message when button is hidden */}
+                      {userIsAttendee && !canRemove && (
+                        <div
+                          className="remove-info"
+                          style={{
+                            marginTop: "5px",
+                            color: "#6c757d",
+                            fontSize: "0.9em",
+                          }}
+                        >
+                          {isDatePassed(fair.date)
+                            ? "Cannot remove yourself from a past fair."
+                            : "Cannot remove yourself within seven days of the fair."}
+                        </div>
                       )}
                     </td>
                   </tr>
