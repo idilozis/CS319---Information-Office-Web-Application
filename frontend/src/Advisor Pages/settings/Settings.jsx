@@ -26,7 +26,7 @@ const Settings = () => {
       const response = await new Promise((resolve) =>
         setTimeout(() => {
           resolve({
-            name: "John Doe",
+            name: "Kemal Çakır",
             studentId: "12345678",
             email: "user@example.com",
             phoneNumber: "1234567891",
